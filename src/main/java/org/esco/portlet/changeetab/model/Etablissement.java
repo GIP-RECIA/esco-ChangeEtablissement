@@ -15,6 +15,17 @@ public class Etablissement {
 
 	private String description;
 
+	public Etablissement() {
+		super();
+	}
+
+	public Etablissement(final String uai, final String name, final String description) {
+		super();
+		this.uai = uai;
+		this.name = name;
+		this.description = description;
+	}
+
 	/**
 	 * Getter of uai.
 	 *

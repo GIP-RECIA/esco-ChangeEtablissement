@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mockito="http://www.mockito.org/spring/mockito"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+			http://www.mockito.org/spring/mockito spring/mockito.xsd">
+
+	<!-- EHCache Configuration -->
+	<bean id="cacheManager"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation">
+			<value>classpath:ehcache.xml</value>
+		</property>
+	</bean>
+
+	<!-- Etablissements cache -->
+	<bean id="etablissementsCache" class="org.springframework.cache.ehcache.EhCacheCache">
+		<constructor-arg>
+			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean"
+				p:cacheManager-ref="cacheManager" p:cacheName="etablissementsCache" />
+		</constructor-arg>
+	</bean>
+	
+	<!-- etablissement DAO Mock -->
+	<mockito:mock id="mockEtablissementsDao" class="org.esco.portlet.changeetab.dao.IEtablissementDao" />
+	
+	<!-- Tested service -->
+	<bean id="cachingEtablissementService"
+		class="org.esco.portlet.changeetab.service.impl.CachingEtablissementService">
+		
+		<property name="etablissementDao" ref="mockEtablissementsDao" />
+		<property name="etablissementCache" ref="etablissementsCache" />
+		
+		<!-- Cache duration: 1s for test -->
+		<property name="cachingDuration" value="1000" />
+	</bean>
+
+</beans>
