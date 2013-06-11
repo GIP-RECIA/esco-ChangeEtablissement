@@ -61,6 +61,8 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 			}
 		}
 
+		CachingEtablissementService.LOG.debug("{} etablissement(s) found.", etabs.size());
+
 		return etabs;
 	}
 

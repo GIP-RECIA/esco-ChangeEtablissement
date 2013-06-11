@@ -26,6 +26,8 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(LdapEtablissementDao.class);
 
+	private static final String ALL_ETABS_FILTER = "(ObjectClass=ENTEtablissement)";
+
 	@Autowired
 	private LdapTemplate ldapTemplate;
 
@@ -37,7 +39,8 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	public Collection<Etablissement> findAllEtablissements() {
 		LdapEtablissementDao.LOG.debug("Finding all etablissements ...");
 
-		final List<Etablissement> allEtabs = this.ldapTemplate.search(this.etablissementBase, "*", new EtablissementAttributesMapper());
+		final List<Etablissement> allEtabs = this.ldapTemplate.search(this.etablissementBase,
+				LdapEtablissementDao.ALL_ETABS_FILTER, new EtablissementAttributesMapper());
 
 		LdapEtablissementDao.LOG.debug("{} etablissements found.", allEtabs.size());
 
