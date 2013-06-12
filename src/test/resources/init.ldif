@@ -1,0 +1,57 @@
+version: 1
+
+dn: ou=structures,dc=esco-centre,dc=fr
+objectClass: organizationalUnit
+ou: structures
+
+dn: ENTStructureSIREN=01234567890123,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTEtablissement
+objectClass: ENTStructure
+ENTStructureNomCourant: LT Léonardo Di Caprio
+ENTStructureSIREN: 01234567890123
+ou: LT Léonardo Di Caprio
+ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
+ENTStructureUAI: 1234567A
+
+dn: ENTStructureSIREN=98765432109876,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTStructure
+ENTStructureNomCourant: Inspection de la région
+ENTStructureSIREN: 98765432109876
+ou: INSPECT CENTRE
+ENTStructureTypeStruct: INSPECTIONS ACADEMIQUES
+ENTStructureUAI: 1234567B
+
+dn: ENTStructureSIREN=85245674136982,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTEtablissement
+objectClass: ENTStructure
+ENTStructureNomCourant: LGT Claude Nougaro
+ENTStructureSIREN: 85245674136982
+ou: LGT Claude Nougaro
+ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
+ENTStructureUAI: 1234567C
+
+dn: ENTStructureSIREN=74539856210245,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTEtablissement
+objectClass: ENTStructure
+ENTStructureNomCourant: LGT Marcel Renault
+ENTStructureSIREN: 74539856210245
+ou: LGT Marcel Renault
+ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
+ENTStructureUAI: 1234567D
+
+dn: ENTStructureSIREN=96478532698745,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTEtablissement
+objectClass: ENTStructure
+ENTStructureNomCourant: LP Maxime Bossard
+ENTStructureSIREN: 96478532698745
+ou: LP Maxime Bossard
+ENTStructureTypeStruct: LYCEE PROFESSIONNEL
+ENTStructureUAI: 1234567E
+
+dn: ENTStructureSIREN=73914568796320,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTStructure
+objectClass: ENTEntreprise
+ENTStructureNomCourant: Recia
+ENTStructureSIREN: 73914568796320
+ou: Recia
+ENTStructureTypeStruct: AUTRE

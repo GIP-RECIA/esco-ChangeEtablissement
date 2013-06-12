@@ -1,0 +1,88 @@
+################################################################################
+#
+dn: cn=schema,dc=esco-centre,dc=fr
+#
+################################################################################
+#
+attributeTypes: (
+  1.3.6.1.4.1.7135.1.2.1.1
+  NAME 'ENTStructureSIREN'
+  DESC 'Numéro de SIREN / SIRET'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SINGLE-VALUE
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  )
+#
+################################################################################
+#
+attributeTypes: (
+  1.3.6.1.4.1.7135.1.2.1.1
+  NAME 'ENTStructureUAI'
+  DESC 'Numéro UAI'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SINGLE-VALUE
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  )
+#
+################################################################################
+#
+attributeTypes: (
+  1.3.6.1.4.1.7135.1.2.1.2
+  NAME 'ENTStructureNomCourant'
+  DESC 'Nom courant / Raison sociale'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SINGLE-VALUE
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  )
+#
+################################################################################
+#
+attributeTypes: (
+  1.3.6.1.4.1.7135.1.2.1.3
+  NAME 'ENTStructureTypeStruct'
+  DESC 'Type de structure'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SINGLE-VALUE
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15
+  )
+#
+################################################################################
+#
+objectClasses: (
+  1.3.6.1.4.1.7135.1.2.2.3
+  NAME 'ENTStructure'
+  DESC 'RFC4512: object classes of the entity'
+  EQUALITY objectIdentifierMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.38
+  MUST ( ENTStructureSiren $ ENTStructureTypeStruct )
+  )
+#
+################################################################################
+#
+objectClasses: (
+  1.3.6.1.4.1.7135.1.2.2.1
+  NAME 'ENTEtablissement'
+  DESC 'RFC4512: object classes of the entity'
+  EQUALITY objectIdentifierMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.38
+  MUST ( ENTStructureUAI $ ENTStructureNomCourant )
+  )
+#
+################################################################################
+#
+objectClasses: (
+  1.3.6.1.4.1.7135.1.2.2.2
+  NAME 'ENTEntreprise'
+  DESC 'RFC4512: object classes of the entity'
+  EQUALITY objectIdentifierMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.38
+  MAY ( ENTStructureNomCourant )
+  )
+#
+################################################################################
+#
+

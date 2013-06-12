@@ -5,7 +5,6 @@
 
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://localhost:42539" />
-		<property name="base" value="dc=esco-centre,dc=fr" />
 		<property name="userDn" value="" />
 		<property name="password" value="" />
 	</bean>
@@ -16,7 +15,7 @@
 	
 	<bean id="ldapEtablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
 		<property name="ldapTemplate" ref="ldapTemplate" />
-		<property name="etablissementBase" value="ou=structures" />
+		<property name="etablissementBase" value="ou=structures,dc=esco-centre,dc=fr" />
 	</bean>
 
 </beans>
