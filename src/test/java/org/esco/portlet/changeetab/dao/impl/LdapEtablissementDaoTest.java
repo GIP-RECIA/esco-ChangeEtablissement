@@ -42,7 +42,7 @@ public class LdapEtablissementDaoTest {
 	private ContextSource contextSource;
 
 	@Autowired
-	private LdapEtablissementDao dao;
+	private MockEtablissementDao dao;
 
 	@Value(value="classpath:esco-structure-schema.ldif")
 	private Resource escoStructuresSchemaLdif;

@@ -109,44 +109,44 @@
 				<artifactId>slf4j-simple</artifactId>
 				<version>1.7.5</version>
 				<scope>test</scope>
-			</dependency>			
+			</dependency>
 			<dependency>
 				<groupId>org.jasig.portlet.utils</groupId>
 				<artifactId>portlet-form-resources</artifactId>
 				<version>1.0.0-M1</version>
 			</dependency>
 			<dependency>
-                <groupId>org.jasig.resourceserver</groupId>
-                <artifactId>resource-server-content</artifactId>
-                <version>${resource-server.version}</version>
-                <type>war</type>
-            </dependency>
-            <dependency>
-                <groupId>org.jasig.resourceserver</groupId>
-                <artifactId>resource-server-utils</artifactId>
-                <version>${resource-server.version}</version>            
-                <exclusions>
-                    <exclusion>
-                        <groupId>net.sf.ehcache</groupId>
-                        <artifactId>ehcache</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring-core</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>			
+				<groupId>org.jasig.resourceserver</groupId>
+				<artifactId>resource-server-content</artifactId>
+				<version>${resource-server.version}</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+				<groupId>org.jasig.resourceserver</groupId>
+				<artifactId>resource-server-utils</artifactId>
+				<version>${resource-server.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>net.sf.ehcache</groupId>
+						<artifactId>ehcache</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
 				<version>${mockito.version}</version>
 			</dependency>
 			<dependency>
-	       		<groupId>org.kubek2k</groupId>
-	       		<artifactId>springockito</artifactId>
-	       		<version>1.0.5</version>
-	       		<scope>test</scope>
-	     	</dependency>			
+				<groupId>org.kubek2k</groupId>
+				<artifactId>springockito</artifactId>
+				<version>1.0.5</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-aop</artifactId>
@@ -168,16 +168,16 @@
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.springframework.ldap</groupId>
-			    <artifactId>spring-ldap-core</artifactId>
-			    <version>${spring-ldap.version}</version>
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-core</artifactId>
+				<version>${spring-ldap.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>org.springframework.ldap</groupId>
-			    <artifactId>spring-ldap-test</artifactId>
-			    <version>${spring-ldap.version}</version>
-			    <scope>test</scope>
-			</dependency>			
+				<groupId>org.springframework.ldap</groupId>
+				<artifactId>spring-ldap-test</artifactId>
+				<version>${spring-ldap.version}</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>taglibs</groupId>
 				<artifactId>standard</artifactId>
@@ -216,7 +216,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-		</dependency>			
+		</dependency>
 		<dependency>
 			<groupId>org.jasig.portlet.utils</groupId>
 			<artifactId>portlet-form-resources</artifactId>
@@ -228,24 +228,24 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-            <groupId>org.jasig.resourceserver</groupId>
-            <artifactId>resource-server-content</artifactId>
-            <type>war</type>
-        </dependency>
-        <dependency>
-            <groupId>org.jasig.resourceserver</groupId>
-            <artifactId>resource-server-utils</artifactId>
-        </dependency>
- 		<dependency>
+			<groupId>org.jasig.resourceserver</groupId>
+			<artifactId>resource-server-content</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.jasig.resourceserver</groupId>
+			<artifactId>resource-server-utils</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 			<scope>test</scope>
 		</dependency>
-			<dependency>
-       		<groupId>org.kubek2k</groupId>
-       		<artifactId>springockito</artifactId>
-       		<scope>test</scope>
-     	</dependency>
+		<dependency>
+			<groupId>org.kubek2k</groupId>
+			<artifactId>springockito</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
@@ -264,13 +264,13 @@
 			<artifactId>spring-webmvc-portlet</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.ldap</groupId>
-		    <artifactId>spring-ldap-core</artifactId>
-		</dependency>		
+			<groupId>org.springframework.ldap</groupId>
+			<artifactId>spring-ldap-core</artifactId>
+		</dependency>
 		<dependency>
-		    <groupId>org.springframework.ldap</groupId>
-		    <artifactId>spring-ldap-test</artifactId>
-		</dependency>				
+			<groupId>org.springframework.ldap</groupId>
+			<artifactId>spring-ldap-test</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
@@ -312,7 +312,7 @@
 			</resource>
 			<resource>
 				<directory>src/test/resources</directory>
-			</resource>			
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -458,6 +458,49 @@
 				<artifactId>findbugs-maven-plugin</artifactId>
 				<version>2.3.1</version>
 			</plugin>
+			<plugin>
+				<groupId>net.jlehtinen.portlet</groupId>
+				<artifactId>portlet-prototyping-maven-plugin</artifactId>
+				<configuration>
+					<portletNames></portletNames>
+
+					<!-- System properties to communicate to the JVM which will launch Jetty. -->
+					<systemProperties>
+						<!-- Indicate to the JVM we are in test environment -->
+						<systemProperty>
+							<name>testEnv</name>
+							<value>true</value>
+						</systemProperty>
+						<systemProperty>
+							<name>file.encoding</name>
+							<value>UTF-8</value>
+						</systemProperty>
+						<systemProperty>
+							<name>org.slf4j.simpleLogger.defaultLogLevel</name>
+							<value>debug</value>
+						</systemProperty>
+					</systemProperties>
+
+					<!-- Configuration of SessionHandler to force session path to '/' -->
+					<!-- Equivalent of tomcat 'emptySessionPath = true' -->
+					<webAppConfig implementation="org.mortbay.jetty.plugin.Jetty6PluginWebAppContext">
+						<sessionHandler implementation="org.mortbay.jetty.servlet.SessionHandler">
+							<sessionManager implementation="org.mortbay.jetty.servlet.HashSessionManager">
+								<sessionPath>/</sessionPath>
+							</sessionManager>
+						</sessionHandler>
+					</webAppConfig>
+				</configuration>
+			</plugin>
 		</plugins>
+		
 	</build>
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>jlehtinen.net</id>
+			<url>http://repo.jlehtinen.net/maven2/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
 </project>

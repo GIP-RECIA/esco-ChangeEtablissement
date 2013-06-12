@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 public class LdapEtablissementDao implements IEtablissementDao, InitializingBean {
 
 	/** Logger. */
-	private static final Logger LOG = LoggerFactory.getLogger(LdapEtablissementDao.class);
+	private static final Logger LOG = LoggerFactory.getLogger(MockEtablissementDao.class);
 
 	private static final String ALL_ETABS_FILTER = "(ObjectClass=ENTEtablissement)";
 
