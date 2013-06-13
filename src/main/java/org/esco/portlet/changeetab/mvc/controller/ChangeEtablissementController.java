@@ -50,14 +50,14 @@ public class ChangeEtablissementController extends AbstractController {
 	public ModelAndView handleRenderRequestInternal(final RenderRequest request, final RenderResponse response) throws Exception {
 		ChangeEtablissementController.LOG.debug("Rendering Change Etablissement portlet View...");
 
-		final ModelAndView mv = new ModelAndView("indexnop");
+		final ModelAndView mv = new ModelAndView("home");
 
 		final String uaiCourant = this.userInfoService.getEscoUaiCourant(request);
 		final Collection<String> changeableUais = this.userInfoService.getEscoUai(request);
 
 		final Collection<Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByUais(changeableUais);
 
-		ChangeEtablissementController.LOG.debug("Found [{}] etablissements whose use user can change to.", changeableEtabs.size());
+		ChangeEtablissementController.LOG.debug("Found [{}] etablissements whose user can change to.", changeableEtabs.size());
 
 		mv.addObject(ChangeEtablissementController.ETAB_LIST_KEY, changeableEtabs);
 
