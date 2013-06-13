@@ -4,22 +4,25 @@
 package org.esco.portlet.changeetab.mvc.controller;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.esco.portlet.changeetab.model.Etablissement;
+import org.esco.portlet.changeetab.mvc.ChangeEtabCommand;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.esco.portlet.changeetab.service.IUserInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
-import org.springframework.web.portlet.mvc.AbstractController;
+import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -27,12 +30,16 @@ import org.springframework.web.portlet.mvc.AbstractController;
  */
 @Controller
 @RequestMapping("VIEW")
-public class ChangeEtablissementController extends AbstractController {
+public class ChangeEtablissementController {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(ChangeEtablissementController.class);
 
 	private static final String ETAB_LIST_KEY = "etabs";
+
+	private static final String CURRENT_ETAB_KEY = "currentEtab";
+
+	private static final String DISPLAY_PORTLET_KEY = "displayPortlet";
 
 	@Autowired
 	private IUserInfoService userInfoService;
@@ -40,28 +47,39 @@ public class ChangeEtablissementController extends AbstractController {
 	@Autowired
 	private IEtablissementService etablissementService;
 
-	@Override
-	public void handleActionRequestInternal(final ActionRequest request, final ActionResponse response) throws Exception {
-		// TODO Auto-generated method stub
+	@ActionMapping("changeEtab")
+	public void changeEtab(@ModelAttribute("command") final ChangeEtabCommand changeEtabCommand, final ActionRequest request) throws Exception {
+		final String selectedEtabId = changeEtabCommand.getSelectedEtabId();
+		Assert.hasText(selectedEtabId, "No Etablissement Id selected !");
 
+		ChangeEtablissementController.LOG.debug("Selected Etab Id to change: [{}]", selectedEtabId);
 	}
 
-	@Override
-	public ModelAndView handleRenderRequestInternal(final RenderRequest request, final RenderResponse response) throws Exception {
+	@RequestMapping
+	public ModelAndView handleRenderRequest(final RenderRequest request, final RenderResponse response) throws Exception {
 		ChangeEtablissementController.LOG.debug("Rendering Change Etablissement portlet View...");
 
 		final ModelAndView mv = new ModelAndView("home");
 
-		final String uaiCourant = this.userInfoService.getEscoUaiCourant(request);
-		final Collection<String> changeableUais = this.userInfoService.getEscoUai(request);
+		final String currentEtabId = this.userInfoService.getCurrentEtabId(request);
+		final Collection<String> changeableEtabIds = this.userInfoService.getChangeableEtabIds(request);
 
-		final Collection<Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByUais(changeableUais);
+		final Map<String, Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByIds(changeableEtabIds);
+
+		final Etablissement currentEtab = changeableEtabs.remove(currentEtabId);
 
 		ChangeEtablissementController.LOG.debug("Found [{}] etablissements whose user can change to.", changeableEtabs.size());
 
-		mv.addObject(ChangeEtablissementController.ETAB_LIST_KEY, changeableEtabs);
+		mv.addObject(ChangeEtablissementController.DISPLAY_PORTLET_KEY, !changeableEtabs.values().isEmpty());
+		mv.addObject(ChangeEtablissementController.CURRENT_ETAB_KEY, currentEtab);
+		mv.addObject(ChangeEtablissementController.ETAB_LIST_KEY, changeableEtabs.values());
 
 		return mv;
+	}
+
+	@ModelAttribute("command")
+	public ChangeEtabCommand getChangeEtabCommand() {
+		return new ChangeEtabCommand();
 	}
 
 	/**

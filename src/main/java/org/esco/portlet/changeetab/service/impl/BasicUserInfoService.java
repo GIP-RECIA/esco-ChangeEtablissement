@@ -35,8 +35,17 @@ public class BasicUserInfoService implements IUserInfoService {
 		BasicUserInfoService.BASIC_USER_INFO.put(BasicUserInfoService.ESCO_UAI_COURANT_USER_ATTR_KEY, "1234567D");
 	}
 
+	private static final Map<String, String> EMPTY_USER_INFO = new HashMap<String, String>();
+
+	static {
+		BasicUserInfoService.EMPTY_USER_INFO.put(BasicUserInfoService.ESCO_UAI_USER_ATTR_KEY, "1234567B");
+		BasicUserInfoService.EMPTY_USER_INFO.put(BasicUserInfoService.ESCO_UAI_COURANT_USER_ATTR_KEY, "1234567B");
+	}
+
+	private static final Map<String, String> TEST_USER_INFO = BasicUserInfoService.BASIC_USER_INFO;
+
 	@Override
-	public Collection<String> getEscoUai(final PortletRequest request) {
+	public Collection<String> getChangeableEtabIds(final PortletRequest request) {
 		final Collection<String> escoUai = new HashSet<String>(4);
 
 		final String uais = this.getUserInfo(request, BasicUserInfoService.ESCO_UAI_USER_ATTR_KEY);
@@ -52,7 +61,7 @@ public class BasicUserInfoService implements IUserInfoService {
 	}
 
 	@Override
-	public String getEscoUaiCourant(final PortletRequest request) {
+	public String getCurrentEtabId(final PortletRequest request) {
 		String escoUaiCourant = null;
 
 		final String uaiCourant = this.getUserInfo(request, BasicUserInfoService.ESCO_UAI_COURANT_USER_ATTR_KEY);
@@ -78,7 +87,7 @@ public class BasicUserInfoService implements IUserInfoService {
 	public String getUserInfo(final PortletRequest request, final String attributeName) {
 		Map<String, String> userInfo = (Map<String, String>) request.getAttribute(PortletRequest.USER_INFO);
 		if ((userInfo == null) && "true".equals(System.getProperty("testEnv"))) {
-			userInfo = BasicUserInfoService.BASIC_USER_INFO;
+			userInfo = BasicUserInfoService.TEST_USER_INFO;
 		}
 
 		String attributeValue = null;

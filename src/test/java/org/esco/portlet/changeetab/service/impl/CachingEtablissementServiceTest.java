@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -69,11 +70,11 @@ public class CachingEtablissementServiceTest {
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingEtablissementServiceTest.UAI_2);
 
-		final Collection<Etablissement> etabs = this.service.retrieveEtablissementsByUais(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return only one etab !", 1, etabs.size());
-		Assert.assertTrue("Bad etab returned !", etabs.contains(CachingEtablissementServiceTest.ETAB_2));
+		Assert.assertTrue("Bad etab returned !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_2));
 	}
 
 	@Test
@@ -82,12 +83,12 @@ public class CachingEtablissementServiceTest {
 		uais.add(CachingEtablissementServiceTest.UAI_3);
 		uais.add(CachingEtablissementServiceTest.UAI_1);
 
-		final Collection<Etablissement> etabs = this.service.retrieveEtablissementsByUais(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return only one etab !", 2, etabs.size());
-		Assert.assertTrue("Bad etab in returned list !", etabs.contains(CachingEtablissementServiceTest.ETAB_1));
-		Assert.assertTrue("Bad etab in returned list !", etabs.contains(CachingEtablissementServiceTest.ETAB_3));
+		Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_1));
+		Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_3));
 	}
 
 	@Test
@@ -95,7 +96,7 @@ public class CachingEtablissementServiceTest {
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add("NotExistingUai");
 
-		final Collection<Etablissement> etabs = this.service.retrieveEtablissementsByUais(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return an empty collection !", 0, etabs.size());
@@ -103,13 +104,13 @@ public class CachingEtablissementServiceTest {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithNullParam() throws Exception {
-		this.service.retrieveEtablissementsByUais(null);
+		this.service.retrieveEtablissementsByIds(null);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithEmptyParam() throws Exception {
 		final List<String> s = Collections.emptyList();
-		this.service.retrieveEtablissementsByUais(s);
+		this.service.retrieveEtablissementsByIds(s);
 	}
 
 }

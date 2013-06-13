@@ -24,11 +24,11 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 	public Object mapFromAttributes(final Attributes attrs) throws NamingException {
 		final Etablissement etab = new Etablissement();
 
-		etab.setUai((String) attrs.get(EtablissementAttributesMapper.UAI_ATTR_KEY).get());
+		etab.setId((String) attrs.get(EtablissementAttributesMapper.UAI_ATTR_KEY).get());
 		etab.setName((String) attrs.get(EtablissementAttributesMapper.NAME_ATTR_KEY).get());
 		etab.setDescription((String) attrs.get(EtablissementAttributesMapper.DESCRIPTION_ATTR_KEY).get());
 
-		Assert.hasText(etab.getUai(), "No UAI attribute found in LDAP for Etablissement !");
+		Assert.hasText(etab.getId(), "No UAI attribute found in LDAP for Etablissement !");
 		Assert.hasText(etab.getName(), "No Name attribute found in LDAP for Etablissement !");
 		Assert.hasText(etab.getDescription(), "No Description attribute found in LDAP for Etablissement !");
 

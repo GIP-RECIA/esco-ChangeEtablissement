@@ -13,8 +13,8 @@ import javax.portlet.PortletRequest;
  */
 public interface IUserInfoService {
 
-	Collection<String> getEscoUai(PortletRequest request);
+	Collection<String> getChangeableEtabIds(PortletRequest request);
 	
-	String getEscoUaiCourant(PortletRequest request);
+	String getCurrentEtabId(PortletRequest request);
 	
 }

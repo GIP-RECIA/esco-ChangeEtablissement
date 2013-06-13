@@ -9,7 +9,7 @@ package org.esco.portlet.changeetab.model;
  */
 public class Etablissement {
 
-	private String uai;
+	private String id;
 
 	private String name;
 
@@ -19,29 +19,29 @@ public class Etablissement {
 		super();
 	}
 
-	public Etablissement(final String uai, final String name, final String description) {
+	public Etablissement(final String id, final String name, final String description) {
 		super();
-		this.uai = uai;
+		this.id = id;
 		this.name = name;
 		this.description = description;
 	}
 
 	/**
-	 * Getter of uai.
+	 * Getter of Id.
 	 *
-	 * @return the uai
+	 * @return the Id
 	 */
-	public String getUai() {
-		return this.uai;
+	public String getId() {
+		return this.id;
 	}
 
 	/**
-	 * Setter of uai.
+	 * Setter of Id.
 	 *
-	 * @param uai the uai to set
+	 * @param id the Id to set
 	 */
-	public void setUai(final String uai) {
-		this.uai = uai;
+	public void setId(final String id) {
+		this.id = id;
 	}
 
 	/**

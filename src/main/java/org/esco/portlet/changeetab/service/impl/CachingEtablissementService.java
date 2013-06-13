@@ -4,7 +4,8 @@
 package org.esco.portlet.changeetab.service.impl;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
@@ -43,21 +44,21 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	private Instant expiringInstant;
 
 	@Override
-	public Collection<Etablissement> retrieveEtablissementsByUais(final Collection<String> uais) {
-		Assert.notEmpty(uais, "No UAI supplied !");
+	public Map<String, Etablissement> retrieveEtablissementsByIds(final Collection<String> ids) {
+		Assert.notEmpty(ids, "No Etablissement Id supplied !");
 
-		final Collection<Etablissement> etabs = new HashSet<Etablissement>(uais.size());
+		final Map<String, Etablissement> etabs = new HashMap<String, Etablissement>(ids.size());
 
 		this.loadEtablissementCacheIfExpired();
 
-		for (final String uai : uais) {
+		for (final String id : ids) {
 
-			final String cacheKey = this.genCacheKey(uai);
+			final String cacheKey = this.genCacheKey(id);
 			final ValueWrapper cachedValue = this.etablissementCache.get(cacheKey);
 			if (cachedValue == null) {
-				CachingEtablissementService.LOG.warn("No etablissement found in cache for UAI: [{}] !", uai);
+				CachingEtablissementService.LOG.warn("No etablissement found in cache for Id: [{}] !", id);
 			} else {
-				etabs.add((Etablissement) cachedValue.get());
+				etabs.put(id, (Etablissement) cachedValue.get());
 			}
 		}
 
@@ -87,7 +88,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 
 		final Collection<Etablissement> allEtabs = this.etablissementDao.findAllEtablissements();
 		for (final Etablissement etab : allEtabs) {
-			final String etabCacheKey = this.genCacheKey(etab.getUai());
+			final String etabCacheKey = this.genCacheKey(etab.getId());
 			this.etablissementCache.put(etabCacheKey, etab);
 		}
 	}
