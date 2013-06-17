@@ -36,7 +36,7 @@
 		${msgEtabCurrentMessage} ${currentEtab.name} 
 	</span>
 	<span class="changeEtab-button">
-		<a href="" onclick="return false;">${msgEtabChangeAction}</a>
+		<a href="#" onclick="return false;">${msgEtabChangeAction}</a>
 	</span>
 	<div class="changeEtab-dialog">
 	
@@ -59,7 +59,10 @@
 <span id="${n}container3" class="changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span class="changeEtab-button">
-		<a href="" onclick="return false;">${msgEtabChangeAction}</a>
+		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
+			<c:url value="/images/swap.png" var="imgUrl" />
+			<img src="${imgUrl}" alt="${msgEtabChangeAction}" />
+		</a>
 	</span>
 	<div class="changeEtab-dialog">
 	

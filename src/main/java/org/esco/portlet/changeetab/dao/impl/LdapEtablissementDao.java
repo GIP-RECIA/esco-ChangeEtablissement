@@ -24,9 +24,15 @@ import org.springframework.util.Assert;
 public class LdapEtablissementDao implements IEtablissementDao, InitializingBean {
 
 	/** Logger. */
-	private static final Logger LOG = LoggerFactory.getLogger(MockEtablissementDao.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LdapEtablissementDao.class);
 
-	private static final String ALL_ETABS_FILTER = "(ObjectClass=ENTEtablissement)";
+	private String allEtabsFilter;
+
+	private String etabIdLdapAttr;
+
+	private String etabNameLdapAttr;
+
+	private String etabDescriptionLdapAttr;
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
@@ -40,7 +46,7 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 		LdapEtablissementDao.LOG.debug("Finding all etablissements ...");
 
 		final List<Etablissement> allEtabs = this.ldapTemplate.search(this.etablissementBase,
-				LdapEtablissementDao.ALL_ETABS_FILTER, new EtablissementAttributesMapper());
+				this.allEtabsFilter, new EtablissementAttributesMapper(this.etabIdLdapAttr, this.etabNameLdapAttr, this.etabDescriptionLdapAttr));
 
 		LdapEtablissementDao.LOG.debug("{} etablissements found.", allEtabs.size());
 
@@ -51,6 +57,11 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(this.ldapTemplate, "No LdapTemplate configured !");
 		Assert.hasText(this.etablissementBase, "No etablissement Ldap base configured !");
+
+		Assert.hasText(this.allEtabsFilter, "No 'all etabs' Ldap filter configured !");
+		Assert.hasText(this.etabIdLdapAttr, "No etablissement Id Ldap attribute configured !");
+		Assert.hasText(this.etabNameLdapAttr, "No etablissement Name Ldap attribute configured !");
+		Assert.hasText(this.etabDescriptionLdapAttr, "No etablissement Description Ldap attribute configured !");
 	}
 
 	/**
@@ -88,5 +99,78 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	public void setEtablissementBase(final String etablissementBase) {
 		this.etablissementBase = etablissementBase;
 	}
+
+	/**
+	 * Getter of etabIdLdapAttr.
+	 *
+	 * @return the etabIdLdapAttr
+	 */
+	public String getEtabIdLdapAttr() {
+		return this.etabIdLdapAttr;
+	}
+
+	/**
+	 * Setter of etabIdLdapAttr.
+	 *
+	 * @param etabIdLdapAttr the etabIdLdapAttr to set
+	 */
+	public void setEtabIdLdapAttr(final String etabIdLdapAttr) {
+		this.etabIdLdapAttr = etabIdLdapAttr;
+	}
+
+	/**
+	 * Getter of etabNameLdapAttr.
+	 *
+	 * @return the etabNameLdapAttr
+	 */
+	public String getEtabNameLdapAttr() {
+		return this.etabNameLdapAttr;
+	}
+
+	/**
+	 * Setter of etabNameLdapAttr.
+	 *
+	 * @param etabNameLdapAttr the etabNameLdapAttr to set
+	 */
+	public void setEtabNameLdapAttr(final String etabNameLdapAttr) {
+		this.etabNameLdapAttr = etabNameLdapAttr;
+	}
+
+	/**
+	 * Getter of etabDescriptionLdapAttr.
+	 *
+	 * @return the etabDescriptionLdapAttr
+	 */
+	public String getEtabDescriptionLdapAttr() {
+		return this.etabDescriptionLdapAttr;
+	}
+
+	/**
+	 * Setter of etabDescriptionLdapAttr.
+	 *
+	 * @param etabDescriptionLdapAttr the etabDescriptionLdapAttr to set
+	 */
+	public void setEtabDescriptionLdapAttr(final String etabDescriptionLdapAttr) {
+		this.etabDescriptionLdapAttr = etabDescriptionLdapAttr;
+	}
+
+	/**
+	 * Getter of allEtabsFilter.
+	 *
+	 * @return the allEtabsFilter
+	 */
+	public String getAllEtabsFilter() {
+		return this.allEtabsFilter;
+	}
+
+	/**
+	 * Setter of allEtabsFilter.
+	 *
+	 * @param allEtabsFilter the allEtabsFilter to set
+	 */
+	public void setAllEtabsFilter(final String allEtabsFilter) {
+		this.allEtabsFilter = allEtabsFilter;
+	}
+
 
 }

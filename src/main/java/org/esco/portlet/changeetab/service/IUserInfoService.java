@@ -14,7 +14,9 @@ import javax.portlet.PortletRequest;
 public interface IUserInfoService {
 
 	Collection<String> getChangeableEtabIds(PortletRequest request);
-	
+
 	String getCurrentEtabId(PortletRequest request);
-	
+
+	String getUserId(PortletRequest request);
+
 }

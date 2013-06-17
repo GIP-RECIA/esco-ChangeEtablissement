@@ -10,7 +10,11 @@
 
 	<!-- | APP CONFIGURATION + -->
     
-    <bean id="userInfoService" class="org.esco.portlet.changeetab.service.impl.BasicUserInfoService" />
+    <bean id="userInfoService" class="org.esco.portlet.changeetab.service.impl.BasicUserInfoService">
+    	<property name="userIdInfoKey" value="${userInfo.key.userId}" />
+    	<property name="currentEtabIdInfoKey" value="${userInfo.key.currentEtabId}" />
+    	<property name="etabIdsInfoKey" value="${userInfo.key.etabIds}" />
+    </bean>
     
     <bean id="entrepriseService" class="org.esco.portlet.changeetab.service.impl.CachingEtablissementService">
     	<property name="cachingDuration" value="60000" />
@@ -18,7 +22,17 @@
     	<property name="etablissementDao" ref="etablissementDao" />
     </bean>
     
+    <bean id="userService" class="org.esco.portlet.changeetab.service.impl.BasicUserService">
+    	<property name="userDao" ref="userDao" />
+    </bean>
+    
     <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
+    
+    <bean id="userDao" class="org.esco.portlet.changeetab.dao.impl.MockUserDao">
+    	<property name="currentEtabIdLdapKey" value="${ldap.write.attribute.currentEtabId}" />
+    	<property name="userDn" value="${ldap.write.peopleDn}" />
+    	<property name="userIdTemplate" value="${peopleDn.templateId}" />
+    </bean>
     
     
 	<!-- | CACHE CONFIGURATION + -->

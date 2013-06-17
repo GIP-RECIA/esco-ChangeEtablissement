@@ -28,6 +28,10 @@
     </portlet>
     
     <user-attribute>
+        <name>uid</name>
+    </user-attribute>
+      
+    <user-attribute>
     	<name>ESCOUAI</name>
     </user-attribute>
     
