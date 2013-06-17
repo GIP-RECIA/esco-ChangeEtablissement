@@ -13,6 +13,8 @@
 	<js included="plain" resource="true">/rs/jqueryui/1.8.13/jquery-ui-1.8.13.js</js>
 	<js included="aggregated" resource="true">/rs/jqueryui/1.8.13/jquery-ui-1.8.13.min.js</js>
 
+	<js included="aggregated" resource="true">/rs/fluid/1.4.0/fluid-all-1.4.0.min.js</js>
+
 	<!-- Order is important here, the log script needs to be the first thing 
 		followed by the debug toggle -->
 	<js>js/changeEtab.js</js>

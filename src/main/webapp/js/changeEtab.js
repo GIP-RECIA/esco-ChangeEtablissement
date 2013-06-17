@@ -39,24 +39,51 @@ changeEtabPortlet.init = function($, namespace) {
 	// Init container 2
 	(function initContainer2($, namespace, undefined) {
 		var container = '#' + namespace + 'container2';
+		
+		initDialog(container);
+		
+	}($, namespace));
 	
+	// Init container 3
+	(function initContainer3($, namespace, undefined) {
+		var container = '#' + namespace + 'container3';
+		
+		initDialog(container);
+		
+	}($, namespace));
+	
+	function initDialog(container) {
+
 		$(window).bind('load', function() {
 			// On load
 			
+			var msgEtabChangeTitle = $('.changeEtabPortletMessages .etabChangeTitle').html();
+			var msgEtabChangeAction = $('.changeEtabPortletMessages .etabChangeAction').html();
+			var msgEtabChangeCancel = $('.changeEtabPortletMessages .etabChangeCancel').html();
+			
+			var form = $(container + ' form');
 			var button = $(container + ' .changeEtab-button');
 			var dialog = $(container + ' .changeEtab-dialog');
-			
-			var defaultValue = 'currentEtab';
-			var emptyValue = 'EMPTY';
-			
+
 			button.bind('click', function(){
 				// On select button click
 				
 				dialog.dialog({
 					dialogClass: "no-close",
 					modal: true,
+					title: msgEtabChangeTitle,
+					resizable: false,
+					width: '700px',
 					buttons: [{
-					        	  text: "OK",
+					        	  text: msgEtabChangeAction,
+					        	  click: function() {
+					        		  $( this ).dialog( "close" );
+					        		  
+					        		  // submit form
+					        		  form.submit();
+					        	  }
+					          }, {
+					        	  text: msgEtabChangeCancel,
 					        	  click: function() {
 					        		  $( this ).dialog( "close" );
 					        	  }
@@ -66,6 +93,7 @@ changeEtabPortlet.init = function($, namespace) {
 			});
 			
 		});
-	}($, namespace));
+		
+	}
 	
 };

@@ -1,4 +1,4 @@
-*.changeEtabPortlet {
+.changeEtabPortlet, .changeEtabPortlet form, .changeEtabPortlet input {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -6,10 +6,16 @@
 }
 
 .changeEtabPortlet {
+	/*
 	border: 1px solid red;
 	padding: 5px;
 	margin: 5px;
-	display: block
+	display: block;
+	*/
+}
+
+.changeEtabPortletMessages {
+	display: none;
 }
 
 /************ Conatainer 1 ************/
@@ -29,3 +35,4 @@
 	display: none;
 	visibility: hidden;
 }
+
