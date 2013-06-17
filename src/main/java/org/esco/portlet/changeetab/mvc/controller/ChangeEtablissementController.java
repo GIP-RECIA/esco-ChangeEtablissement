@@ -53,6 +53,14 @@ public class ChangeEtablissementController {
 		Assert.hasText(selectedEtabId, "No Etablissement Id selected !");
 
 		ChangeEtablissementController.LOG.debug("Selected Etab Id to change: [{}]", selectedEtabId);
+
+		final Collection<String> changeableEtabIds = this.userInfoService.getChangeableEtabIds(request);
+		if (!changeableEtabIds.contains(selectedEtabId)) {
+			// If selected Id is not an allowed Id
+			ChangeEtablissementController.LOG.warn("Attempt to switch to a not allowed Etablissement !");
+		}
+
+		changeEtabCommand.reset();
 	}
 
 	@RequestMapping

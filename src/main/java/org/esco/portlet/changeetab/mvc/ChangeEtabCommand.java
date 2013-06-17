@@ -9,7 +9,13 @@ package org.esco.portlet.changeetab.mvc;
  */
 public class ChangeEtabCommand {
 
-	private String selectedEtabId;
+	public static final String DEFAULT_ID = "currentEtab";
+
+	private String selectedEtabId = ChangeEtabCommand.DEFAULT_ID;
+
+	public void reset() {
+		this.selectedEtabId = ChangeEtabCommand.DEFAULT_ID;
+	}
 
 	/**
 	 * Getter of selectedEtabId.
