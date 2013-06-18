@@ -4,4 +4,4 @@
 /target
 /.springBeans
 
-src/main/resources/configuration.properties
+/src/main/resources/configuration.properties
