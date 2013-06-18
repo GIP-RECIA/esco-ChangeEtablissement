@@ -26,15 +26,55 @@
     	<property name="userDao" ref="userDao" />
     </bean>
     
-    <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
+    <!-- LDAP DAO -->	
+	<bean id="etabLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="contextSource">
+		    <bean class="org.springframework.ldap.core.support.LdapContextSource">
+				<property name="url" value="${ldap.read.connect.url}" />
+				<property name="userDn" value="${ldap.read.connect.userDn}" />
+				<property name="password" value="${ldap.read.connect.password}" />
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="userLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<property name="contextSource">
+		    <bean class="org.springframework.ldap.core.support.LdapContextSource">
+				<property name="url" value="${ldap.write.connect.url}" />
+				<property name="userDn" value="${ldap.write.connect.userDn}" />
+				<property name="password" value="${ldap.write.connect.password}" />
+			</bean>
+		</property>
+	</bean>
+	
+    <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
+    	<property name="ldapTemplate" ref="etabLdapTemplate" />
+    	<property name="etablissementBase" value="${ldap.read.etablissementBaseDn}" />
+    	<property name="allEtabsFilter" value="${ldap.read.filter.allEtablissements}" />
+    	<property name="etabIdLdapAttr" value="${ldap.read.attribute.etablissementId}" />
+    	<property name="etabNameLdapAttr" value="${ldap.read.attribute.etablissementName}" />
+    	<property name="etabDescriptionLdapAttr" value="${ldap.read.attribute.etablissementDescription}" />
+    	
+    </bean>
     
-    <bean id="userDao" class="org.esco.portlet.changeetab.dao.impl.MockUserDao">
+    <bean id="userDao" class="org.esco.portlet.changeetab.dao.impl.LdapUserDao">
+    	<property name="ldapTemplate" ref="userLdapTemplate" />
     	<property name="currentEtabIdLdapKey" value="${ldap.write.attribute.currentEtabId}" />
     	<property name="userDn" value="${ldap.write.peopleDn}" />
     	<property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
     
+    <!-- Mocked DAO -->
+    <!-- 
+    <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
     
+    <bean id="iserDao" class="org.esco.portlet.changeetab.dao.impl.MockUserDao">
+    	<property name="currentEtabIdLdapKey" value="${ldap.write.attribute.currentEtabId}" />
+    	<property name="userDn" value="${ldap.write.peopleDn}" />
+    	<property name="userIdTemplate" value="${peopleDn.templateId}" />
+    </bean>
+     -->
+      
 	<!-- | CACHE CONFIGURATION + -->
 
 	<!-- EHCache Configuration -->

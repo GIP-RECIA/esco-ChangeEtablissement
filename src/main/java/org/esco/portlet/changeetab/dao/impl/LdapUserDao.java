@@ -29,7 +29,7 @@ public class LdapUserDao implements IUserDao, InitializingBean {
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(LdapUserDao.class);
 
-	private final String userIdTemplate = "%u";
+	private String userIdTemplate = "%u";
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
@@ -114,6 +114,24 @@ public class LdapUserDao implements IUserDao, InitializingBean {
 	 */
 	public void setCurrentEtabIdLdapKey(final String currentEtabIdLdapKey) {
 		this.currentEtabIdLdapKey = currentEtabIdLdapKey;
+	}
+
+	/**
+	 * Getter of userIdTemplate.
+	 *
+	 * @return the userIdTemplate
+	 */
+	public String getUserIdTemplate() {
+		return this.userIdTemplate;
+	}
+
+	/**
+	 * Setter of userIdTemplate.
+	 *
+	 * @param userIdTemplate the userIdTemplate to set
+	 */
+	public void setUserIdTemplate(final String userIdTemplate) {
+		this.userIdTemplate = userIdTemplate;
 	}
 
 }

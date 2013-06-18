@@ -95,9 +95,9 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		Assert.hasText(this.etabIdsInfoKey, "No Etab Ids user info key configured !");
 		Assert.hasText(this.currentEtabIdInfoKey, "No Current Etab Id user info key configured !");
 
-		this.basicUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"id1"}));
-		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567C","1234567D","1234567A"}));
-		this.basicUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"1234567D"}));
+		this.basicUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"f1000ugr"}));
+		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"0450822X","0333333Y","0377777U"}));
+		this.basicUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"0450822X"}));
 
 		this.emptyUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"id2"}));
 		this.emptyUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567B"}));
