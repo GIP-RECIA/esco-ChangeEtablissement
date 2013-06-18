@@ -3,5 +3,3 @@
 /.classpath
 /target
 /.springBeans
-
-/src/main/resources/configuration.properties
