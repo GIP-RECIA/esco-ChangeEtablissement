@@ -1,3 +1,6 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
+
 <%@include file="/WEB-INF/jsp/include.jsp" %>
 
 <rs:aggregatedResources path="skin.xml"/>
@@ -39,9 +42,9 @@
 		<a href="#" onclick="return false;">${msgEtabChangeAction}</a>
 	</span>
 	<div class="changeEtab-dialog">
-	
-		${msgEtabChangeMessage}
-
+		<div class="message">
+			${msgEtabChangeMessage}
+		</div>
 		<form:form method="post" action="${changeEtabAction}">
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
@@ -65,10 +68,9 @@
 		</a>
 	</span>
 	<div class="changeEtab-dialog">
-	
-		${msgEtabChangeMessage}
-		<br />
-		
+		<div class="message">
+			${msgEtabChangeMessage}
+		</div>
 		<form:form method="post" action="${changeEtabAction}">
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">

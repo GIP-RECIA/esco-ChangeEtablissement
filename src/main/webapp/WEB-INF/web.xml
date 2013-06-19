@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-    metadata-complete="true"
-    version="2.5">
-      
-    <display-name>Change Etablissement Portlet</display-name>
-    <description>Change Etablissement Portlet</description>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	metadata-complete="true" version="2.5">
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
+	<display-name>Change Etablissement Portlet</display-name>
+	<description>Change Etablissement Portlet</description>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
             /WEB-INF/context/applicationContext.xml
         </param-value>
-    </context-param>
-    <context-param>
-        <param-name>webAppRootKey</param-name>
-        <param-value>change-etab.root</param-value>
-    </context-param>
-    
-    <listener>
-        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
-    </listener>
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
+	</context-param>
+	<context-param>
+		<param-name>webAppRootKey</param-name>
+		<param-value>change-etab.root</param-value>
+	</context-param>
 
-    <servlet>
-        <servlet-name>ViewRendererServlet</servlet-name>
-        <servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+	<listener>
+		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>ViewRendererServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 	<servlet-mapping>
-	    <servlet-name>ViewRendererServlet</servlet-name>
-	    <url-pattern>/WEB-INF/servlet/view</url-pattern>
+		<servlet-name>ViewRendererServlet</servlet-name>
+		<url-pattern>/WEB-INF/servlet/view</url-pattern>
 	</servlet-mapping>
 
 </web-app>

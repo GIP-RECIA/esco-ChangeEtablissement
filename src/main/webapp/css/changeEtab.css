@@ -5,21 +5,13 @@
 	display: inline;
 }
 
-.changeEtabPortlet {
-	/*
-	border: 1px solid red;
-	padding: 5px;
-	margin: 5px;
-	display: block;
-	*/
-}
-
 .changeEtabPortletMessages {
 	display: none;
 }
 
 /************ Conatainer 1 ************/
 
+/*
 .changeEtabPortlet form span {
 	padding: 5px;
 	border: 2px solid transparent;
@@ -28,11 +20,15 @@
 .changeEtabPortlet .etabSelected {
 	border: 2px dashed orange;
 }
+*/
 
-/************ Conatainer 2 ************/
+/************ Conatainer 2 & 3 ************/
 
 .changeEtabPortlet .changeEtab-dialog {
 	display: none;
 	visibility: hidden;
 }
 
+.changeEtab-dialog .message {
+	margin-bottom: 10px;
+}

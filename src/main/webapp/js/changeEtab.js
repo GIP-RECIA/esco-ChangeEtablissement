@@ -23,10 +23,12 @@ changeEtabPortlet.init = function($, namespace) {
 				}
 				
 				if (selectEtab.val() !== defaultValue) {
-					submit.removeAttr('disabled');
+					submit.removeAttr('disabled').removeClass('ui-state-disabled');
+					submit.show();
 					submit.parent().addClass('etabSelected');
 				} else {
-					submit.attr('disabled', 'disabled');
+					submit.attr('disabled', 'disabled').addClass('ui-state-disabled');
+					submit.hide();
 					submit.parent().removeClass('etabSelected');
 				}
 			});
@@ -40,7 +42,7 @@ changeEtabPortlet.init = function($, namespace) {
 	(function initContainer2($, namespace, undefined) {
 		var container = '#' + namespace + 'container2';
 		
-		initDialog(container);
+		initDialog(container, namespace);
 		
 	}($, namespace));
 	
@@ -48,11 +50,11 @@ changeEtabPortlet.init = function($, namespace) {
 	(function initContainer3($, namespace, undefined) {
 		var container = '#' + namespace + 'container3';
 		
-		initDialog(container);
+		initDialog(container, namespace);
 		
 	}($, namespace));
 	
-	function initDialog(container) {
+	function initDialog(container, namespace) {
 
 		$(window).bind('load', function() {
 			// On load
@@ -62,14 +64,17 @@ changeEtabPortlet.init = function($, namespace) {
 			var msgEtabChangeCancel = $('.changeEtabPortletMessages .etabChangeCancel').html();
 			
 			var form = $(container + ' form');
+			var radios = $(container + ' form input[type=radio]');
 			var button = $(container + ' .changeEtab-button');
 			var dialog = $(container + ' .changeEtab-dialog');
 
 			button.bind('click', function(){
 				// On select button click
 				
+				form[0].reset();
+				
 				dialog.dialog({
-					dialogClass: "no-close",
+					dialogClass: namespace + '-dialog',
 					modal: true,
 					title: msgEtabChangeTitle,
 					resizable: false,
@@ -89,6 +94,21 @@ changeEtabPortlet.init = function($, namespace) {
 					        	  }
 					          }]
 					});
+				
+					var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
+					actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+			});
+			
+			radios.bind('change', function(event) {
+				var radio = event.target;
+				
+				var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
+				
+				if(radio.value) {
+					actionButton.removeAttr('disabled').removeClass('ui-state-disabled');
+				} else {
+					actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+				}
 				
 			});
 			

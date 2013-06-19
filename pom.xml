@@ -48,6 +48,8 @@
 	</repositories>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	
 		<!-- Dependency versions -->
 		<joda-time.version>2.0</joda-time.version>
 		<resource-server.version>1.0.26</resource-server.version>
@@ -387,7 +389,6 @@
 							<groupId>org.jasig.resourceserver</groupId>
 							<artifactId>resource-server-content</artifactId>
 							<includes>
-								<include>rs/famfamfam/silk/1.3/add.png</include>
 								<include>${basedir}/src/main/webapp/rs/jquery/1.6.4/</include>
 								<include>${basedir}/src/main/webapp/rs/jqueryui/1.8.13/</include>
 								<include>${basedir}/src/main/webapp/rs/fluid/1.4.0/</include>
