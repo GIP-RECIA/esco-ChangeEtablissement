@@ -61,10 +61,10 @@ public class ChangeEtablissementController implements InitializingBean {
 
 	private static final String DISPLAY_PORTLET_KEY = "displayPortlet";
 
-	@Value("${redirectAfterChange}")
+	@Value("${redirectAfterChange:false}")
 	private boolean redirectAfterChange = false;
 
-	@Value("${logoutUrlRedirect}")
+	@Value("${logoutUrlRedirect:null}")
 	private String logoutUrlRedirect;
 
 	@Autowired
