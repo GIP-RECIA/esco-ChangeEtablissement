@@ -20,6 +20,7 @@ package org.esco.portlet.changeetab.service.impl;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -142,7 +143,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 			userInfo = this.testUserInfoMap;
 		}
 
-		List<String> attributeValues = null;
+		List<String> attributeValues = Collections.EMPTY_LIST;
 
 		if (userInfo != null) {
 			attributeValues = userInfo.get(attributeName);
