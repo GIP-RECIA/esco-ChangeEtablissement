@@ -21,6 +21,7 @@ package org.esco.portlet.changeetab.service.impl;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -56,14 +57,19 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	@Override
 	public Collection<String> getChangeableEtabIds(final PortletRequest request) {
-		final Collection<String> escoUais = this.getUserInfo(request, this.etabIdsInfoKey);
+		final Collection<String> etabIds = this.getUserInfo(request, this.etabIdsInfoKey);
+		final Collection<String> etabIdsLowerCase = new HashSet<String>(etabIds.size());
 
-		if (escoUais.isEmpty()) {
+		if (etabIds.isEmpty()) {
 			// Multivalued attribute which should not be empty
 			BasicUserInfoService.LOG.error("Unable to retrieve {} attribute in Portal UserInfo !", this.etabIdsInfoKey);
+		} else {
+			for (final String id : etabIds) {
+				etabIdsLowerCase.add(id.toLowerCase());
+			}
 		}
 
-		return escoUais;
+		return etabIdsLowerCase;
 	}
 
 	@Override
@@ -74,7 +80,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 		if (uaiCourant.size() == 1) {
 			// Monovalued attribute
-			escoUaiCourant = uaiCourant.iterator().next();
+			escoUaiCourant = uaiCourant.iterator().next().toLowerCase();
 		}
 
 		if (!StringUtils.hasText(escoUaiCourant)) {
@@ -111,11 +117,11 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		Assert.hasText(this.currentEtabIdInfoKey, "No Current Etab Id user info key configured !");
 
 		this.basicUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"f1000ugr"}));
-		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"0450822X","0333333Y","0377777U"}));
+		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
 		this.basicUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"0450822X"}));
 
 		this.emptyUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"id2"}));
-		this.emptyUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567B"}));
+		this.emptyUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567b"}));
 		this.emptyUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"1234567B"}));
 	}
 

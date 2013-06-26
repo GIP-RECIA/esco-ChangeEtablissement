@@ -61,6 +61,8 @@ public class ChangeEtablissementController implements InitializingBean {
 
 	private static final String DISPLAY_PORTLET_KEY = "displayPortlet";
 
+	private static final String DISPLAY_MODE_KEY = "displayMode";
+
 	@Value("${redirectAfterChange:false}")
 	private boolean redirectAfterChange = false;
 
@@ -128,6 +130,9 @@ public class ChangeEtablissementController implements InitializingBean {
 		}
 
 		mv.addObject(ChangeEtablissementController.DISPLAY_PORTLET_KEY, display);
+
+		mv.addObject(ChangeEtablissementController.DISPLAY_MODE_KEY,
+				request.getPreferences().getValue(ChangeEtablissementController.DISPLAY_MODE_KEY, "All"));
 
 		return mv;
 	}
