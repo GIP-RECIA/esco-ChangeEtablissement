@@ -54,6 +54,14 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 		
 	}($, namespace, refCount));
 	
+	// Init container 4
+	(function initContainer4($, namespace, refCount, undefined) {
+		var container = '.' + refCount + ' .' + namespace + 'container4';
+		
+		initDialog(container, namespace);
+		
+	}($, namespace, refCount));
+	
 	function initDialog(container, namespace) {
 
 		$(window).bind('load', function() {

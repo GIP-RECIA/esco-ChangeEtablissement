@@ -78,11 +78,37 @@
 	<c:if test="${displayPortlet}">
 	<span class="changeEtab-button">
 		<c:url value="/images/swap-mini.png" var="imgUrl" />
-		<a href="#" onclick="return false;" title="${msgEtabChangeAction}" class="iconified" style="background: transparent url(${imgUrl}) scroll no-repeat left center;">
-			<%--
-			
-			<img src="${imgUrl}" alt="${msgEtabChangeAction}" />
-			--%>
+		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
+			<span class="iconified" style="background: transparent url(${imgUrl}) scroll no-repeat left center;">
+			</span>
+		</a>
+	</span>
+	<div class="changeEtab-dialog">
+		<div class="message">
+			${msgEtabChangeMessage}
+		</div>
+		<form:form method="post" action="${changeEtabAction}">
+			<c:forEach items="${etabs}" var="etab">
+			<div class="fl-widget">
+				<div class="fl-widget-titlebar">
+					<form:radiobutton id="${n}3radio${etab.id}" class="changeEtab-select" path="selectedEtabId" value="${etab.id}" /> 
+					<label for="${n}3radio${etab.id}">${etab.name}</label>
+				</div>
+			</div>
+			</c:forEach>
+		</form:form>
+	</div>
+	</c:if>
+</span>
+</c:if>
+
+<c:if test="${displayMode == 'All' || displayMode == '4'}">
+<span class="${n}container4 changeEtabPortlet">
+	<c:if test="${displayPortlet}">
+	<span class="changeEtab-button">
+		<c:url value="/images/swap-mini.png" var="imgUrl" />
+		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
+			<span>${msgEtabChangeAction}</span>
 		</a>
 	</span>
 	<div class="changeEtab-dialog">
