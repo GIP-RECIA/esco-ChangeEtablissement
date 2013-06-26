@@ -10,6 +10,7 @@
 <!-- i18n messages -->
 <spring:message code="etab.change.action" var="msgEtabChangeAction" />
 <spring:message code="etab.change.cancel" var="msgEtabChangeCancel" />
+<spring:message code="etab.change.confirm" var="msgEtabChangeConfirm" />
 <spring:message code="etab.change.title" var="msgEtabChangeTitle" />
 <spring:message code="etab.change.message" var="msgEtabChangeMessage" />
 <spring:message code="etab.current.message" var="msgEtabCurrentMessage" />
@@ -18,6 +19,7 @@
 	<span class="etabChangeMessage">${msgEtabChangeMessage}</span>
 	<span class="etabChangeAction">${msgEtabChangeAction}</span>
 	<span class="etabChangeCancel">${msgEtabChangeCancel}</span>
+	<span class="etabChangeConfirm">${msgEtabChangeConfirm}</span>
 </span>
 
 <portlet:actionURL var="changeEtabAction" name="changeEtab" />
@@ -38,7 +40,7 @@
 			</optgroup>
 		</form:select>
 
-		<input type="submit" class="changeEtab-submit" value="${msgEtabChangeAction}" />
+		<input type="button" class="changeEtab-submit" value="${msgEtabChangeAction}" />
 		</span>
 	</form:form>
 	</c:if>

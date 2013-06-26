@@ -5,9 +5,12 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 	// Init container 1
 	(function initContainer1($, namespace, refCount, undefined) {
 		var container = '.' + refCount + ' .' + namespace + 'container1';
-	
+
 		$(window).bind('load', function() {
 			// On load
+			
+			var form = $(container + ' form');
+			var msgEtabChangeConfirm = $('.changeEtabPortletMessages .etabChangeConfirm').html();
 			
 			var selectEtab = $(container + ' .changeEtab-select');
 			var submit = $(container + ' .changeEtab-submit');
@@ -35,7 +38,18 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 			
 			selectEtab.trigger('change');
 			
+			$(submit).bind('click', function() {
+				// On submit
+				
+				var confirmed = confirm(msgEtabChangeConfirm);
+				if (confirmed) {
+					// submit form
+					form.submit();
+				}
+			});
+			
 		});
+
 	}($, namespace, refCount));
 	
 	// Init container 2
@@ -70,6 +84,7 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 			var msgEtabChangeTitle = $('.changeEtabPortletMessages .etabChangeTitle').html();
 			var msgEtabChangeAction = $('.changeEtabPortletMessages .etabChangeAction').html();
 			var msgEtabChangeCancel = $('.changeEtabPortletMessages .etabChangeCancel').html();
+			var msgEtabChangeConfirm = $('.changeEtabPortletMessages .etabChangeConfirm').html();
 			
 			var form = $(container + ' form');
 			var radios = $(container + ' form input[type=radio]');
@@ -92,8 +107,11 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 						click: function() {
 							$( this ).dialog( "close" );
 					        		  
-							// submit form
-							form.submit();
+							var confirmed = confirm(msgEtabChangeConfirm);
+							if (confirmed) {
+								// submit form
+								form.submit();
+							}
 						}
 					}, {
 						text: msgEtabChangeCancel,
