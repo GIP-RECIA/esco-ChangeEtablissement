@@ -1,10 +1,10 @@
 var changeEtabPortlet = changeEtabPortlet || {};
 
-changeEtabPortlet.init = function($, namespace) {
+changeEtabPortlet.init = function($, namespace, refCount, undefined) {
 	
 	// Init container 1
-	(function initContainer1($, namespace, undefined) {
-		var container = '#' + namespace + 'container1';
+	(function initContainer1($, namespace, refCount, undefined) {
+		var container = '.' + refCount + ' .' + namespace + 'container1';
 	
 		$(window).bind('load', function() {
 			// On load
@@ -15,7 +15,7 @@ changeEtabPortlet.init = function($, namespace) {
 			var defaultValue = 'currentEtab';
 			var emptyValue = 'EMPTY';
 			
-			selectEtab.bind('change', function(){
+			selectEtab.bind('change', function() {
 				// On select Etab change
 				
 				if (selectEtab.val() === emptyValue) {
@@ -36,23 +36,23 @@ changeEtabPortlet.init = function($, namespace) {
 			selectEtab.trigger('change');
 			
 		});
-	}($, namespace));
+	}($, namespace, refCount));
 	
 	// Init container 2
-	(function initContainer2($, namespace, undefined) {
-		var container = '#' + namespace + 'container2';
+	(function initContainer2($, namespace, refCount, undefined) {
+		var container = '.' + refCount + ' .' + namespace + 'container2';
 		
 		initDialog(container, namespace);
 		
-	}($, namespace));
+	}($, namespace, refCount));
 	
 	// Init container 3
-	(function initContainer3($, namespace, undefined) {
-		var container = '#' + namespace + 'container3';
+	(function initContainer3($, namespace, refCount, undefined) {
+		var container = '.' + refCount + ' .' + namespace + 'container3';
 		
 		initDialog(container, namespace);
 		
-	}($, namespace));
+	}($, namespace, refCount));
 	
 	function initDialog(container, namespace) {
 
@@ -80,23 +80,23 @@ changeEtabPortlet.init = function($, namespace) {
 					resizable: false,
 					width: '700px',
 					buttons: [{
-					        	  text: msgEtabChangeAction,
-					        	  click: function() {
-					        		  $( this ).dialog( "close" );
+						text: msgEtabChangeAction,
+						click: function() {
+							$( this ).dialog( "close" );
 					        		  
-					        		  // submit form
-					        		  form.submit();
-					        	  }
-					          }, {
-					        	  text: msgEtabChangeCancel,
-					        	  click: function() {
-					        		  $( this ).dialog( "close" );
-					        	  }
-					          }]
-					});
+							// submit form
+							form.submit();
+						}
+					}, {
+						text: msgEtabChangeCancel,
+						click: function() {
+							$( this ).dialog( "close" );
+						}
+					}]
+				});
 				
-					var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
-					actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+				var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
+				actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
 			});
 			
 			radios.bind('change', function(event) {
@@ -108,12 +108,12 @@ changeEtabPortlet.init = function($, namespace) {
 					actionButton.removeAttr('disabled').removeClass('ui-state-disabled');
 				} else {
 					actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
-				}
+				};
 				
 			});
 			
 		});
 		
-	}
+	};
 	
 };

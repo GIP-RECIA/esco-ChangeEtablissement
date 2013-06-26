@@ -13,18 +13,29 @@
 <spring:message code="etab.change.title" var="msgEtabChangeTitle" />
 <spring:message code="etab.change.message" var="msgEtabChangeMessage" />
 <spring:message code="etab.current.message" var="msgEtabCurrentMessage" />
+<span class="changeEtabPortletMessages">
+	<span class="etabChangeTitle">${msgEtabChangeTitle}</span>
+	<span class="etabChangeMessage">${msgEtabChangeMessage}</span>
+	<span class="etabChangeAction">${msgEtabChangeAction}</span>
+	<span class="etabChangeCancel">${msgEtabChangeCancel}</span>
+</span>
 
 <portlet:actionURL var="changeEtabAction" name="changeEtab" />
 
-<span id="${n}container1" class="changeEtabPortlet">
+<c:if test="${displayMode == 'All' || displayMode == '1'}">
+<span class="${n}container1 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 
 	<form:form method="post" action="${changeEtabAction}">
 		<span>
 		<form:select class="changeEtab-select" path="selectedEtabId" >
-			<form:option value="currentEtab" label="--- ${currentEtab.name} ---" />
-			<form:option value="EMPTY" label="" />
-			<form:options items="${etabs}" itemValue="id" itemLabel="name" />
+			<optgroup label="${msgEtabCurrentMessage}">
+				<form:option value="currentEtab" label="--- ${currentEtab.name} ---" />
+			</optgroup>
+			<%-- <form:option value="EMPTY" label="" /> --%>
+			<optgroup label="${msgEtabChangeMessage}" >
+				<form:options items="${etabs}" itemValue="id" itemLabel="name" />
+			</optgroup>
 		</form:select>
 
 		<input type="submit" class="changeEtab-submit" value="${msgEtabChangeAction}" />
@@ -32,8 +43,10 @@
 	</form:form>
 	</c:if>
 </span>
+</c:if>
 
-<span id="${n}container2" class="changeEtabPortlet">
+<c:if test="${displayMode == 'All' || displayMode == '2'}">
+<span class="${n}container2 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span>
 		${msgEtabCurrentMessage} ${currentEtab.name} 
@@ -58,13 +71,18 @@
 	</div>
 	</c:if>
 </span>
+</c:if>
 
-<span id="${n}container3" class="changeEtabPortlet">
+<c:if test="${displayMode == 'All' || displayMode == '3'}">
+<span class="${n}container3 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span class="changeEtab-button">
-		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
-			<c:url value="/images/swap.png" var="imgUrl" />
+		<c:url value="/images/swap-mini.png" var="imgUrl" />
+		<a href="#" onclick="return false;" title="${msgEtabChangeAction}" class="iconified" style="background: transparent url(${imgUrl}) scroll no-repeat left center;">
+			<%--
+			
 			<img src="${imgUrl}" alt="${msgEtabChangeAction}" />
+			--%>
 		</a>
 	</span>
 	<div class="changeEtab-dialog">
@@ -84,11 +102,4 @@
 	</div>
 	</c:if>
 </span>
-
-
-<span class="changeEtabPortletMessages">
-	<span class="etabChangeTitle">${msgEtabChangeTitle}</span>
-	<span class="etabChangeMessage">${msgEtabChangeMessage}</span>
-	<span class="etabChangeAction">${msgEtabChangeAction}</span>
-	<span class="etabChangeCancel">${msgEtabChangeCancel}</span>
-</span>
+</c:if>
