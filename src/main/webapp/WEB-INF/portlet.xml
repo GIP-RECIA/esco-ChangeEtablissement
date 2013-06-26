@@ -22,7 +22,11 @@
         </portlet-info>
         
         <portlet-preferences>
-
+			<preference>
+				<!-- Display mode: All, 1, 2, 3 -->
+				<name>displayMode</name>
+				<value>All</value>
+			</preference>
         </portlet-preferences>
 
     </portlet>
