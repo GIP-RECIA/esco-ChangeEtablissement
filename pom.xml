@@ -7,8 +7,8 @@
 	<artifactId>change-etablissement-portlet</artifactId>
 	<packaging>war</packaging>
 
-	<name>Calendar Portlet</name>
-	<description>Calendar Portlet.</description>
+	<name>Change etablissement Portlet</name>
+	<description>Change etablissement Portlet.</description>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<scm>
@@ -22,6 +22,10 @@
 			<id>esco-releases</id>
 			<url>http://www.esco-portail.org/nexus/content/repositories/releases/</url>
 		</repository>
+		<snapshotRepository>
+			<id>esco-snapshots</id>
+			<url>http://www.esco-portail.org/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<repositories>
