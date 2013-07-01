@@ -143,13 +143,17 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 			userInfo = this.testUserInfoMap;
 		}
 
-		List<String> attributeValues = Collections.EMPTY_LIST;
+		List<String> attributeValues = null;
 
 		if (userInfo != null) {
 			attributeValues = userInfo.get(attributeName);
 		} else {
 			BasicUserInfoService.LOG.error("Unable to retrieve Portal UserInfo !");
 			throw new IllegalStateException("Unable to retrieve Portal UserInfo !");
+		}
+		
+		if (attributeValues == null) {
+			attributeValues = Collections.EMPTY_LIST;
 		}
 
 		return attributeValues;
