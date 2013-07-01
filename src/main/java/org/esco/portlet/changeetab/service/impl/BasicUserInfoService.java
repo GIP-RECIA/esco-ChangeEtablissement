@@ -53,8 +53,10 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	private final Map<String, List<String>> basicUserInfoMap = new HashMap<String, List<String>>();
 
 	private final Map<String, List<String>> emptyUserInfoMap = new HashMap<String, List<String>>();
+	
+	private final Map<String, List<String>> nullUserInfoMap = new HashMap<String, List<String>>();
 
-	private final Map<String, List<String>> testUserInfoMap = this.basicUserInfoMap;
+	private final Map<String, List<String>> testUserInfoMap = this.nullUserInfoMap;
 
 	@Override
 	public Collection<String> getChangeableEtabIds(final PortletRequest request) {
@@ -63,7 +65,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 		if (etabIds.isEmpty()) {
 			// Multivalued attribute which should not be empty
-			BasicUserInfoService.LOG.error("Unable to retrieve {} attribute in Portal UserInfo !", this.etabIdsInfoKey);
+			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.etabIdsInfoKey);
 		} else {
 			for (final String id : etabIds) {
 				etabIdsLowerCase.add(id.toLowerCase());

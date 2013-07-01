@@ -116,7 +116,7 @@ public class ChangeEtablissementController implements InitializingBean {
 		final String currentEtabId = this.userInfoService.getCurrentEtabId(request);
 		final Collection<String> changeableEtabIds = this.userInfoService.getChangeableEtabIds(request);
 
-		if ((currentEtabId != null) && !changeableEtabIds.isEmpty()) {
+		if ((StringUtils.hasText(currentEtabId)) && !changeableEtabIds.isEmpty()) {
 			final Map<String, Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByIds(changeableEtabIds);
 
 			final Etablissement currentEtab = changeableEtabs.remove(currentEtabId);
