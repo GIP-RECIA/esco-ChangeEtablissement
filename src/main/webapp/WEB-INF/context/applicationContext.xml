@@ -9,24 +9,23 @@
 	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
 
 	<!-- | APP CONFIGURATION + -->
-    
+
     <bean id="userInfoService" class="org.esco.portlet.changeetab.service.impl.BasicUserInfoService">
-    	<property name="userIdInfoKey" value="${userInfo.key.userId}" />
     	<property name="currentEtabIdInfoKey" value="${userInfo.key.currentEtabId}" />
     	<property name="etabIdsInfoKey" value="${userInfo.key.etabIds}" />
     </bean>
-    
+
     <bean id="entrepriseService" class="org.esco.portlet.changeetab.service.impl.CachingEtablissementService">
     	<property name="cachingDuration" value="60000" />
     	<property name="etablissementCache" ref="etablissementsCache" />
     	<property name="etablissementDao" ref="etablissementDao" />
     </bean>
-    
+
     <bean id="userService" class="org.esco.portlet.changeetab.service.impl.BasicUserService">
     	<property name="userDao" ref="userDao" />
     </bean>
-    
-    <!-- LDAP DAO -->	
+
+    <!-- LDAP DAO -->
 	<bean id="etabLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
 		<property name="contextSource">
 		    <bean class="org.springframework.ldap.core.support.LdapContextSource">
@@ -36,7 +35,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+
 	<bean id="userLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
 		<property name="contextSource">
 		    <bean class="org.springframework.ldap.core.support.LdapContextSource">
@@ -46,7 +45,7 @@
 			</bean>
 		</property>
 	</bean>
-	
+
     <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
     	<property name="ldapTemplate" ref="etabLdapTemplate" />
     	<property name="etablissementBase" value="${ldap.read.etablissementBaseDn}" />
@@ -54,27 +53,27 @@
     	<property name="etabIdLdapAttr" value="${ldap.read.attribute.etablissementId}" />
     	<property name="etabNameLdapAttr" value="${ldap.read.attribute.etablissementName}" />
     	<property name="etabDescriptionLdapAttr" value="${ldap.read.attribute.etablissementDescription}" />
-    	
+
     </bean>
-    
+
     <bean id="userDao" class="org.esco.portlet.changeetab.dao.impl.LdapUserDao">
     	<property name="ldapTemplate" ref="userLdapTemplate" />
     	<property name="currentEtabIdLdapKey" value="${ldap.write.attribute.currentEtabId}" />
     	<property name="userDn" value="${ldap.write.peopleDn}" />
     	<property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
-    
+
     <!-- Mocked DAO -->
-    <!-- 
+    <!--
     <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
-    
+
     <bean id="iserDao" class="org.esco.portlet.changeetab.dao.impl.MockUserDao">
     	<property name="currentEtabIdLdapKey" value="${ldap.write.attribute.currentEtabId}" />
     	<property name="userDn" value="${ldap.write.peopleDn}" />
     	<property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
      -->
-      
+
 	<!-- | CACHE CONFIGURATION + -->
 
 	<!-- EHCache Configuration -->
@@ -106,19 +105,19 @@
 		</property>
 	</bean>
 
-	<!-- Message source for this context, loaded from localized "messages_xx" 
+	<!-- Message source for this context, loaded from localized "messages_xx"
 		files -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basenames="i18n/messages" p:useCodeAsDefaultMessage="true" />
 
-	<!-- | View resolvers, look for a named view bean before going to JSP resolution 
+	<!-- | View resolvers, look for a named view bean before going to JSP resolution
 		+ -->
-<!-- 	
+<!--
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver"
 		p:order="0" p:location="/WEB-INF/context/views.xml" />
  -->
- 
+
 	<!-- JSP view resolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
