@@ -20,7 +20,7 @@
         <portlet-info>
             <title>Change etablissement</title>
         </portlet-info>
-        
+
         <portlet-preferences>
 			<preference>
 				<!-- Display mode: All, 1, 2, 3 -->
@@ -30,15 +30,11 @@
         </portlet-preferences>
 
     </portlet>
-    
-    <user-attribute>
-        <name>uid</name>
-    </user-attribute>
-      
+
     <user-attribute>
     	<name>ESCOUAI</name>
     </user-attribute>
-    
+
     <user-attribute>
         <name>ESCOUAICourant</name>
     </user-attribute>

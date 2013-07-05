@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.service.impl;
 
@@ -43,8 +43,6 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(BasicUserInfoService.class);
-
-	private String userIdInfoKey;
 
 	private String etabIdsInfoKey;
 
@@ -96,34 +94,17 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	@Override
 	public String getUserId(final PortletRequest request) {
-		String userId = null;
-
-		final List<String> id = this.getUserInfo(request, this.userIdInfoKey);
-
-		if (id.size() == 1) {
-			// Monovalued attribute
-			userId = id.iterator().next();
-		}
-
-		if (!StringUtils.hasText(userId)) {
-			userId = null;
-			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.userIdInfoKey);
-		}
-
-		return userId;
+		return request.getRemoteUser();
 	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.hasText(this.userIdInfoKey, "No User Id user info key configured !");
 		Assert.hasText(this.etabIdsInfoKey, "No Etab Ids user info key configured !");
 		Assert.hasText(this.currentEtabIdInfoKey, "No Current Etab Id user info key configured !");
 
-		this.basicUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"f1000ugr"}));
 		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
 		this.basicUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"0450822X"}));
 
-		this.emptyUserInfoMap.put(this.userIdInfoKey, Arrays.asList(new String[]{"id2"}));
 		this.emptyUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567b"}));
 		this.emptyUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"1234567B"}));
 	}
@@ -131,7 +112,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	/**
 	 * Retrieve the user info attribute from portlet context, or the Mocked user info
 	 * if the system property testEnv = true.
-	 * 
+	 *
 	 * @param request the portlet request
 	 * @param atributeName the attribute to retrieve
 	 * @return the user info attribute values
@@ -153,30 +134,12 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 			BasicUserInfoService.LOG.error("Unable to retrieve Portal UserInfo !");
 			throw new IllegalStateException("Unable to retrieve Portal UserInfo !");
 		}
-		
+
 		if (attributeValues == null) {
 			attributeValues = Collections.EMPTY_LIST;
 		}
 
 		return attributeValues;
-	}
-
-	/**
-	 * Getter of userIdInfoKey.
-	 *
-	 * @return the userIdInfoKey
-	 */
-	public String getUserIdInfoKey() {
-		return this.userIdInfoKey;
-	}
-
-	/**
-	 * Setter of userIdInfoKey.
-	 *
-	 * @param userIdInfoKey the userIdInfoKey to set
-	 */
-	public void setUserIdInfoKey(final String userIdInfoKey) {
-		this.userIdInfoKey = userIdInfoKey;
 	}
 
 	/**
