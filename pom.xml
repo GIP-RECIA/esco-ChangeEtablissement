@@ -347,7 +347,7 @@
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<localCheckout>true</localCheckout>
 					<tagNameFormat>change-etablissement-@{project.version}</tagNameFormat>
-					<pushChanges>false</pushChanges>
+					<pushChanges>true</pushChanges>
 				</configuration>
 			</plugin>
 			<plugin>
