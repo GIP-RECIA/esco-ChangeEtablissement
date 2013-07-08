@@ -8,7 +8,7 @@
 
 	<name>Change etablissement Portlet</name>
 	<description>Change etablissement Portlet.</description>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.0.3-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:git:ssh://github.com/GIP-RECIA/esco-ChangeEtablissement.git</connection>
@@ -16,7 +16,7 @@
 		<url>https://github.com/GIP-RECIA/esco-ChangeEtablissement.git</url>
 	  	<tag>HEAD</tag>
   	</scm>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>esco-releases</id>
@@ -60,13 +60,14 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	
+
 		<!-- Dependency versions -->
 		<joda-time.version>2.0</joda-time.version>
 		<resource-server.version>1.0.26</resource-server.version>
 		<spring.version>3.1.3.RELEASE</spring.version>
 		<spring-ldap.version>1.3.0.RELEASE</spring-ldap.version>
 		<slf4j.version>1.7.5</slf4j.version>
+		<logback.version>1.0.13</logback.version>
 		<uportal-maven-plugin.version>1.0.0</uportal-maven-plugin.version>
 		<mockito.version>1.9.5</mockito.version>
 	</properties>
@@ -114,6 +115,11 @@
 				<version>4.8.2</version>
 			</dependency>
 			<dependency>
+			    <groupId>ch.qos.logback</groupId>
+			    <artifactId>logback-classic</artifactId>
+			    <version>${logback.version}</version>
+			</dependency>
+			<!-- <dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
@@ -123,7 +129,7 @@
 				<artifactId>slf4j-simple</artifactId>
 				<version>${slf4j.version}</version>
 				<scope>compile</scope>
-			</dependency>			
+			</dependency>	 -->
 			<dependency>
 				<groupId>org.jasig.portlet.utils</groupId>
 				<artifactId>portlet-form-resources</artifactId>
@@ -224,13 +230,18 @@
 			<artifactId>joda-time</artifactId>
 		</dependency>
 		<dependency>
+		    <groupId>ch.qos.logback</groupId>
+		    <artifactId>logback-classic</artifactId>
+		    <version>${logback.version}</version>
+		</dependency>
+		<!-- <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-		</dependency>	
+		</dependency> -->
 		<dependency>
 			<groupId>org.jasig.portlet.utils</groupId>
 			<artifactId>portlet-form-resources</artifactId>
@@ -390,7 +401,7 @@
 							<displayJsWarnings>false</displayJsWarnings>
 							<includes>
 								<include>skin.xml</include>
-								<!-- 
+								<!--
 								<include>skin-shared.xml</include>
 								<include>skin-mobile.xml</include>
 								<include>skin-mobile-shared.xml</include>
@@ -492,14 +503,14 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		
+
 	</build>
-	
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>jlehtinen.net</id>
 			<url>http://repo.jlehtinen.net/maven2/</url>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 </project>
