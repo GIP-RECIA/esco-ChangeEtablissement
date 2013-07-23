@@ -50,7 +50,7 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 		Assert.hasText(nameAttrKey, "Etab Name LDAP attr key not supplied !");
 		Assert.hasText(descriptionAttrKey, "Etab Description LDAP attr key not supplied !");
 
-		this.idAttrKey = idAttrKey.toLowerCase();
+		this.idAttrKey = idAttrKey;
 		this.nameAttrKey = nameAttrKey;
 		this.descriptionAttrKey = descriptionAttrKey;
 	}
@@ -59,7 +59,7 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 	public Object mapFromAttributes(final Attributes attrs) throws NamingException {
 		final Etablissement etab = new Etablissement();
 
-		etab.setId(((String) attrs.get(this.idAttrKey).get()).toLowerCase());
+		etab.setId((String) attrs.get(this.idAttrKey).get());
 		etab.setName((String) attrs.get(this.nameAttrKey).get());
 		etab.setDescription((String) attrs.get(this.descriptionAttrKey).get());
 

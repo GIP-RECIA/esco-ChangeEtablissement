@@ -116,7 +116,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	 */
 	protected String genCacheKey(final String uai) {
 		final StringBuilder cacheKeyBuilder = new StringBuilder(32);
-		cacheKeyBuilder.append(uai);
+		cacheKeyBuilder.append(uai.toLowerCase());
 		cacheKeyBuilder.append("_");
 		cacheKeyBuilder.append(this.expiringInstant.getMillis());
 
