@@ -24,6 +24,8 @@
 
 <portlet:actionURL var="changeEtabAction" name="changeEtab" />
 
+<%------------ DISPLAY MODE 1 ------------%>
+
 <c:if test="${displayMode == 'All' || displayMode == '1'}">
 <span class="${n}container1 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
@@ -46,6 +48,8 @@
 	</c:if>
 </span>
 </c:if>
+
+<%------------ DISPLAY MODE 2 ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '2'}">
 <span class="${n}container2 changeEtabPortlet">
@@ -75,11 +79,13 @@
 </span>
 </c:if>
 
+<%------------ DISPLAY MODE 3 ------------%>
+
 <c:if test="${displayMode == 'All' || displayMode == '3'}">
 <span class="${n}container3 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span class="changeEtab-button">
-		<c:url value="/images/swap-mini.png" var="imgUrl" />
+		<c:url value="/images/swap-mini2.png" var="imgUrl" />
 		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
 			<span class="iconified" style="background: transparent url(${imgUrl}) scroll no-repeat left center;">
 			</span>
@@ -104,11 +110,12 @@
 </span>
 </c:if>
 
+<%------------ DISPLAY MODE 4 ------------%>
+
 <c:if test="${displayMode == 'All' || displayMode == '4'}">
 <span class="${n}container4 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span class="changeEtab-button">
-		<c:url value="/images/swap-mini.png" var="imgUrl" />
 		<a href="#" onclick="return false;" title="${msgEtabChangeAction}">
 			<span>${msgEtabChangeAction}</span>
 		</a>

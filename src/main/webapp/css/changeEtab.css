@@ -25,8 +25,7 @@
 /************ Conatainer 2 & 3 ************/
 
 .changeEtabPortlet .iconified {
-	background: transparent url(/images/swap-mini.png) scroll no-repeat left center;
- 	padding: 10px 10px;
+ 	padding: 15px 15px;
 }
 
 .changeEtabPortlet .changeEtab-dialog {
