@@ -52,9 +52,10 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	private final Map<String, List<String>> emptyUserInfoMap = new HashMap<String, List<String>>();
 	
-	private final Map<String, List<String>> nullUserInfoMap = new HashMap<String, List<String>>();
+	@SuppressWarnings("unused")
+	private final Map<String, List<String>> nullUserInfoMap = null;
 
-	private final Map<String, List<String>> testUserInfoMap = this.nullUserInfoMap;
+	private final Map<String, List<String>> testUserInfoMap = this.basicUserInfoMap;
 
 	@Override
 	public Collection<String> getChangeableEtabIds(final PortletRequest request) {
@@ -132,7 +133,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 			attributeValues = userInfo.get(attributeName);
 		} else {
 			BasicUserInfoService.LOG.error("Unable to retrieve Portal UserInfo !");
-			throw new IllegalStateException("Unable to retrieve Portal UserInfo !");
+			//throw new IllegalStateException("Unable to retrieve Portal UserInfo !");
 		}
 
 		if (attributeValues == null) {
