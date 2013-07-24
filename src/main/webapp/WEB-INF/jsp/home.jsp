@@ -24,7 +24,7 @@
 
 <portlet:actionURL var="changeEtabAction" name="changeEtab" />
 
-<%------------ DISPLAY MODE 1 ------------%>
+<%------------ DISPLAY MODE 1 : Select Box ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '1'}">
 <span class="${n}container1 changeEtabPortlet">
@@ -49,7 +49,7 @@
 </span>
 </c:if>
 
-<%------------ DISPLAY MODE 2 ------------%>
+<%------------ DISPLAY MODE 2 : Anchor + Current etab ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '2'}">
 <span class="${n}container2 changeEtabPortlet">
@@ -79,7 +79,7 @@
 </span>
 </c:if>
 
-<%------------ DISPLAY MODE 3 ------------%>
+<%------------ DISPLAY MODE 3 : Picture only ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '3'}">
 <span class="${n}container3 changeEtabPortlet">
@@ -110,7 +110,7 @@
 </span>
 </c:if>
 
-<%------------ DISPLAY MODE 4 ------------%>
+<%------------ DISPLAY MODE 4 : Anchor only ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '4'}">
 <span class="${n}container4 changeEtabPortlet">
