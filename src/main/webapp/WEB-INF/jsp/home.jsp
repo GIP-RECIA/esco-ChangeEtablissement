@@ -32,13 +32,13 @@
 
 	<form:form method="post" action="${changeEtabAction}">
 		<span>
-		<form:select class="changeEtab-select" path="selectedEtabId" >
+		<form:select class="changeEtab-select" path="selectedEtabCode" >
 			<optgroup label="${msgEtabCurrentMessage}">
 				<form:option value="currentEtab" label="--- ${currentEtab.name} ---" />
 			</optgroup>
 			<%-- <form:option value="EMPTY" label="" /> --%>
 			<optgroup label="${msgEtabChangeMessage}" >
-				<form:options items="${etabs}" itemValue="id" itemLabel="name" />
+				<form:options items="${etabs}" itemValue="code" itemLabel="name" />
 			</optgroup>
 		</form:select>
 
@@ -68,8 +68,8 @@
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
 				<div class="">
-					<form:radiobutton id="${n}2radio${etab.id}" class="changeEtab-select" path="selectedEtabId" value="${etab.id}" /> 
-					<label for="${n}2radio${etab.id}">${etab.name}</label>
+					<form:radiobutton id="${n}2radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
+					<label for="${n}2radio${etab.code}">${etab.name}</label>
 				</div>
 			</div>
 			</c:forEach>
@@ -99,8 +99,8 @@
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
-					<form:radiobutton id="${n}3radio${etab.id}" class="changeEtab-select" path="selectedEtabId" value="${etab.id}" /> 
-					<label for="${n}3radio${etab.id}">${etab.name}</label>
+					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
+					<label for="${n}3radio${etab.code}">${etab.name}</label>
 				</div>
 			</div>
 			</c:forEach>
@@ -128,8 +128,8 @@
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
-					<form:radiobutton id="${n}3radio${etab.id}" class="changeEtab-select" path="selectedEtabId" value="${etab.id}" /> 
-					<label for="${n}3radio${etab.id}">${etab.name}</label>
+					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
+					<label for="${n}3radio${etab.code}">${etab.name}</label>
 				</div>
 			</div>
 			</c:forEach>

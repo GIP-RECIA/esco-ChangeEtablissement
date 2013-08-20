@@ -43,11 +43,11 @@ public class MockEtablissementDao implements IEtablissementDao, InitializingBean
 		MockEtablissementDao.LOG.debug("Finding all etablissements ...");
 
 		final Collection<Etablissement> allEtabs = new HashSet<Etablissement>(8);
-		allEtabs.add(new Etablissement("1234567A", "Etab A", "Desc A"));
-		allEtabs.add(new Etablissement("1234567B", "Etab B", "Desc B"));
-		allEtabs.add(new Etablissement("1234567C", "Etab C", "Desc C"));
-		allEtabs.add(new Etablissement("1234567D", "Etab D", "Desc D"));
-		allEtabs.add(new Etablissement("1234567E", "Etab E", "Desc E"));
+		allEtabs.add(new Etablissement("1234567A", "1234567a", "Etab A", "Desc A"));
+		allEtabs.add(new Etablissement("1234567B", "1234567b", "Etab B", "Desc B"));
+		allEtabs.add(new Etablissement("1234567C", "1234567c", "Etab C", "Desc C"));
+		allEtabs.add(new Etablissement("1234567D", "1234567d", "Etab D", "Desc D"));
+		allEtabs.add(new Etablissement("1234567E", "1234567e", "Etab E", "Desc E"));
 
 		MockEtablissementDao.LOG.debug("{} etablissements found.", allEtabs.size());
 

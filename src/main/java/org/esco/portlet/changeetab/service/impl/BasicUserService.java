@@ -19,9 +19,11 @@
 package org.esco.portlet.changeetab.service.impl;
 
 import org.esco.portlet.changeetab.dao.IUserDao;
+import org.esco.portlet.changeetab.model.Etablissement;
 import org.esco.portlet.changeetab.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -34,8 +36,11 @@ public class BasicUserService implements IUserService {
 	private IUserDao userDao;
 
 	@Override
-	public void changeCurrentEtablissement(final String userId, final String etabId) {
-		this.userDao.saveCurrentEtablissement(userId, etabId);
+	public void changeCurrentEtablissement(final String userId, final Etablissement etab) {
+		Assert.hasText(userId, "No user Id supplied !");
+		Assert.notNull(etab, "No etablishement supplied !");
+		
+		this.userDao.saveCurrentEtablissement(userId, etab.getId());
 	}
 
 	/**

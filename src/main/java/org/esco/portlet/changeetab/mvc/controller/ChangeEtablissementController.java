@@ -81,25 +81,29 @@ public class ChangeEtablissementController implements InitializingBean {
 	@ActionMapping("changeEtab")
 	public void changeEtab(@ModelAttribute("command") final ChangeEtabCommand changeEtabCommand, final ActionRequest request
 			, final ActionResponse response) throws Exception {
-		final String selectedEtabId = changeEtabCommand.getSelectedEtabId();
-		Assert.hasText(selectedEtabId, "No Etablissement Id selected !");
+		final String selectedEtabCode = changeEtabCommand.getSelectedEtabCode();
+		Assert.hasText(selectedEtabCode, "No Etablissement code selected !");
 
-		ChangeEtablissementController.LOG.debug("Selected Etab Id to change: [{}]", selectedEtabId);
+		ChangeEtablissementController.LOG.debug("Selected Etab code to change: [{}]", selectedEtabCode);
 
-		final Collection<String> changeableEtabIds = this.userInfoService.getChangeableEtabIds(request);
-		if (!changeableEtabIds.contains(selectedEtabId)) {
+		final Collection<String> changeableEtabCodes = this.userInfoService.getChangeableEtabCodes(request);
+		if (!changeableEtabCodes.contains(selectedEtabCode)) {
 			// If selected Id is not an allowed Id
-			ChangeEtablissementController.LOG.warn("Attempt to switch to a not allowed Etablissement !");
+			ChangeEtablissementController.LOG.warn("Attempt to switch to a not allowed Etablissement with code: [{}] !", selectedEtabCode);
+			ChangeEtablissementController.LOG.debug("Allowed Etablissements are: [{}]", StringUtils.collectionToCommaDelimitedString(changeableEtabCodes));
 		} else {
 			// Process the etablissement swap.
 			final String userId = this.userInfoService.getUserId(request);
 			if (StringUtils.hasText(userId)) {
-				this.userService.changeCurrentEtablissement(userId, selectedEtabId);
+				final Etablissement selectedEtab = this.etablissementService.retrieveEtablissementsByCode(selectedEtabCode);
+				this.userService.changeCurrentEtablissement(userId, selectedEtab);
 
 				if (this.redirectAfterChange) {
 					request.getPortalContext();
 					response.sendRedirect(this.logoutUrlRedirect);
 				}
+			} else {
+				ChangeEtablissementController.LOG.warn("No user Id found in request ! Cannot process the etablishment swapping !");
 			}
 		}
 
@@ -113,13 +117,13 @@ public class ChangeEtablissementController implements InitializingBean {
 		boolean display = false;
 		final ModelAndView mv = new ModelAndView("home");
 
-		final String currentEtabId = this.userInfoService.getCurrentEtabId(request);
-		final Collection<String> changeableEtabIds = this.userInfoService.getChangeableEtabIds(request);
+		final String currentEtabCode = this.userInfoService.getCurrentEtabCode(request);
+		final Collection<String> changeableEtabCodes = this.userInfoService.getChangeableEtabCodes(request);
 
-		if ((StringUtils.hasText(currentEtabId)) && !changeableEtabIds.isEmpty()) {
-			final Map<String, Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByIds(changeableEtabIds);
+		if ((StringUtils.hasText(currentEtabCode)) && !changeableEtabCodes.isEmpty()) {
+			final Map<String, Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByCodes(changeableEtabCodes);
 
-			final Etablissement currentEtab = changeableEtabs.remove(currentEtabId);
+			final Etablissement currentEtab = changeableEtabs.remove(currentEtabCode);
 
 			ChangeEtablissementController.LOG.debug("Found [{}] etablissements whose user can change to.", changeableEtabs.size());
 

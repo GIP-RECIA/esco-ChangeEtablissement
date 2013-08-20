@@ -18,6 +18,8 @@
  */
 package org.esco.portlet.changeetab.service;
 
+import org.esco.portlet.changeetab.model.Etablissement;
+
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
@@ -28,8 +30,8 @@ public interface IUserService {
 	 * Change the current etablissement of the user.
 	 * 
 	 * @param userId id of user
-	 * @param etabId id of etab
+	 * @param etab etab
 	 */
-	void changeCurrentEtablissement(String userId, String etabId);
+	void changeCurrentEtablissement(String userId, Etablissement etab);
 
 }

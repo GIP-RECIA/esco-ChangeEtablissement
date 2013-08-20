@@ -24,19 +24,26 @@ package org.esco.portlet.changeetab.model;
  */
 public class Etablissement {
 
+	/** Bean Id. */
 	private String id;
+	
+	/** Etab code. */
+	private String code;
 
+	/** Etab name. */
 	private String name;
 
+	/** Etab description. */
 	private String description;
 
 	public Etablissement() {
 		super();
 	}
 
-	public Etablissement(final String id, final String name, final String description) {
+	public Etablissement(final String id, final String code, final String name, final String description) {
 		super();
 		this.id = id;
+		this.code = code;
 		this.name = name;
 		this.description = description;
 	}
@@ -57,6 +64,24 @@ public class Etablissement {
 	 */
 	public void setId(final String id) {
 		this.id = id;
+	}
+
+	/**
+	 * Getter of code.
+	 *
+	 * @return the code
+	 */
+	public String getCode() {
+		return code;
+	}
+
+	/**
+	 * Setter of code.
+	 *
+	 * @param code the code to set
+	 */
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	/**

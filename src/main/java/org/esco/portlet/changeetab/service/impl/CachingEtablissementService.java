@@ -59,27 +59,40 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	private Instant expiringInstant;
 
 	@Override
-	public Map<String, Etablissement> retrieveEtablissementsByIds(final Collection<String> ids) {
-		Assert.notEmpty(ids, "No Etablissement Id supplied !");
+	public Map<String, Etablissement> retrieveEtablissementsByCodes(final Collection<String> codes) {
+		Assert.notEmpty(codes, "No Etablissement code supplied !");
 
-		final Map<String, Etablissement> etabs = new HashMap<String, Etablissement>(ids.size());
+		final Map<String, Etablissement> etabs = new HashMap<String, Etablissement>(codes.size());
 
 		this.loadEtablissementCacheIfExpired();
 
-		for (final String id : ids) {
-
-			final String cacheKey = this.genCacheKey(id);
-			final ValueWrapper cachedValue = this.etablissementCache.get(cacheKey);
-			if (cachedValue == null) {
-				CachingEtablissementService.LOG.warn("No etablissement found in cache for Id: [{}] !", id);
-			} else {
-				etabs.put(id, (Etablissement) cachedValue.get());
+		for (final String code : codes) {
+			final Etablissement etab = this.retrieveEtablissementsByCode(code);
+			if (etab != null) {
+				etabs.put(code, etab);
 			}
 		}
 
 		CachingEtablissementService.LOG.debug("{} etablissement(s) found.", etabs.size());
 
 		return etabs;
+	}
+	
+	@Override
+	public Etablissement retrieveEtablissementsByCode(final String code) {
+		Assert.hasText(code, "No Etablissement code supplied !");
+		
+		Etablissement etab = null;
+		
+		final String cacheKey = this.genCacheKey(code);
+		final ValueWrapper cachedValue = this.etablissementCache.get(cacheKey);
+		if (cachedValue == null) {
+			CachingEtablissementService.LOG.warn("No etablissement found in cache for code: [{}] !", code);
+		} else {
+			etab = (Etablissement) cachedValue.get();
+		}
+		
+		return etab;
 	}
 
 	@Override
@@ -103,7 +116,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 
 		final Collection<Etablissement> allEtabs = this.etablissementDao.findAllEtablissements();
 		for (final Etablissement etab : allEtabs) {
-			final String etabCacheKey = this.genCacheKey(etab.getId());
+			final String etabCacheKey = this.genCacheKey(etab.getCode());
 			this.etablissementCache.put(etabCacheKey, etab);
 		}
 	}

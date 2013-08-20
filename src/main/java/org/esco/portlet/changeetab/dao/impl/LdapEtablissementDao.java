@@ -19,6 +19,7 @@
 package org.esco.portlet.changeetab.dao.impl;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
@@ -59,10 +60,17 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	@SuppressWarnings("unchecked")
 	public Collection<Etablissement> findAllEtablissements() {
 		LdapEtablissementDao.LOG.debug("Finding all etablissements ...");
-
-		final List<Etablissement> allEtabs = this.ldapTemplate.search(this.etablissementBase,
+		
+		List<Etablissement> allEtabs;
+		try {
+			allEtabs = this.ldapTemplate.search(this.etablissementBase,
 				this.allEtabsFilter, new EtablissementAttributesMapper(this.etabIdLdapAttr, this.etabNameLdapAttr, this.etabDescriptionLdapAttr));
-
+		} catch (final Exception e) {
+			// We catch all exceptions, cause we don't want our portlet to block the portal.
+			LOG.error("Error while searching for establishments in LDAP !", e);
+			allEtabs = Collections.emptyList();
+		}
+		
 		LdapEtablissementDao.LOG.debug("{} etablissements found.", allEtabs.size());
 
 		return allEtabs;

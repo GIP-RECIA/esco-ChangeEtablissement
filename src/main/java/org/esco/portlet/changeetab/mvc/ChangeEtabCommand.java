@@ -24,30 +24,30 @@ package org.esco.portlet.changeetab.mvc;
  */
 public class ChangeEtabCommand {
 
-	public static final String DEFAULT_ID = "currentEtab";
+	public static final String DEFAULT_CODE = "currentEtab";
 
-	private String selectedEtabId = ChangeEtabCommand.DEFAULT_ID;
+	private String selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
 
 	public void reset() {
-		this.selectedEtabId = ChangeEtabCommand.DEFAULT_ID;
+		this.selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
 	}
 
 	/**
-	 * Getter of selectedEtabId.
+	 * Getter of selectedEtabCode.
 	 *
-	 * @return the selectedEtabId
+	 * @return the selectedEtabCode
 	 */
-	public String getSelectedEtabId() {
-		return this.selectedEtabId;
+	public String getSelectedEtabCode() {
+		return selectedEtabCode;
 	}
 
 	/**
-	 * Setter of selectedEtabId.
+	 * Setter of selectedEtabCode.
 	 *
-	 * @param selectedEtabId the selectedEtabId to set
+	 * @param selectedEtabCode the selectedEtabCode to set
 	 */
-	public void setSelectedEtabId(final String selectedEtabId) {
-		this.selectedEtabId = selectedEtabId;
+	public void setSelectedEtabCode(String selectedEtabCode) {
+		this.selectedEtabCode = selectedEtabCode;
 	}
 
 }

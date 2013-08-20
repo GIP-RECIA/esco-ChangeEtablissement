@@ -30,11 +30,19 @@ import org.esco.portlet.changeetab.model.Etablissement;
 public interface IEtablissementService {
 
 	/**
-	 * Return a Collection of Etablissement matching the supplied UAIs.
+	 * Return a Collection of Etablissement matching the supplied codes.
 	 * 
-	 * @param ids
+	 * @param codes
 	 * @return a never null Map of Id => Etab wich may be empty
 	 */
-	Map<String, Etablissement> retrieveEtablissementsByIds(Collection<String> ids);
+	Map<String, Etablissement> retrieveEtablissementsByCodes(Collection<String> codes);
 
+	/**
+	 * Return an Etablissement matching the supplied code.
+	 * 
+	 * @param code
+	 * @return Etab or null
+	 */
+	Etablissement retrieveEtablissementsByCode(String code);
+	
 }

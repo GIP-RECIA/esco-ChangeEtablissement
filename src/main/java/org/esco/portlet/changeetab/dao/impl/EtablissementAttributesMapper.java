@@ -60,6 +60,7 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 		final Etablissement etab = new Etablissement();
 
 		etab.setId((String) attrs.get(this.idAttrKey).get());
+		etab.setCode(etab.getId().toLowerCase());
 		etab.setName((String) attrs.get(this.nameAttrKey).get());
 		etab.setDescription((String) attrs.get(this.descriptionAttrKey).get());
 

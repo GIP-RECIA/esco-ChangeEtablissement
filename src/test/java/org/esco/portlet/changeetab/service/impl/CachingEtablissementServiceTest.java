@@ -48,10 +48,10 @@ public class CachingEtablissementServiceTest {
 	private static final String UAI_3 = "UAI_3";
 	private static final String UAI_4 = "UAI_4";
 
-	private static final Etablissement ETAB_1 = new Etablissement(CachingEtablissementServiceTest.UAI_1, "name1", "desc1");
-	private static final Etablissement ETAB_2 = new Etablissement(CachingEtablissementServiceTest.UAI_2, "name2", "desc2");
-	private static final Etablissement ETAB_3 = new Etablissement(CachingEtablissementServiceTest.UAI_3, "name3", "desc3");
-	private static final Etablissement ETAB_4 = new Etablissement(CachingEtablissementServiceTest.UAI_4, "name4", "desc4");
+	private static final Etablissement ETAB_1 = new Etablissement("1", CachingEtablissementServiceTest.UAI_1, "name1", "desc1");
+	private static final Etablissement ETAB_2 = new Etablissement("2", CachingEtablissementServiceTest.UAI_2, "name2", "desc2");
+	private static final Etablissement ETAB_3 = new Etablissement("3", CachingEtablissementServiceTest.UAI_3, "name3", "desc3");
+	private static final Etablissement ETAB_4 = new Etablissement("4", CachingEtablissementServiceTest.UAI_4, "name4", "desc4");
 
 	/** All etabs returned by mocked DAo. */
 	private static final Collection<Etablissement> allEtabsFromDao = new ArrayList<Etablissement>(8);
@@ -85,7 +85,7 @@ public class CachingEtablissementServiceTest {
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingEtablissementServiceTest.UAI_2);
 
-		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return only one etab !", 1, etabs.size());
@@ -98,7 +98,7 @@ public class CachingEtablissementServiceTest {
 		uais.add(CachingEtablissementServiceTest.UAI_3);
 		uais.add(CachingEtablissementServiceTest.UAI_1);
 
-		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return only one etab !", 2, etabs.size());
@@ -111,7 +111,7 @@ public class CachingEtablissementServiceTest {
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add("NotExistingUai");
 
-		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByIds(uais);
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return an empty collection !", 0, etabs.size());
@@ -119,13 +119,13 @@ public class CachingEtablissementServiceTest {
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithNullParam() throws Exception {
-		this.service.retrieveEtablissementsByIds(null);
+		this.service.retrieveEtablissementsByCodes(null);
 	}
 
 	@Test(expected=IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithEmptyParam() throws Exception {
 		final List<String> s = Collections.emptyList();
-		this.service.retrieveEtablissementsByIds(s);
+		this.service.retrieveEtablissementsByCodes(s);
 	}
 
 }

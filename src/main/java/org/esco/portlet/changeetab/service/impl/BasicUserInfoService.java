@@ -44,9 +44,9 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(BasicUserInfoService.class);
 
-	private String etabIdsInfoKey;
+	private String etabCodesInfoKey;
 
-	private String currentEtabIdInfoKey;
+	private String currentEtabCodeInfoKey;
 
 	private final Map<String, List<String>> basicUserInfoMap = new HashMap<String, List<String>>();
 
@@ -58,27 +58,27 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	private final Map<String, List<String>> testUserInfoMap = this.basicUserInfoMap;
 
 	@Override
-	public Collection<String> getChangeableEtabIds(final PortletRequest request) {
-		final Collection<String> etabIds = this.getUserInfo(request, this.etabIdsInfoKey);
-		final Collection<String> etabIdsLowerCase = new HashSet<String>(etabIds.size());
+	public Collection<String> getChangeableEtabCodes(final PortletRequest request) {
+		final Collection<String> etabCodes = this.getUserInfo(request, this.etabCodesInfoKey);
+		final Collection<String> etabCodesLowerCase = new HashSet<String>(etabCodes.size());
 
-		if (etabIds.isEmpty()) {
+		if (etabCodes.isEmpty()) {
 			// Multivalued attribute which should not be empty
-			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.etabIdsInfoKey);
+			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.etabCodesInfoKey);
 		} else {
-			for (final String id : etabIds) {
-				etabIdsLowerCase.add(id.toLowerCase());
+			for (final String id : etabCodes) {
+				etabCodesLowerCase.add(id.toLowerCase());
 			}
 		}
 
-		return etabIdsLowerCase;
+		return etabCodesLowerCase;
 	}
 
 	@Override
-	public String getCurrentEtabId(final PortletRequest request) {
+	public String getCurrentEtabCode(final PortletRequest request) {
 		String escoUaiCourant = null;
 
-		final List<String> uaiCourant = this.getUserInfo(request, this.currentEtabIdInfoKey);
+		final List<String> uaiCourant = this.getUserInfo(request, this.currentEtabCodeInfoKey);
 
 		if (uaiCourant.size() == 1) {
 			// Monovalued attribute
@@ -87,7 +87,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 		if (!StringUtils.hasText(escoUaiCourant)) {
 			escoUaiCourant = null;
-			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.currentEtabIdInfoKey);
+			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.currentEtabCodeInfoKey);
 		}
 
 		return escoUaiCourant;
@@ -100,14 +100,14 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.hasText(this.etabIdsInfoKey, "No Etab Ids user info key configured !");
-		Assert.hasText(this.currentEtabIdInfoKey, "No Current Etab Id user info key configured !");
+		Assert.hasText(this.etabCodesInfoKey, "No Etab Ids user info key configured !");
+		Assert.hasText(this.currentEtabCodeInfoKey, "No Current Etab Id user info key configured !");
 
-		this.basicUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
-		this.basicUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"0450822X"}));
+		this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
+		this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"0450822X"}));
 
-		this.emptyUserInfoMap.put(this.etabIdsInfoKey, Arrays.asList(new String[]{"1234567b"}));
-		this.emptyUserInfoMap.put(this.currentEtabIdInfoKey, Arrays.asList(new String[]{"1234567B"}));
+		this.emptyUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"1234567b"}));
+		this.emptyUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"1234567B"}));
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 * @return the etabIdsInfoKey
 	 */
 	public String getEtabIdsInfoKey() {
-		return this.etabIdsInfoKey;
+		return this.etabCodesInfoKey;
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 * @param etabIdsInfoKey the etabIdsInfoKey to set
 	 */
 	public void setEtabIdsInfoKey(final String etabIdsInfoKey) {
-		this.etabIdsInfoKey = etabIdsInfoKey;
+		this.etabCodesInfoKey = etabIdsInfoKey;
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 * @return the currentEtabIdInfoKey
 	 */
 	public String getCurrentEtabIdInfoKey() {
-		return this.currentEtabIdInfoKey;
+		return this.currentEtabCodeInfoKey;
 	}
 
 	/**
@@ -176,7 +176,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 * @param currentEtabIdInfoKey the currentEtabIdInfoKey to set
 	 */
 	public void setCurrentEtabIdInfoKey(final String currentEtabIdInfoKey) {
-		this.currentEtabIdInfoKey = currentEtabIdInfoKey;
+		this.currentEtabCodeInfoKey = currentEtabIdInfoKey;
 	}
 
 }
