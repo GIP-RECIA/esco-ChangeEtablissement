@@ -31,9 +31,13 @@ import org.esco.portlet.changeetab.model.Etablissement;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import fr.mby.utils.common.test.LoadRunner;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -77,7 +81,13 @@ public class CachingEtablissementServiceTest {
 	public void setMockedDao(final IEtablissementDao mockedDao) {
 		this.mockedDao = mockedDao;
 		// Init DAO mock
-		Mockito.when(mockedDao.findAllEtablissements()).thenReturn(CachingEtablissementServiceTest.allEtabsFromDao);
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindAllEtablissements();
+			}
+		});
 	}
 
 	@Test
@@ -126,6 +136,52 @@ public class CachingEtablissementServiceTest {
 	public void testRetrieveEtablissementsByUaisWithEmptyParam() throws Exception {
 		final List<String> s = Collections.emptyList();
 		this.service.retrieveEtablissementsByCodes(s);
+	}
+
+	@Test
+	public void loadTestRetrieveSeveralExistingEtabs() throws Exception {
+		this.service.setCachingDuration(100);
+		
+		long startTime = System.currentTimeMillis();
+		
+		int nbIterations = 10000;
+		LoadRunner<CachingEtablissementServiceTest, Void> runner = new LoadRunner<CachingEtablissementServiceTest, Void>(nbIterations, 50, this) {
+
+			@Override
+			protected Void loadTest(CachingEtablissementServiceTest unitTest) throws Exception {
+				
+				final Collection<String> uais = new ArrayList<String>();
+				uais.add(CachingEtablissementServiceTest.UAI_3);
+				uais.add(CachingEtablissementServiceTest.UAI_1);
+
+				final Map<String, Etablissement> etabs = CachingEtablissementServiceTest.this.service.retrieveEtablissementsByCodes(uais);
+
+				Assert.assertNotNull("Should return an empty collection !", etabs);
+				Assert.assertEquals("Should return only one etab !", 2, etabs.size());
+				Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_1));
+				Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_3));
+
+				return null;
+			}
+		};
+		
+		Assert.assertTrue("LoadRunner run failed !", runner.getFinishedTestWithoutErrorCount() == nbIterations);
+		
+		long endTime = System.currentTimeMillis();
+		
+		System.out.println("Test take " + (endTime - startTime) + " ms.");
+	}
+
+	/**
+	 * @return
+	 */
+	private Collection<Etablissement> mockedFindAllEtablissements() {
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return CachingEtablissementServiceTest.allEtabsFromDao;
 	}
 
 }

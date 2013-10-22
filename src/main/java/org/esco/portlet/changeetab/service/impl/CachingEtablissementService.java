@@ -21,12 +21,15 @@ package org.esco.portlet.changeetab.service.impl;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -56,8 +59,16 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	private Duration cachingDuration = Duration.standardHours(1L);
 
 	/** Instant when the cache will be expiring. */
-	private Instant expiringInstant;
-
+	private volatile Instant expiringInstant;
+	
+	/** True if cache is loading. */
+	private volatile boolean loadingInProgress = false;
+	
+	/** Cache Read / Write lock. */
+	private final ReentrantReadWriteLock cacheRwl = new ReentrantReadWriteLock();
+    private final Lock cacheRl = cacheRwl.readLock();
+    private final Lock cacheWl = cacheRwl.writeLock();
+    
 	@Override
 	public Map<String, Etablissement> retrieveEtablissementsByCodes(final Collection<String> codes) {
 		Assert.notEmpty(codes, "No Etablissement code supplied !");
@@ -85,7 +96,15 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 		Etablissement etab = null;
 		
 		final String cacheKey = this.genCacheKey(code);
-		final ValueWrapper cachedValue = this.etablissementCache.get(cacheKey);
+		ValueWrapper cachedValue = null;
+		
+		// Aquire read lock to avoid cache unconsistency
+		this.cacheRl.lock();
+		try {
+			cachedValue = this.etablissementCache.get(cacheKey);
+		} finally {
+			this.cacheRl.unlock();
+		}
 		if (cachedValue == null) {
 			CachingEtablissementService.LOG.warn("No etablissement found in cache for code: [{}] !", code);
 		} else {
@@ -102,25 +121,54 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	}
 
 	/** Laod the etablissement cache if it is expired. */
-	protected synchronized void loadEtablissementCacheIfExpired() {
-		if ((this.expiringInstant == null) || this.expiringInstant.isBeforeNow()) {
-			// If cache expired
+	protected void loadEtablissementCacheIfExpired() {
+		if (this.cacheLoadingNeeded()) {
+			// If cache not initialized or expired
 			this.forceLoadEtablissementCache();
 		}
 	}
 
 	/** Laod the etablissement cache. */
 	protected synchronized void forceLoadEtablissementCache() {
-		this.expiringInstant = new Instant().plus(this.cachingDuration);
-		this.etablissementCache.clear();
+		// Test if another concurrent thread just didn't already load the cache
+		if (this.cacheLoadingNeeded()) {
+			CachingEtablissementService.LOG.debug("Loading etablissement cache...");
+			
+			this.loadingInProgress = true;
+			final Collection<Etablissement> allEtabs = this.etablissementDao.findAllEtablissements();
+			if (allEtabs != null && allEtabs.size() > 0) {
+				// Aquire write lock to avoid cache unconsistency
+				this.cacheWl.lock();
+				try {
+					this.etablissementCache.clear();
+					final Instant refreshedInstant = new Instant().plus(this.cachingDuration);
+					for (final Etablissement etab : allEtabs) {
+						final String etabCacheKey = this.genCacheKey(etab.getCode());
+						this.etablissementCache.put(etabCacheKey, etab);
+					}
+					this.expiringInstant = refreshedInstant;
+					
+					CachingEtablissementService.LOG.debug("Etablissement cache loaded with new expiration time: {}",
+							refreshedInstant.toString());
+				} finally {
+					this.cacheWl.unlock();
+					this.loadingInProgress = false;
+				}
+			}
 
-		final Collection<Etablissement> allEtabs = this.etablissementDao.findAllEtablissements();
-		for (final Etablissement etab : allEtabs) {
-			final String etabCacheKey = this.genCacheKey(etab.getCode());
-			this.etablissementCache.put(etabCacheKey, etab);
 		}
 	}
 
+	/**
+	 * Test if a cache loading is needed.
+	 * Cache loading is needed if Cache is not initialized or is expired and no loading is already in progress.
+	 * 
+	 * @return true if cache loading is needed.
+	 */
+	protected boolean cacheLoadingNeeded() {
+		return this.expiringInstant == null || this.expiringInstant.isBeforeNow() && !this.loadingInProgress;
+	}
+	
 	/**
 	 * Generate an etablissement cache key.
 	 * 
@@ -130,8 +178,8 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	protected String genCacheKey(final String uai) {
 		final StringBuilder cacheKeyBuilder = new StringBuilder(32);
 		cacheKeyBuilder.append(uai.toLowerCase());
-		cacheKeyBuilder.append("_");
-		cacheKeyBuilder.append(this.expiringInstant.getMillis());
+		//cacheKeyBuilder.append("_");
+		//cacheKeyBuilder.append(instant.getMillis());
 
 		return cacheKeyBuilder.toString();
 	}
