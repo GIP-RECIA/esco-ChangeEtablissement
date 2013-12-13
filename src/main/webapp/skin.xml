@@ -2,9 +2,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.jasig.org/uportal/web/skin https://source.jasig.org/schemas/resource-server/skin-configuration/skin-configuration-v1.2.xsd">
 
-	<css included="both" resource="true">/rs/jqueryui/1.8.13/jquery-ui-smoothness-1.8.13.css</css>
-	<!-- <css included="both" resource="true">/rs/jqueryui/1.8.13/jquery-ui-smoothness-1.8.13.min.css</css> -->
-	
+	<css included="both" resource="true">/rs/jqueryui/1.8.13/jquery-ui-1.8.13-smoothness.css</css>
+	<!-- <css included="both" resource="true">/rs/jqueryui/1.8.13/jquery-ui-1.8.13-smoothness.min.css</css> -->
+
 	<css>css/changeEtab.css</css>
 
 	<js included="plain" resource="true">/rs/jquery/1.6.4/jquery-1.6.4.js</js>
@@ -15,7 +15,7 @@
 
 	<js included="aggregated" resource="true">/rs/fluid/1.4.0/fluid-all-1.4.0.min.js</js>
 
-	<!-- Order is important here, the log script needs to be the first thing 
+	<!-- Order is important here, the log script needs to be the first thing
 		followed by the debug toggle -->
 	<js>js/changeEtab.js</js>
 
