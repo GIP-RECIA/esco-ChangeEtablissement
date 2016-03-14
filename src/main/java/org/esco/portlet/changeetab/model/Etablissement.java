@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.model;
 
@@ -26,7 +26,7 @@ public class Etablissement {
 
 	/** Bean Id. */
 	private String id;
-	
+
 	/** Etab code. */
 	private String code;
 
@@ -118,6 +118,24 @@ public class Etablissement {
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Etablissement [id=");
+		builder.append(id);
+		builder.append(", code=");
+		builder.append(code);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

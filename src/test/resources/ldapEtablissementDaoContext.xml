@@ -17,22 +17,27 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
-		<property name="url" value="ldap://localhost:42539" />
-		<property name="userDn" value="" />
-		<property name="password" value="" />
-	</bean>
-	
-	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
-		<property name="contextSource" ref="contextSource" />
-	</bean>
-	
-	<bean id="ldapEtablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
-		<property name="ldapTemplate" ref="ldapTemplate" />
-		<property name="etablissementBase" value="ou=structures,dc=esco-centre,dc=fr" />
-	</bean>
+    <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="url" value="ldap://localhost:42539" />
+        <property name="userDn" value="" />
+        <property name="password" value="" />
+        <property name="pooled" value="false" />
+    </bean>
+
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <property name="contextSource" ref="contextSource" />
+    </bean>
+
+    <bean id="ldapEtablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
+        <property name="ldapTemplate" ref="ldapTemplate" />
+        <property name="etablissementBase" value="ou=structures,dc=esco-centre,dc=fr" />
+        <property name="allEtabsFilter" value="(ObjectClass=ENTEtablissement)" />
+        <property name="etabIdLdapAttr" value="ENTStructureUAI" />
+        <property name="etabNameLdapAttr" value="ENTStructureNomCourant" />
+        <property name="etabDescriptionLdapAttr" value="ENTStructureTypeStruct" />
+    </bean>
 
 </beans>
