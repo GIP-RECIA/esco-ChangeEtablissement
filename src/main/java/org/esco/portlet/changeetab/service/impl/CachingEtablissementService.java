@@ -18,18 +18,11 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -38,6 +31,12 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -75,7 +74,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 
 		final Map<String, Etablissement> etabs = new HashMap<String, Etablissement>(codes.size());
 
-		this.loadEtablissementCacheIfExpired();
+		this.forceLoadEtablissementCache();
 
 		for (final String code : codes) {
 			final Etablissement etab = this.retrieveEtablissementsByCode(code);
@@ -120,21 +119,13 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 		Assert.notNull(this.etablissementCache, "No Etablissement cache configured !");
 	}
 
-	/** Laod the etablissement cache if it is expired. */
-	protected void loadEtablissementCacheIfExpired() {
-		if (this.cacheLoadingNeeded()) {
-			// If cache not initialized or expired
-			this.forceLoadEtablissementCache();
-		}
-	}
-
 	/** Laod the etablissement cache. */
 	protected synchronized void forceLoadEtablissementCache() {
 		// Test if another concurrent thread just didn't already load the cache
 		if (this.cacheLoadingNeeded()) {
-			CachingEtablissementService.LOG.debug("Loading etablissement cache...");
-			
 			this.loadingInProgress = true;
+			CachingEtablissementService.LOG.debug("Loading etablissement cache...");
+
 			final Collection<Etablissement> allEtabs = this.etablissementDao.findAllEtablissements();
 			if (allEtabs != null && allEtabs.size() > 0) {
 				// Aquire write lock to avoid cache unconsistency
@@ -154,6 +145,9 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 					this.cacheWl.unlock();
 					this.loadingInProgress = false;
 				}
+			} else {
+				CachingEtablissementService.LOG.warn("Loading doesn't find any etablissement !");
+				this.loadingInProgress = false;
 			}
 
 		}
@@ -166,7 +160,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	 * @return true if cache loading is needed.
 	 */
 	protected boolean cacheLoadingNeeded() {
-		return this.expiringInstant == null || this.expiringInstant.isBeforeNow() && !this.loadingInProgress;
+		return (this.expiringInstant == null || this.expiringInstant.isBeforeNow()) && !this.loadingInProgress;
 	}
 	
 	/**

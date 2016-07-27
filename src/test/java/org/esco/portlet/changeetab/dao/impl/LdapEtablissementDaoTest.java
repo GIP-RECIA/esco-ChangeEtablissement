@@ -18,8 +18,6 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
-import java.util.Collection;
-
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.junit.Assert;
@@ -32,6 +30,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Collection;
 
 /**
  * FIXME: Unable to load the Apache Directory for the test !
@@ -82,8 +82,6 @@ public class LdapEtablissementDaoTest {
 	}*/
 
 	@Test
-	//@Ignore
-	// FIXME: Unable to load the Apache Directory for the test !
 	public void testFindAllEtablissements() throws Exception {
 		final Collection<Etablissement> etabs = this.dao.findAllEtablissements();
 

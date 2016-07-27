@@ -18,14 +18,11 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.junit.Test;
@@ -33,6 +30,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,6 +45,8 @@ import fr.mby.utils.common.test.LoadRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:cachingEtablissementServiceContext.xml")
 public class CachingEtablissementServiceTest {
+
+	private static final Logger LOG = LoggerFactory.getLogger(CachingEtablissementServiceTest.class);
 
 	private static final String UAI_1 = "UAI_1";
 	private static final String UAI_2 = "UAI_2";
@@ -65,6 +66,8 @@ public class CachingEtablissementServiceTest {
 		CachingEtablissementServiceTest.allEtabsFromDao.add(CachingEtablissementServiceTest.ETAB_3);
 		CachingEtablissementServiceTest.allEtabsFromDao.add(CachingEtablissementServiceTest.ETAB_4);
 	}
+
+	private static final Collection<Etablissement> emptyEtabsFromDao = Collections.emptyList();
 
 	@Autowired
 	private CachingEtablissementService service;
@@ -139,13 +142,110 @@ public class CachingEtablissementServiceTest {
 	}
 
 	@Test
+	public void testRetrieveOneExistingEmptyEtab() throws Exception {
+		final Collection<String> uais = new ArrayList<String>();
+		uais.add(CachingEtablissementServiceTest.UAI_2);
+
+		// Init DAO mock
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindEmptyEtablissements();
+			}
+		});
+
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
+
+		Assert.assertNotNull("Should return an empty collection !", etabs);
+	}
+
+	@Test
+	public void testRetrieveSeveralExistingEmptyEtabs() throws Exception {
+		final Collection<String> uais = new ArrayList<String>();
+		uais.add(CachingEtablissementServiceTest.UAI_3);
+		uais.add(CachingEtablissementServiceTest.UAI_1);
+
+		// Init DAO mock
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindEmptyEtablissements();
+			}
+		});
+
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
+
+		Assert.assertNotNull("Should return an empty collection !", etabs);
+	}
+
+	@Test
+	public void testRetrieveNotExistingEmptyEtab() throws Exception {
+		final Collection<String> uais = new ArrayList<String>();
+		uais.add("NotExistingUai");
+
+		final Map<String, Etablissement> etabs = this.service.retrieveEtablissementsByCodes(uais);
+
+		// Init DAO mock
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindEmptyEtablissements();
+			}
+		});
+
+		Assert.assertNotNull("Should return an empty collection !", etabs);
+		Assert.assertEquals("Should return an empty collection !", 0, etabs.size());
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testRetrieveEmptyEtablissementsByUaisWithNullParam() throws Exception {
+		// Init DAO mock
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindEmptyEtablissements();
+			}
+		});
+
+		this.service.retrieveEtablissementsByCodes(null);
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testRetrieveEmptyEtablissementsByUaisWithEmptyParam() throws Exception {
+		// Init DAO mock
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.mockedFindEmptyEtablissements();
+			}
+		});
+
+		final List<String> s = Collections.emptyList();
+		this.service.retrieveEtablissementsByCodes(s);
+	}
+
+	@Test
 	public void loadTestRetrieveSeveralExistingEtabs() throws Exception {
 		this.service.setCachingDuration(100);
+
+		// define a random on etabs retrived to test when the ldap dao returned errors
+		Mockito.when(mockedDao.findAllEtablissements()).then(new Answer<Collection<Etablissement>>() {
+
+			@Override
+			public Collection<Etablissement> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingEtablissementServiceTest.this.randomMockedFindAllEtablissements();
+			}
+		});
 		
 		long startTime = System.currentTimeMillis();
 		
-		int nbIterations = 10000;
-		LoadRunner<CachingEtablissementServiceTest, Void> runner = new LoadRunner<CachingEtablissementServiceTest, Void>(nbIterations, 50, this) {
+		int nbIterations = 100000;
+		LoadRunner<CachingEtablissementServiceTest, Void> runner = new LoadRunner<CachingEtablissementServiceTest, Void>(nbIterations, 100, this) {
 
 			@Override
 			protected Void loadTest(CachingEtablissementServiceTest unitTest) throws Exception {
@@ -157,9 +257,12 @@ public class CachingEtablissementServiceTest {
 				final Map<String, Etablissement> etabs = CachingEtablissementServiceTest.this.service.retrieveEtablissementsByCodes(uais);
 
 				Assert.assertNotNull("Should return an empty collection !", etabs);
-				Assert.assertEquals("Should return only one etab !", 2, etabs.size());
-				Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_1));
-				Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_3));
+				//Manage the case of the randomMockedFindAllEtablissements returned 0 etabs
+				if (etabs.size() != 0) {
+					Assert.assertEquals("Should return only one etab !", 2, etabs.size());
+					Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_1));
+					Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingEtablissementServiceTest.ETAB_3));
+				}
 
 				return null;
 			}
@@ -168,8 +271,8 @@ public class CachingEtablissementServiceTest {
 		Assert.assertTrue("LoadRunner run failed !", runner.getFinishedTestWithoutErrorCount() == nbIterations);
 		
 		long endTime = System.currentTimeMillis();
-		
-		System.out.println("Test take " + (endTime - startTime) + " ms.");
+
+		LOG.info("Test take {} ms.", (endTime - startTime));
 	}
 
 	/**
@@ -182,6 +285,37 @@ public class CachingEtablissementServiceTest {
 			e.printStackTrace();
 		}
 		return CachingEtablissementServiceTest.allEtabsFromDao;
+	}
+
+	/**
+	 * @return
+	 */
+	private Collection<Etablissement> mockedFindEmptyEtablissements() {
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		return CachingEtablissementServiceTest.emptyEtabsFromDao;
+	}
+
+	/**
+	 * @return
+	 */
+	private Collection<Etablissement> randomMockedFindAllEtablissements() {
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		Random random = new Random();
+		int n = random.nextInt(10);
+		if (n > 7) {
+			LOG.debug("MockDao returns all Etabs");
+			return CachingEtablissementServiceTest.allEtabsFromDao;
+		}
+		LOG.debug("MockDao returns empty Etabs");
+		return CachingEtablissementServiceTest.emptyEtabsFromDao;
 	}
 
 }
