@@ -40,7 +40,10 @@
 	</bean>
 	
 	<!-- etablissement DAO Mock -->
-	<mockito:mock id="mockEtablissementsDao" class="org.esco.portlet.changeetab.dao.IEtablissementDao" />
+	<bean id="mockEtablissementsDao" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="org.esco.portlet.changeetab.dao.IEtablissementDao" />
+	</bean>
+	<!--<mockito:mock id="mockEtablissementsDao" class="org.esco.portlet.changeetab.dao.IEtablissementDao" />-->
 	
 	<!-- Tested service -->
 	<bean id="cachingEtablissementService"

@@ -24,7 +24,7 @@
         <property name="url" value="ldap://localhost:42539" />
         <property name="userDn" value="" />
         <property name="password" value="" />
-        <property name="pooled" value="false" />
+        <property name="pooled" value="true" />
     </bean>
 
     <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
