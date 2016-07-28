@@ -120,4 +120,11 @@
         </property>
     </bean>
 
+    <!--<bean id="httpClientFactory"-->
+          <!--class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory" />-->
+
+    <!--<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">-->
+        <!--<constructor-arg ref="httpClientFactory" />-->
+    <!--</bean>-->
+
 </beans>
