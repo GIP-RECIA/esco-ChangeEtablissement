@@ -16,7 +16,7 @@
 /**
  * 
  */
-package org.esco.portlet.changeetab.mvc;
+package org.esco.portlet.changeetab.web;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.

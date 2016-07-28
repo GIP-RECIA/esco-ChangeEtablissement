@@ -7,11 +7,15 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd  
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<context:component-scan base-package="org.esco.portlet.changeetab.mvc.controller" />
+	<context:component-scan base-package="org.esco.portlet.changeetab.web.controller" />
 	<context:annotation-config />
 
+	<!-- JSP view resolver -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		  p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
 	<!-- 
-	<bean id="homeController" class="org.esco.portlet.changeetab.mvc.controller.ChangeEtablissementController" />
+	<bean id="homeController" class="org.esco.portlet.changeetab.web.controller.ChangeEtablissementController" />
 
 	<bean id="portletModeHandlerMapping"
 		class="org.springframework.web.portlet.handler.PortletModeHandlerMapping">

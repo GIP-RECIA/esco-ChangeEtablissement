@@ -16,7 +16,7 @@
 /**
  * 
  */
-package org.esco.portlet.changeetab.mvc.controller;
+package org.esco.portlet.changeetab.web.controller;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,7 +27,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.esco.portlet.changeetab.model.Etablissement;
-import org.esco.portlet.changeetab.mvc.ChangeEtabCommand;
+import org.esco.portlet.changeetab.web.ChangeEtabCommand;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.esco.portlet.changeetab.service.IUserInfoService;
 import org.esco.portlet.changeetab.service.IUserService;

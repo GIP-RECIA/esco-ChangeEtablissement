@@ -1,12 +1,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:ehcache="http://www.springmodules.org/schema/ehcache" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:jee="http://www.springframework.org/schema/jee"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-	http://www.springmodules.org/schema/ehcache http://www.springmodules.org/schema/cache/springmodules-ehcache.xsd
-	http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd">
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
 	<!-- | APP CONFIGURATION + -->
 
@@ -111,28 +107,17 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basenames="i18n/messages" p:useCodeAsDefaultMessage="true" />
 
-	<!-- | View resolvers, look for a named view bean before going to JSP resolution
-		+ -->
-<!--
-	<bean class="org.springframework.web.servlet.view.XmlViewResolver"
-		p:order="0" p:location="/WEB-INF/context/views.xml" />
- -->
-
-	<!-- JSP view resolver -->
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
-
-	<!-- Abstract Default Exception Handler Bean -->
-	<bean id="defaultExceptionHandlerTemplate"
-		class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver"
-		abstract="true">
-		<property name="defaultErrorView" value="defError" />
-		<property name="exceptionMappings">
-			<props>
-				<prop key="javax.portlet.PortletSecurityException">notAuthorized</prop>
-				<prop key="javax.portlet.UnavailableException">notAvailable</prop>
-			</props>
-		</property>
-	</bean>
+    <!-- Abstract Default Exception Handler Bean -->
+    <bean id="defaultExceptionHandlerTemplate"
+          class="org.springframework.web.portlet.handler.SimpleMappingExceptionResolver"
+          abstract="true">
+        <property name="defaultErrorView" value="defError" />
+        <property name="exceptionMappings">
+            <props>
+                <prop key="javax.portlet.PortletSecurityException">notAuthorized</prop>
+                <prop key="javax.portlet.UnavailableException">notAvailable</prop>
+            </props>
+        </property>
+    </bean>
 
 </beans>

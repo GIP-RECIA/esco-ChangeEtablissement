@@ -93,10 +93,12 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 		Assert.hasText(code, "No Etablissement code supplied !");
 		
 		Etablissement etab = null;
-		
+
+		this.forceLoadEtablissementCache();
+
 		final String cacheKey = this.genCacheKey(code);
 		ValueWrapper cachedValue = null;
-		
+
 		// Aquire read lock to avoid cache unconsistency
 		this.cacheRl.lock();
 		try {
@@ -134,6 +136,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 					this.etablissementCache.clear();
 					final Instant refreshedInstant = new Instant().plus(this.cachingDuration);
 					for (final Etablissement etab : allEtabs) {
+						CachingEtablissementService.LOG.debug("Adding to cache : {}", etab);
 						final String etabCacheKey = this.genCacheKey(etab.getCode());
 						this.etablissementCache.put(etabCacheKey, etab);
 					}
