@@ -18,11 +18,8 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
-import java.util.*;
-
+import fr.mby.utils.common.test.LoadRunner;
 import junit.framework.Assert;
-
-import org.apache.commons.lang.math.RandomUtils;
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.junit.Test;
@@ -36,7 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.mby.utils.common.test.LoadRunner;
+import java.util.*;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -53,10 +50,10 @@ public class CachingEtablissementServiceTest {
 	private static final String UAI_3 = "UAI_3";
 	private static final String UAI_4 = "UAI_4";
 
-	private static final Etablissement ETAB_1 = new Etablissement("1", CachingEtablissementServiceTest.UAI_1, "name1", "desc1");
-	private static final Etablissement ETAB_2 = new Etablissement("2", CachingEtablissementServiceTest.UAI_2, "name2", "desc2");
-	private static final Etablissement ETAB_3 = new Etablissement("3", CachingEtablissementServiceTest.UAI_3, "name3", "desc3");
-	private static final Etablissement ETAB_4 = new Etablissement("4", CachingEtablissementServiceTest.UAI_4, "name4", "desc4");
+	private static final Etablissement ETAB_1 = new Etablissement("1", CachingEtablissementServiceTest.UAI_1, "name1", "name1", "desc1");
+	private static final Etablissement ETAB_2 = new Etablissement("2", CachingEtablissementServiceTest.UAI_2, "name2", "name2", "desc2");
+	private static final Etablissement ETAB_3 = new Etablissement("3", CachingEtablissementServiceTest.UAI_3, "name3", "name3", "desc3");
+	private static final Etablissement ETAB_4 = new Etablissement("4", CachingEtablissementServiceTest.UAI_4, "name4", "name4", "desc4");
 
 	/** All etabs returned by mocked DAo. */
 	private static final Collection<Etablissement> allEtabsFromDao = new ArrayList<Etablissement>(8);

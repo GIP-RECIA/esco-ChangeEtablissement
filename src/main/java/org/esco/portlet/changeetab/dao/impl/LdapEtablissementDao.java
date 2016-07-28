@@ -18,11 +18,8 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
+import org.esco.portlet.changeetab.dao.bean.IEtablissementFormatter;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -48,10 +49,15 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 
 	private String etabNameLdapAttr;
 
+	private String etabDisplayNameLdapAttr;
+
 	private String etabDescriptionLdapAttr;
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
+
+	@Autowired(required = false)
+	private List<IEtablissementFormatter> etablissementFormatters;
 
 	/** Etablissements Ldap base. */
 	private String etablissementBase;
@@ -64,7 +70,8 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 		List<Etablissement> allEtabs;
 		try {
 			allEtabs = this.ldapTemplate.search(this.etablissementBase,
-				this.allEtabsFilter, new EtablissementAttributesMapper(this.etabIdLdapAttr, this.etabNameLdapAttr, this.etabDescriptionLdapAttr));
+				this.allEtabsFilter, new EtablissementAttributesMapper(this.etabIdLdapAttr, this.etabNameLdapAttr, this.etabDisplayNameLdapAttr, this.etabDescriptionLdapAttr,
+							this.etablissementFormatters));
 		} catch (final Exception e) {
 			// We catch all exceptions, cause we don't want our portlet to block the portal.
 			LOG.error("Error while searching for establishments in LDAP !", e);
@@ -84,6 +91,7 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 		Assert.hasText(this.allEtabsFilter, "No 'all etabs' Ldap filter configured !");
 		Assert.hasText(this.etabIdLdapAttr, "No etablissement Id Ldap attribute configured !");
 		Assert.hasText(this.etabNameLdapAttr, "No etablissement Name Ldap attribute configured !");
+		Assert.hasText(this.etabDisplayNameLdapAttr, "No etablissement DisplayName Ldap attribute configured !");
 		Assert.hasText(this.etabDescriptionLdapAttr, "No etablissement Description Ldap attribute configured !");
 	}
 
@@ -124,6 +132,24 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	}
 
 	/**
+	 * Getter of etablissementFormatters.
+	 *
+	 * @return the etablissementFormatters
+	 */
+	public List<IEtablissementFormatter> getEtablissementFormatters() {
+		return etablissementFormatters;
+	}
+
+	/**
+	 * Setter of etablissementFormatters.
+	 *
+	 * @param etablissementFormatters the etablissementFormatters to set
+	 */
+	public void setEtablissementFormatters(List<IEtablissementFormatter> etablissementFormatters) {
+		this.etablissementFormatters = etablissementFormatters;
+	}
+
+	/**
 	 * Getter of etabIdLdapAttr.
 	 *
 	 * @return the etabIdLdapAttr
@@ -157,6 +183,24 @@ public class LdapEtablissementDao implements IEtablissementDao, InitializingBean
 	 */
 	public void setEtabNameLdapAttr(final String etabNameLdapAttr) {
 		this.etabNameLdapAttr = etabNameLdapAttr;
+	}
+
+	/**
+	 * Getter of etabDisplayNameLdapAttr.
+	 *
+	 * @return the etabDisplayNameLdapAttr
+	 */
+	public String getEtabDisplayNameLdapAttr() {
+		return etabDisplayNameLdapAttr;
+	}
+
+	/**
+	 * Setter of etabDisplayNameLdapAttr.
+	 *
+	 * @param etabDisplayNameLdapAttr the etabDisplayNameLdapAttr to set
+	 */
+	public void setEtabDisplayNameLdapAttr(String etabDisplayNameLdapAttr) {
+		this.etabDisplayNameLdapAttr = etabDisplayNameLdapAttr;
 	}
 
 	/**

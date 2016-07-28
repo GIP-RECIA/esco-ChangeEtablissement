@@ -33,6 +33,9 @@ public class Etablissement {
 	/** Etab name. */
 	private String name;
 
+	/** Etab displayName. */
+	private String displayName;
+
 	/** Etab description. */
 	private String description;
 
@@ -40,11 +43,12 @@ public class Etablissement {
 		super();
 	}
 
-	public Etablissement(final String id, final String code, final String name, final String description) {
+	public Etablissement(final String id, final String code, final String name, final String displayName, final String description) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.name = name;
+		this.displayName = displayName;
 		this.description = description;
 	}
 
@@ -103,6 +107,24 @@ public class Etablissement {
 	}
 
 	/**
+	 * Getter of displayName.
+	 *
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * Setter of displayName.
+	 *
+	 * @param displayName the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	/**
 	 * Getter of description.
 	 *
 	 * @return the description
@@ -132,6 +154,8 @@ public class Etablissement {
 		builder.append(code);
 		builder.append(", name=");
 		builder.append(name);
+		builder.append(", displayName=");
+		builder.append(displayName);
 		builder.append(", description=");
 		builder.append(description);
 		builder.append("]");

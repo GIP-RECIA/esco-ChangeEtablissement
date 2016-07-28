@@ -48,8 +48,22 @@
     	<property name="allEtabsFilter" value="${ldap.read.filter.allEtablissements}" />
     	<property name="etabIdLdapAttr" value="${ldap.read.attribute.etablissementId}" />
     	<property name="etabNameLdapAttr" value="${ldap.read.attribute.etablissementName}" />
+    	<property name="etabDisplayNameLdapAttr" value="${ldap.read.attribute.etablissementDisplayName}" />
     	<property name="etabDescriptionLdapAttr" value="${ldap.read.attribute.etablissementDescription}" />
-
+        <property name="etablissementFormatters">
+            <list>
+                <!-- Pour les lycées et CLG remplacement du premier - par un espace (afin d'avoir "CLG MONTRESOR") et supression de la chaîne -ac-ORL._TOURS -->
+                <bean class="org.esco.portlet.changeetab.dao.bean.LdapEtablissementDisplayNameFormater">
+                    <property name="groupsRegex" value="[^-]*(-).*(-ac-ORL._TOURS)" />
+                    <property name="indexListReplacement">
+                        <util:map>
+                            <entry key="1" value=" " />
+                            <entry key="2" value="" />
+                        </util:map>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="userDao" class="org.esco.portlet.changeetab.dao.impl.LdapUserDao">

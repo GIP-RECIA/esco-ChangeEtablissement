@@ -34,11 +34,11 @@
 		<span>
 		<form:select class="changeEtab-select" path="selectedEtabCode" >
 			<optgroup label="${msgEtabCurrentMessage}">
-				<form:option value="currentEtab" label="--- ${currentEtab.name} ---" />
+				<form:option value="currentEtab" label="${currentEtab.displayName}" />
 			</optgroup>
 			<%-- <form:option value="EMPTY" label="" /> --%>
 			<optgroup label="${msgEtabChangeMessage}" >
-				<form:options items="${etabs}" itemValue="code" itemLabel="name" />
+				<form:options items="${etabs}" itemValue="code" itemLabel="displayName" />
 			</optgroup>
 		</form:select>
 
@@ -55,7 +55,7 @@
 <span class="${n}container2 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
 	<span>
-		${msgEtabCurrentMessage} ${currentEtab.name} 
+		${msgEtabCurrentMessage} ${currentEtab.displayName}
 	</span>
 	<span class="changeEtab-button">
 		<a href="#" onclick="return false;">${msgEtabChangeAction}</a>
@@ -69,7 +69,7 @@
 			<div class="fl-widget">
 				<div class="">
 					<form:radiobutton id="${n}2radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
-					<label for="${n}2radio${etab.code}">${etab.name}</label>
+					<label for="${n}2radio${etab.code}">${etab.displayName}</label>
 				</div>
 			</div>
 			</c:forEach>
@@ -100,7 +100,7 @@
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
 					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
-					<label for="${n}3radio${etab.code}">${etab.name}</label>
+					<label for="${n}3radio${etab.code}">${etab.displayName}</label>
 				</div>
 			</div>
 			</c:forEach>
@@ -129,7 +129,7 @@
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
 					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
-					<label for="${n}3radio${etab.code}">${etab.name}</label>
+					<label for="${n}3radio${etab.code}">${etab.displayName}</label>
 				</div>
 			</div>
 			</c:forEach>

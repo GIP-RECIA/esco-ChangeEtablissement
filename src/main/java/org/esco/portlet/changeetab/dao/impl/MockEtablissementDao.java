@@ -18,15 +18,15 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -43,11 +43,11 @@ public class MockEtablissementDao implements IEtablissementDao, InitializingBean
 		MockEtablissementDao.LOG.debug("Finding all etablissements ...");
 
 		final Collection<Etablissement> allEtabs = new HashSet<Etablissement>(8);
-		allEtabs.add(new Etablissement("1234567A", "1234567a", "Etab A", "Desc A"));
-		allEtabs.add(new Etablissement("1234567B", "1234567b", "Etab B", "Desc B"));
-		allEtabs.add(new Etablissement("1234567C", "1234567c", "Etab C", "Desc C"));
-		allEtabs.add(new Etablissement("1234567D", "1234567d", "Etab D", "Desc D"));
-		allEtabs.add(new Etablissement("1234567E", "1234567e", "Etab E", "Desc E"));
+		allEtabs.add(new Etablissement("1234567A", "1234567a", "Etab A", "Etab A", "Desc A"));
+		allEtabs.add(new Etablissement("1234567B", "1234567b", "Etab B", "Etab B", "Desc B"));
+		allEtabs.add(new Etablissement("1234567C", "1234567c", "Etab C", "Etab C", "Desc C"));
+		allEtabs.add(new Etablissement("1234567D", "1234567d", "Etab D", "Etab D", "Desc D"));
+		allEtabs.add(new Etablissement("1234567E", "1234567e", "Etab E", "Etab E", "Desc E"));
 
 		MockEtablissementDao.LOG.debug("{} etablissements found.", allEtabs.size());
 

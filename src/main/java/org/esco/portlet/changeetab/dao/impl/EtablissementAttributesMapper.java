@@ -18,12 +18,15 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
-import javax.naming.NamingException;
-import javax.naming.directory.Attributes;
-
+import org.esco.portlet.changeetab.dao.bean.IEtablissementFormatter;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.util.Assert;
+
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+import java.util.List;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -35,37 +38,59 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 
 	private final String nameAttrKey;
 
+	private final String displayNameAttrKey;
+
 	private final String descriptionAttrKey;
+
+	private List<IEtablissementFormatter> etablissementFormatters;
 
 	/**
 	 * @param idAttrKey
 	 * @param nameAttrKey
+	 * @param displayNameAttrKey
 	 * @param descriptionAttrKey
 	 */
 	public EtablissementAttributesMapper(final String idAttrKey, final String nameAttrKey,
-			final String descriptionAttrKey) {
+										 final String displayNameAttrKey, final String descriptionAttrKey,
+										 List<IEtablissementFormatter> etablissementFormatters) {
 		super();
 
 		Assert.hasText(idAttrKey, "Etab Id LDAP attr key not supplied !");
 		Assert.hasText(nameAttrKey, "Etab Name LDAP attr key not supplied !");
+		Assert.hasText(displayNameAttrKey, "Etab DisplayName LDAP attr key not supplied !");
 		Assert.hasText(descriptionAttrKey, "Etab Description LDAP attr key not supplied !");
 
 		this.idAttrKey = idAttrKey;
 		this.nameAttrKey = nameAttrKey;
+		this.displayNameAttrKey = displayNameAttrKey;
 		this.descriptionAttrKey = descriptionAttrKey;
+		this.etablissementFormatters = etablissementFormatters;
 	}
 
 	@Override
 	public Object mapFromAttributes(final Attributes attrs) throws NamingException {
-		final Etablissement etab = new Etablissement();
+		Etablissement etab = new Etablissement();
 
 		etab.setId((String) attrs.get(this.idAttrKey).get());
 		etab.setCode(etab.getId().toLowerCase());
 		etab.setName((String) attrs.get(this.nameAttrKey).get());
 		etab.setDescription((String) attrs.get(this.descriptionAttrKey).get());
+		// managing a Etablissement displayName if was defined
+		Attribute displayNameAttr = attrs.get(this.displayNameAttrKey);
+		if (displayNameAttr != null) {
+			etab.setDisplayName((String) displayNameAttr.get());
+		}
+		// managing a cutomDisplayName from Name if displayName was not set
+		if (etab.getDisplayName() == null || etab.getDisplayName().isEmpty()) {
+			etab.setDisplayName(etab.getName());
+			for (IEtablissementFormatter formatter : this.etablissementFormatters) {
+				etab = formatter.format(etab);
+			}
+		}
 
 		Assert.hasText(etab.getId(), "No UAI attribute found in LDAP for Etablissement !");
 		Assert.hasText(etab.getName(), "No Name attribute found in LDAP for Etablissement !");
+		Assert.hasText(etab.getDisplayName(), "No DisplayName attribute found in LDAP for Etablissement !");
 		Assert.hasText(etab.getDescription(), "No Description attribute found in LDAP for Etablissement !");
 
 		return etab;

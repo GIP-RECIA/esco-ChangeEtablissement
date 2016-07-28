@@ -45,7 +45,7 @@ dn: ENTStructureSIREN=74539856210245,ou=structures,dc=esco-centre,dc=fr
 objectClass: ENTEtablissement
 objectClass: ENTStructure
 objectClass: OrganizationalUnit
-ENTStructureNomCourant: LGT Marcel Renault
+ENTStructureNomCourant: LGT Marcel Renault-ORL._TOURS
 ENTStructureSIREN: 74539856210245
 ou: LGT Marcel Renault
 ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
@@ -55,7 +55,7 @@ dn: ENTStructureSIREN=96478532698745,ou=structures,dc=esco-centre,dc=fr
 objectClass: ENTEtablissement
 objectClass: ENTStructure
 objectClass: OrganizationalUnit
-ENTStructureNomCourant: LP Maxime Bossard
+ENTStructureNomCourant: LP Maxime Bossard-ORL._TOURS
 ENTStructureSIREN: 96478532698745
 ou: LP Maxime Bossard
 ENTStructureTypeStruct: LYCEE PROFESSIONNEL

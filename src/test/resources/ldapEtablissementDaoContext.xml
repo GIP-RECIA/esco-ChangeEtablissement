@@ -37,7 +37,22 @@
         <property name="allEtabsFilter" value="(ObjectClass=ENTEtablissement)" />
         <property name="etabIdLdapAttr" value="ENTStructureUAI" />
         <property name="etabNameLdapAttr" value="ENTStructureNomCourant" />
+        <property name="etabDisplayNameLdapAttr" value="ESCOStructureNomCourt" />
         <property name="etabDescriptionLdapAttr" value="ENTStructureTypeStruct" />
+        <property name="etablissementFormatters">
+            <list>
+                <!-- Pour les lycées et CLG remplacement du premier - par un espace (afin d'avoir "CLG MONTRESOR") et supression de la chaîne -ac-ORL._TOURS -->
+                <!--<bean class="org.esco.portlet.changeetab.dao.bean.LdapEtablissementDisplayNameFormater">-->
+                    <!--<property name="groupsRegex" value="[^-]*(-).*(-ac-ORL._TOURS)" />-->
+                    <!--<property name="indexListReplacement">-->
+                        <!--<util:map>-->
+                            <!--<entry key="1" value=" " />-->
+                            <!--<entry key="2" value="" />-->
+                        <!--</util:map>-->
+                    <!--</property>-->
+                <!--</bean>-->
+            </list>
+        </property>
     </bean>
 
 </beans>
