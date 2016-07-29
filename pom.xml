@@ -425,9 +425,9 @@
                             <groupId>org.jasig.resourceserver</groupId>
                             <artifactId>resource-server-content</artifactId>
                             <includes>
-                                <include>${basedir}/src/main/webapp/rs/jquery/1.6.4/</include>
-                                <include>${basedir}/src/main/webapp/rs/jqueryui/1.8.13/</include>
-                                <include>${basedir}/src/main/webapp/rs/fluid/1.4.0/</include>
+                                <include>${basedir}/src/main/webapp/rs/jquery/1.10.2/</include>
+                                <include>${basedir}/src/main/webapp/rs/jqueryui/1.10.3/</include>
+                                <include>${basedir}/src/main/webapp/rs/fluid/1.5.0/</include>
                             </includes>
                         </overlay>
                     </overlays>
