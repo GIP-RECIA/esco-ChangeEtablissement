@@ -18,19 +18,11 @@
  */
 package org.esco.portlet.changeetab.web.controller;
 
-import java.util.Collection;
-import java.util.Map;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-
 import org.esco.portlet.changeetab.model.Etablissement;
-import org.esco.portlet.changeetab.web.ChangeEtabCommand;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.esco.portlet.changeetab.service.IUserInfoService;
 import org.esco.portlet.changeetab.service.IUserService;
+import org.esco.portlet.changeetab.web.ChangeEtabCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,6 +35,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -63,11 +62,16 @@ public class ChangeEtablissementController implements InitializingBean {
 
 	private static final String DISPLAY_MODE_KEY = "displayMode";
 
+	private static final String FORCE_DISPLAY_CURRENT_ETAB_KEY = "displayCurrentEtab";
+
 	@Value("${redirectAfterChange:false}")
 	private boolean redirectAfterChange = false;
 
 	@Value("${logoutUrlRedirect:null}")
 	private String logoutUrlRedirect;
+
+	@Value("${atLeastShowCurrentEtab:false}")
+	private String showCurrentEtab;
 
 	@Autowired
 	private IUserInfoService userInfoService;
@@ -134,6 +138,14 @@ public class ChangeEtablissementController implements InitializingBean {
 		}
 
 		mv.addObject(ChangeEtablissementController.DISPLAY_PORTLET_KEY, display);
+
+		// In this case we force to show the only One Etab associated to the user (if codeEtab is not empty)
+		if (StringUtils.hasText(currentEtabCode) && !display) {
+			final Etablissement currentEtab = this.etablissementService.retrieveEtablissementsByCode(currentEtabCode);
+
+			mv.addObject(ChangeEtablissementController.CURRENT_ETAB_KEY, currentEtab);
+			mv.addObject(ChangeEtablissementController.FORCE_DISPLAY_CURRENT_ETAB_KEY, true);
+		}
 
 		mv.addObject(ChangeEtablissementController.DISPLAY_MODE_KEY,
 				request.getPreferences().getValue(ChangeEtablissementController.DISPLAY_MODE_KEY, "All"));

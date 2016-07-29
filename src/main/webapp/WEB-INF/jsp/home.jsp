@@ -24,12 +24,17 @@
 
 <portlet:actionURL var="changeEtabAction" name="changeEtab" />
 
+<%------------ DISPLAY Current Etablissement only --------------%>
+
+<c:if test="${displayCurrentEtab && !displayPortlet}">
+	<span class="currentEtab changeEtabPortlet">${currentEtab.displayName}</span>
+</c:if>
+
 <%------------ DISPLAY MODE 1 : Select Box ------------%>
 
 <c:if test="${displayMode == 'All' || displayMode == '1'}">
 <span class="${n}container1 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
-
 	<form:form method="post" action="${changeEtabAction}">
 		<span>
 		<form:select class="changeEtab-select" path="selectedEtabCode" >

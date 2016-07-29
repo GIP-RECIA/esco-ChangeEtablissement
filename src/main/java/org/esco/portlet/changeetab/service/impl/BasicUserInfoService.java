@@ -18,22 +18,15 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
-import javax.portlet.PortletRequest;
-
 import org.esco.portlet.changeetab.service.IUserInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+
+import javax.portlet.PortletRequest;
+import java.util.*;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -104,6 +97,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		Assert.hasText(this.currentEtabCodeInfoKey, "No Current Etab Id user info key configured !");
 
 		this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
+		//this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x"}));
 		this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"0450822X"}));
 
 		this.emptyUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"1234567b"}));
@@ -115,7 +109,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 * if the system property testEnv = true.
 	 *
 	 * @param request the portlet request
-	 * @param atributeName the attribute to retrieve
+	 * @param attributeName the attribute to retrieve
 	 * @return the user info attribute values
 	 */
 	@SuppressWarnings("unchecked")
