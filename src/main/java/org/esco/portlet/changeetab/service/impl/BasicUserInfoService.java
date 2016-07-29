@@ -96,9 +96,14 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		Assert.hasText(this.etabCodesInfoKey, "No Etab Ids user info key configured !");
 		Assert.hasText(this.currentEtabCodeInfoKey, "No Current Etab Id user info key configured !");
 
-		this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
-		//this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x"}));
-		this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"0450822X"}));
+		//this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
+		//this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"0450822X"}));
+
+		final String[] etabs = System.getProperty("etablissement-swapper.userEtabs","0450822x,0333333y,0377777U").split(",");
+		final String[] current = System.getProperty("etablissement-swapper.userCurrentEtab","0450822X").split(",");
+		this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(etabs));
+		this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(current));
+		BasicUserInfoService.LOG.debug("basicUserInfoMap : {}", this.basicUserInfoMap);
 
 		this.emptyUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"1234567b"}));
 		this.emptyUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"1234567B"}));
@@ -106,7 +111,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	/**
 	 * Retrieve the user info attribute from portlet context, or the Mocked user info
-	 * if the system property testEnv = true.
+	 * if the system property etablissement-swapper.testEnv = true.
 	 *
 	 * @param request the portlet request
 	 * @param attributeName the attribute to retrieve
@@ -117,7 +122,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		Map<String, List<String>> userInfo =
 				(Map<String, List<String>>) request.getAttribute("org.jasig.portlet.USER_INFO_MULTIVALUED");
 
-		if ((userInfo == null) && "true".equals(System.getProperty("testEnv"))) {
+		if ((userInfo == null) && "true".equals(System.getProperty("etablissement-swapper.testEnv"))) {
 			userInfo = this.testUserInfoMap;
 		}
 

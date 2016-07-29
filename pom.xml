@@ -479,8 +479,16 @@
                     <systemProperties>
                         <!-- Indicate to the JVM we are in test environment -->
                         <systemProperty>
-                            <name>testEnv</name>
+                            <name>etablissement-swapper.testEnv</name>
                             <value>true</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>etablissement-swapper.userEtabs</name>
+                            <value>0450822X,0333333Y,0377777U,0410017W,0450080T,0180045B</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>etablissement-swapper.userCurrentEtab</name>
+                            <value>0450080T</value>
                         </systemProperty>
                         <systemProperty>
                             <name>file.encoding</name>

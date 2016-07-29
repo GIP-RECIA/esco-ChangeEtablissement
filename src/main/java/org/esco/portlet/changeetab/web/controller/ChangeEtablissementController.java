@@ -70,9 +70,6 @@ public class ChangeEtablissementController implements InitializingBean {
 	@Value("${logoutUrlRedirect:null}")
 	private String logoutUrlRedirect;
 
-	@Value("${atLeastShowCurrentEtab:false}")
-	private String showCurrentEtab;
-
 	@Autowired
 	private IUserInfoService userInfoService;
 
@@ -143,8 +140,12 @@ public class ChangeEtablissementController implements InitializingBean {
 		if (StringUtils.hasText(currentEtabCode) && !display) {
 			final Etablissement currentEtab = this.etablissementService.retrieveEtablissementsByCode(currentEtabCode);
 
+			final String forceDisplay = request.getPreferences().getValue(ChangeEtablissementController.FORCE_DISPLAY_CURRENT_ETAB_KEY, "false");
+
+			ChangeEtablissementController.LOG.debug("Force current etablissement display = {}, with etablissement {}", forceDisplay, currentEtab);
+
 			mv.addObject(ChangeEtablissementController.CURRENT_ETAB_KEY, currentEtab);
-			mv.addObject(ChangeEtablissementController.FORCE_DISPLAY_CURRENT_ETAB_KEY, true);
+			mv.addObject(ChangeEtablissementController.FORCE_DISPLAY_CURRENT_ETAB_KEY, forceDisplay);
 		}
 
 		mv.addObject(ChangeEtablissementController.DISPLAY_MODE_KEY,
