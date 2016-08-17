@@ -27,7 +27,7 @@
 <%------------ DISPLAY Current Etablissement only --------------%>
 
 <c:if test="${displayCurrentEtab && !displayPortlet}">
-	<span class="currentEtab changeEtabPortlet">${currentEtab.displayName}</span>
+	<span class="${n}currentEtab changeEtabPortlet">${currentEtab.displayName}</span>
 </c:if>
 
 <%------------ DISPLAY MODE 1 : Select Box ------------%>

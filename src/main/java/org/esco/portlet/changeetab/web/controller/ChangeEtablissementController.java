@@ -64,6 +64,8 @@ public class ChangeEtablissementController implements InitializingBean {
 
 	private static final String FORCE_DISPLAY_CURRENT_ETAB_KEY = "displayCurrentEtab";
 
+	private static final String DISPLAY_ONLY_CURRENT_ETAB_KEY = "displayOnlyCurrentEtab";
+
 	@Value("${redirectAfterChange:false}")
 	private boolean redirectAfterChange = false;
 
@@ -114,12 +116,28 @@ public class ChangeEtablissementController implements InitializingBean {
 	@RequestMapping
 	public ModelAndView handleRenderRequest(final RenderRequest request, final RenderResponse response) throws Exception {
 		ChangeEtablissementController.LOG.debug("Rendering Change Etablissement portlet View...");
+		final boolean displayOnlyCurrent = Boolean.parseBoolean(request.getPreferences().getValue(ChangeEtablissementController.DISPLAY_ONLY_CURRENT_ETAB_KEY, "false"));
 
 		boolean display = false;
-		final ModelAndView mv = new ModelAndView("home");
 
 		final String currentEtabCode = this.userInfoService.getCurrentEtabCode(request);
 		final Collection<String> changeableEtabCodes = this.userInfoService.getChangeableEtabCodes(request);
+
+		// Case of only showing the current etab
+		if (displayOnlyCurrent) {
+			final ModelAndView mv = new ModelAndView("showEtab");
+			if (StringUtils.hasText(currentEtabCode)) {
+				final Etablissement currentEtab = this.etablissementService.retrieveEtablissementsByCode(currentEtabCode);
+
+				ChangeEtablissementController.LOG.debug("Show only current etablissement {}", currentEtab);
+
+				mv.addObject(ChangeEtablissementController.CURRENT_ETAB_KEY, currentEtab);
+			}
+			return mv;
+		}
+
+		// Case of showing the change current etab features
+		final ModelAndView mv = new ModelAndView("home");
 
 		if ((StringUtils.hasText(currentEtabCode)) && !changeableEtabCodes.isEmpty()) {
 			final Map<String, Etablissement> changeableEtabs = this.etablissementService.retrieveEtablissementsByCodes(changeableEtabCodes);
