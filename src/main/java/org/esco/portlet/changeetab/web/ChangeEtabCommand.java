@@ -28,6 +28,10 @@ public class ChangeEtabCommand {
 
 	private String selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
 
+	public ChangeEtabCommand() {
+		super();
+	}
+
 	public void reset() {
 		this.selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
 	}
@@ -50,4 +54,10 @@ public class ChangeEtabCommand {
 		this.selectedEtabCode = selectedEtabCode;
 	}
 
+	@Override
+	public String toString() {
+		return "ChangeEtabCommand{" +
+				"selectedEtabCode='" + selectedEtabCode + '\'' +
+				'}';
+	}
 }

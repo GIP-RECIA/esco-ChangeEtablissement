@@ -5,8 +5,6 @@
 
 <rs:aggregatedResources path="skin.xml"/>
 
-<%@include file="/WEB-INF/jsp/scripts.jsp" %>
-
 <!-- i18n messages -->
 <spring:message code="etab.change.action" var="msgEtabChangeAction" />
 <spring:message code="etab.change.cancel" var="msgEtabChangeCancel" />
@@ -35,7 +33,7 @@
 <c:if test="${displayMode == 'All' || displayMode == '1'}">
 <span class="${n}container1 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
-	<form:form method="post" action="${changeEtabAction}">
+		<form:form method="post" action="${changeEtabAction}">
 		<span>
 		<form:select class="changeEtab-select" path="selectedEtabCode" >
 			<optgroup label="${msgEtabCurrentMessage}">
@@ -49,7 +47,7 @@
 
 		<input type="button" class="changeEtab-submit" value="${msgEtabChangeAction}" />
 		</span>
-	</form:form>
+		</form:form>
 	</c:if>
 </span>
 </c:if>
@@ -59,27 +57,29 @@
 <c:if test="${displayMode == 'All' || displayMode == '2'}">
 <span class="${n}container2 changeEtabPortlet">
 	<c:if test="${displayPortlet}">
-	<span>
-		${msgEtabCurrentMessage} ${currentEtab.displayName}
-	</span>
-	<span class="changeEtab-button">
-		<a href="#" onclick="return false;">${msgEtabChangeAction}</a>
-	</span>
-	<div class="changeEtab-dialog">
-		<div class="message">
-			${msgEtabChangeMessage}
-		</div>
-		<form:form method="post" action="${changeEtabAction}">
-			<c:forEach items="${etabs}" var="etab">
-			<div class="fl-widget">
-				<div class="">
-					<form:radiobutton id="${n}2radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
-					<label for="${n}2radio${etab.code}">${etab.displayName}</label>
+		<div class="dropdown">
+			<div class="dropMenuChangeEtab dropdown-toggle" data-toggle="dropdown">
+
+				<div style="float:left;">
+						${fn:substring(currentEtab.displayName, 0, 20)}
+				</div>
+				<div style="float:right;">
+					▾
 				</div>
 			</div>
-			</c:forEach>
-		</form:form>
-	</div>
+			<ul class="dropdown-menu ">
+				<form:form method="post" commandName="command" action="${changeEtabAction}">
+					<c:forEach items="${etabs}" var="etab">
+						<div>
+							<label class="liDropChangeEtab">
+								<form:radiobutton id="${n}2radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" />
+									${etab.displayName}
+							</label>
+						</div>
+					</c:forEach>
+				</form:form>
+			</ul>
+		</div>
 	</c:if>
 </span>
 </c:if>
@@ -104,7 +104,7 @@
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
-					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
+					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" />
 					<label for="${n}3radio${etab.code}">${etab.displayName}</label>
 				</div>
 			</div>
@@ -133,7 +133,7 @@
 			<c:forEach items="${etabs}" var="etab">
 			<div class="fl-widget">
 				<div class="fl-widget-titlebar">
-					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" /> 
+					<form:radiobutton id="${n}3radio${etab.code}" class="changeEtab-select" path="selectedEtabCode" value="${etab.code}" />
 					<label for="${n}3radio${etab.code}">${etab.displayName}</label>
 				</div>
 			</div>
@@ -143,3 +143,4 @@
 	</c:if>
 </span>
 </c:if>
+<%@include file="/WEB-INF/jsp/scripts.jsp" %>

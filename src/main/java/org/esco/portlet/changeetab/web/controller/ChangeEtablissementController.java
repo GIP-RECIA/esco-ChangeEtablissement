@@ -18,6 +18,14 @@
  */
 package org.esco.portlet.changeetab.web.controller;
 
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import java.util.Collection;
+import java.util.Map;
+
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.esco.portlet.changeetab.service.IEtablissementService;
 import org.esco.portlet.changeetab.service.IUserInfoService;
@@ -35,13 +43,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -101,6 +102,8 @@ public class ChangeEtablissementController implements InitializingBean {
 				final Etablissement selectedEtab = this.etablissementService.retrieveEtablissementsByCode(selectedEtabCode);
 				this.userService.changeCurrentEtablissement(userId, selectedEtab);
 
+				ChangeEtablissementController.LOG.debug("Redirect After Change setted to [{}] with url [{}]", redirectAfterChange, logoutUrlRedirect);
+				
 				if (this.redirectAfterChange) {
 					request.getPortalContext();
 					response.sendRedirect(this.logoutUrlRedirect);
