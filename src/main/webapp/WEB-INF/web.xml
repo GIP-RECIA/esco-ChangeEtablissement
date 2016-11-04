@@ -8,9 +8,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>
-            /WEB-INF/context/applicationContext.xml
-        </param-value>
+		<param-value>/WEB-INF/context/applicationContext.xml,/WEB-INF/context/jmxContext.xml</param-value>
 	</context-param>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
