@@ -12,7 +12,7 @@
     </bean>
 
     <bean id="entrepriseService" class="org.esco.portlet.changeetab.service.impl.CachingEtablissementService">
-    	<property name="cachingDuration" value="60000" />
+    	<property name="cachingDuration" value="3600000" /> <!-- in millis -->
     	<property name="etablissementCache" ref="etablissementsCache" />
     	<property name="etablissementDao" ref="etablissementDao" />
     </bean>
@@ -84,11 +84,9 @@
     </bean>
      -->
 
-	<!-- | CACHE CONFIGURATION + -->
-
 	<!-- EHCache Configuration -->
 	<bean id="cacheManager"
-		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:cacheManagerName="ChangeEtab.cacheManager" p:shared="true">
 		<property name="configLocation">
 			<value>classpath:ehcache.xml</value>
 		</property>
@@ -98,7 +96,7 @@
 	<bean id="etablissementsCache" class="org.springframework.cache.ehcache.EhCacheCache">
 		<constructor-arg>
 			<bean class="org.springframework.cache.ehcache.EhCacheFactoryBean"
-				p:cacheManager-ref="cacheManager" p:cacheName="etablissementsCache" />
+				p:cacheManager-ref="cacheManager" p:cacheName="etablissementsCache"/>
 		</constructor-arg>
 	</bean>
 
