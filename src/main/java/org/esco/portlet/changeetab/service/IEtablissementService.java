@@ -32,15 +32,15 @@ public interface IEtablissementService {
 	/**
 	 * Return a Collection of Etablissement matching the supplied codes.
 	 * 
-	 * @param codes
-	 * @return a never null Map of Id => Etab wich may be empty
+	 * @param codes List of ids of etablissements to retrive
+	 * @return a never null Map of Id, only Etab wich may be empty
 	 */
 	Map<String, Etablissement> retrieveEtablissementsByCodes(Collection<String> codes);
 
 	/**
 	 * Return an Etablissement matching the supplied code.
 	 * 
-	 * @param code
+	 * @param code Id of an Etablissement to retrieve
 	 * @return Etab or null
 	 */
 	Etablissement retrieveEtablissementsByCode(String code);

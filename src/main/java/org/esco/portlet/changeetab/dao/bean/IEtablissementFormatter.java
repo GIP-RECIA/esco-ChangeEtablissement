@@ -7,6 +7,9 @@ import org.esco.portlet.changeetab.model.Etablissement;
  */
 public interface IEtablissementFormatter {
 
-    /** Formatter used in visitor pattern **/
+    /** Formatter used in visitor pattern
+     * @param input Etablissement to format
+     * @return The Etablissement object formatted
+     */
     Etablissement format (Etablissement input);
 }

@@ -18,15 +18,16 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
+import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
+import javax.naming.directory.Attributes;
+
+import java.util.List;
+
 import org.esco.portlet.changeetab.dao.bean.IEtablissementFormatter;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.springframework.ldap.core.AttributesMapper;
 import org.springframework.util.Assert;
-
-import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import java.util.List;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -45,10 +46,12 @@ public class EtablissementAttributesMapper implements AttributesMapper {
 	private List<IEtablissementFormatter> etablissementFormatters;
 
 	/**
-	 * @param idAttrKey
-	 * @param nameAttrKey
-	 * @param displayNameAttrKey
-	 * @param descriptionAttrKey
+	 * Attributes Mapper contructor.
+	 * @param idAttrKey The ID attribute name.
+	 * @param nameAttrKey The name attribute name.
+	 * @param displayNameAttrKey The displayName attribute name.
+	 * @param descriptionAttrKey The description attribute name.
+	 * @param etablissementFormatters List of Etablissement formatters
 	 */
 	public EtablissementAttributesMapper(final String idAttrKey, final String nameAttrKey,
 										 final String displayNameAttrKey, final String descriptionAttrKey,

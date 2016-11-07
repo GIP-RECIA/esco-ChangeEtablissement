@@ -18,6 +18,12 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import org.esco.portlet.changeetab.dao.IEtablissementDao;
 import org.esco.portlet.changeetab.model.Etablissement;
 import org.esco.portlet.changeetab.service.IEtablissementService;
@@ -31,12 +37,6 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -169,7 +169,7 @@ public class CachingEtablissementService implements IEtablissementService, Initi
 	/**
 	 * Generate an etablissement cache key.
 	 * 
-	 * @param uai
+	 * @param uai Id of the Etablissement.
 	 * @return the cache key
 	 */
 	protected String genCacheKey(final String uai) {
