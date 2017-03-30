@@ -17,18 +17,18 @@
             <portlet-mode>view</portlet-mode>
         </supports>
         <portlet-info>
-            <title>Change etablissement</title>
+            <title>Change Structure</title>
         </portlet-info>
 
         <portlet-preferences>
-			<preference>
-				<!-- Display mode: All, 1, 2, 3 -->
-				<name>displayMode</name>
-				<value>All</value>
-			</preference>
+            <preference>
+                <!-- Display mode: All, 1, 2, 3 -->
+                <name>displayMode</name>
+                <value>All</value>
+            </preference>
             <preference>
                 <!-- When user doesn't have several etablissement we can show the current, if false not -->
-                <name>displayCurrentEtab</name>
+                <name>displayCurrentStruct</name>
                 <value>false</value>
             </preference>
         </portlet-preferences>
@@ -36,11 +36,19 @@
     </portlet>
 
     <user-attribute>
-    	<name>ESCOUAI</name>
+        <name>ESCOUAI</name>
     </user-attribute>
 
     <user-attribute>
         <name>ESCOUAICourant</name>
+    </user-attribute>
+
+    <user-attribute>
+        <name>ESCOSIREN</name>
+    </user-attribute>
+
+    <user-attribute>
+        <name>ESCOSIRENCourant</name>
     </user-attribute>
 
 </portlet-app>

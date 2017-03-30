@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.dao.impl;
 
@@ -24,7 +24,13 @@ import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.ModificationItem;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
 import org.esco.portlet.changeetab.dao.IUserDao;
+import org.esco.portlet.changeetab.model.Structure;
+import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -39,31 +45,47 @@ import org.springframework.util.Assert;
  *
  */
 @Service
+@Data
+@NoArgsConstructor
 public class LdapUserDao implements IUserDao, InitializingBean {
 
 	/** Logger. */
 	private static final Logger LOG = LoggerFactory.getLogger(LdapUserDao.class);
 
+	@NonNull
 	private String userIdTemplate = "%u";
 
 	@Autowired
 	private LdapTemplate ldapTemplate;
 
 	/** User base Ldap dn. */
+	@NonNull
 	private String userDn;
 
-	/** Current etab Id LDAP key. */
-	private String currentEtabIdLdapKey;
+	/** Current struct Id LDAP key. */
+	@NonNull
+	private String currentStructIdLdapKey;
+	/** Current struct Code LDAP key. */
+	@NonNull
+	private String currentEtabCodeLdapKey;
 
 	@Override
-	public void saveCurrentEtablissement(final String userId, final String etabId) {
-		LdapUserDao.LOG.debug("Saving current etablissement ...");
+	public void saveCurrentStructure(final String userId, final Structure struct) {
+		LdapUserDao.LOG.debug("Saving current structure ...");
 
-		final Attribute replaceCurrentEtabAttr = new BasicAttribute(this.currentEtabIdLdapKey, etabId);
+		final Attribute replaceCurrentStructAttr = new BasicAttribute(this.currentStructIdLdapKey, struct.getId());
+		ModificationItem[] mods = null;
+		if (struct instanceof UniteAdministrativeImmatriculee) {
+			final Attribute replaceCurrentEtabAttr = new BasicAttribute(this.currentEtabCodeLdapKey,
+					((UniteAdministrativeImmatriculee) struct).getCode());
+			mods = new ModificationItem[2];
+			mods[1] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, replaceCurrentEtabAttr);
+
+		} else {
+			mods = new ModificationItem[1];
+		}
 		final Name dn = new DistinguishedName(this.userDn.replace(this.userIdTemplate, userId));
-		final ModificationItem[] mods = new ModificationItem[1];
-
-		mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, replaceCurrentEtabAttr);
+		mods[0] = new ModificationItem(DirContext.REPLACE_ATTRIBUTE, replaceCurrentStructAttr);
 		this.ldapTemplate.modifyAttributes(dn, mods);
 	}
 
@@ -72,81 +94,10 @@ public class LdapUserDao implements IUserDao, InitializingBean {
 		Assert.notNull(this.ldapTemplate, "No LdapTemplate configured !");
 		Assert.hasText(this.userDn, "No user dn configured !");
 		Assert.hasText(this.userIdTemplate, "No user Id template configured !");
-		Assert.hasText(this.currentEtabIdLdapKey, "No current etab Id Ldap key configured !");
+		Assert.hasText(this.currentStructIdLdapKey, "No current struct Id Ldap key configured !");
+		Assert.hasText(this.currentEtabCodeLdapKey, "No current etab Code Ldap key configured !");
 
 		Assert.state(this.userDn.contains(this.userIdTemplate), "User dn doesn't contain the user Id template !");
-	}
-
-	/**
-	 * Getter of ldapTemplate.
-	 *
-	 * @return the ldapTemplate
-	 */
-	public LdapTemplate getLdapTemplate() {
-		return this.ldapTemplate;
-	}
-
-	/**
-	 * Setter of ldapTemplate.
-	 *
-	 * @param ldapTemplate the ldapTemplate to set
-	 */
-	public void setLdapTemplate(final LdapTemplate ldapTemplate) {
-		this.ldapTemplate = ldapTemplate;
-	}
-
-	/**
-	 * Getter of userDn.
-	 *
-	 * @return the userDn
-	 */
-	public String getUserDn() {
-		return this.userDn;
-	}
-
-	/**
-	 * Setter of userDn.
-	 *
-	 * @param userDn the userDn to set
-	 */
-	public void setUserDn(final String userDn) {
-		this.userDn = userDn;
-	}
-
-	/**
-	 * Getter of currentEtabIdLdapKey.
-	 *
-	 * @return the currentEtabIdLdapKey
-	 */
-	public String getCurrentEtabIdLdapKey() {
-		return this.currentEtabIdLdapKey;
-	}
-
-	/**
-	 * Setter of currentEtabIdLdapKey.
-	 *
-	 * @param currentEtabIdLdapKey the currentEtabIdLdapKey to set
-	 */
-	public void setCurrentEtabIdLdapKey(final String currentEtabIdLdapKey) {
-		this.currentEtabIdLdapKey = currentEtabIdLdapKey;
-	}
-
-	/**
-	 * Getter of userIdTemplate.
-	 *
-	 * @return the userIdTemplate
-	 */
-	public String getUserIdTemplate() {
-		return this.userIdTemplate;
-	}
-
-	/**
-	 * Setter of userIdTemplate.
-	 *
-	 * @param userIdTemplate the userIdTemplate to set
-	 */
-	public void setUserIdTemplate(final String userIdTemplate) {
-		this.userIdTemplate = userIdTemplate;
 	}
 
 }

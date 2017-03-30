@@ -493,6 +493,14 @@
               <value>0450080T</value>
             </systemProperty>
             <systemProperty>
+              <name>etablissement-swapper.userStructs</name>
+              <value>00000000000001,88888888888888,37373737373737,19410017800012,17450430800019,17180431300020,18450311800020,01725106700108</value>
+            </systemProperty>
+            <systemProperty>
+              <name>etablissement-swapper.userCurrentStruct</name>
+              <value>17450430800019</value>
+            </systemProperty>
+            <systemProperty>
               <name>file.encoding</name>
               <value>UTF-8</value>
             </systemProperty>

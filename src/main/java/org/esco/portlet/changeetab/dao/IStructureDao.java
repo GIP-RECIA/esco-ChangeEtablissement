@@ -20,19 +20,19 @@ package org.esco.portlet.changeetab.dao;
 
 import java.util.Collection;
 
-import org.esco.portlet.changeetab.model.Etablissement;
+import org.esco.portlet.changeetab.model.Structure;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-public interface IEtablissementDao {
+public interface IStructureDao {
 
 	/**
 	 * Find all etablissements.
 	 * 
 	 * @return a never null Collection which may be empty
 	 */
-	Collection<Etablissement> findAllEtablissements();
+	Collection<? extends Structure> findAllStructures();
 
 }

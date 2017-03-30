@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.service.impl;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.esco.portlet.changeetab.dao.IUserDao;
-import org.esco.portlet.changeetab.model.Etablissement;
+import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,35 +33,18 @@ import org.springframework.util.Assert;
  *
  */
 @Service
+@Data
+@NoArgsConstructor
 public class BasicUserService implements IUserService {
 
 	@Autowired
 	private IUserDao userDao;
 
 	@Override
-	public void changeCurrentEtablissement(final String userId, final Etablissement etab) {
+	public void changeCurrentStructure(final String userId, final Structure struct) {
 		Assert.hasText(userId, "No user Id supplied !");
-		Assert.notNull(etab, "No etablishement supplied !");
-		
-		this.userDao.saveCurrentEtablissement(userId, etab.getId());
-	}
+		Assert.notNull(struct, "No structure supplied !");
 
-	/**
-	 * Getter of userDao.
-	 *
-	 * @return the userDao
-	 */
-	public IUserDao getUserDao() {
-		return this.userDao;
+		this.userDao.saveCurrentStructure(userId, struct);
 	}
-
-	/**
-	 * Setter of userDao.
-	 *
-	 * @param userDao the userDao to set
-	 */
-	public void setUserDao(final IUserDao userDao) {
-		this.userDao = userDao;
-	}
-
 }

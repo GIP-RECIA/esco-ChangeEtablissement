@@ -15,8 +15,9 @@ dn: ENTStructureSIREN=01234567890123,ou=structures,dc=esco-centre,dc=fr
 objectClass: ENTEtablissement
 objectClass: ENTStructure
 objectClass: OrganizationalUnit
-ENTStructureNomCourant: LT Léonardo Di Caprio
+ENTStructureNomCourant: LGT Léonardo Di Caprio
 ENTStructureSIREN: 01234567890123
+ENTStructureJointure: AC-ORLEANS-TOURS$01
 ou: LT Léonardo Di Caprio
 ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
 ENTStructureUAI: 1234567A
@@ -27,6 +28,7 @@ objectClass: ENTStructure
 objectClass: OrganizationalUnit
 ENTStructureNomCourant: Inspection de la région
 ENTStructureSIREN: 98765432109876
+ENTStructureJointure: AC-ORLEANS-TOURS$02
 ou: INSPECT CENTRE
 ENTStructureTypeStruct: INSPECTIONS ACADEMIQUES
 ENTStructureUAI: 1234567B
@@ -36,7 +38,10 @@ objectClass: ENTEtablissement
 objectClass: ENTStructure
 objectClass: OrganizationalUnit
 ENTStructureNomCourant: LGT Claude Nougaro
+ESCOStructureNomCourt: Lycée Claude Nougaro
 ENTStructureSIREN: 85245674136982
+ENTStructureJointure: AC-ORLEANS-TOURS$03
+ESCOStructureLogo: lycee-jpg
 ou: LGT Claude Nougaro
 ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
 ENTStructureUAI: 1234567C
@@ -47,6 +52,7 @@ objectClass: ENTStructure
 objectClass: OrganizationalUnit
 ENTStructureNomCourant: LGT Marcel Renault-ORL._TOURS
 ENTStructureSIREN: 74539856210245
+ENTStructureJointure: AC-ORLEANS-TOURS$04
 ou: LGT Marcel Renault
 ENTStructureTypeStruct: LYCEE ENSEIGNT GENERAL ET TECHNOLOGIQUE
 ENTStructureUAI: 1234567D
@@ -57,6 +63,7 @@ objectClass: ENTStructure
 objectClass: OrganizationalUnit
 ENTStructureNomCourant: LP Maxime Bossard-ORL._TOURS
 ENTStructureSIREN: 96478532698745
+ENTStructureJointure: AC-ORLEANS-TOURS$05
 ou: LP Maxime Bossard
 ENTStructureTypeStruct: LYCEE PROFESSIONNEL
 ENTStructureUAI: 1234567E
@@ -65,7 +72,21 @@ dn: ENTStructureSIREN=73914568796320,ou=structures,dc=esco-centre,dc=fr
 objectClass: ENTEntreprise
 objectClass: ENTStructure
 objectClass: OrganizationalUnit
-ENTStructureNomCourant: Recia
+ENTStructureNomCourant: BOULANGERIE
 ENTStructureSIREN: 73914568796320
+ENTStructureJointure: AC-ORLEANS-TOURS$06
+ou: BOULANGERIE
+ENTStructureTypeStruct: AUTRE
+
+dn: ENTStructureSIREN=73914568796321,ou=structures,dc=esco-centre,dc=fr
+objectClass: ENTCollLoc
+objectClass: ENTStructure
+objectClass: OrganizationalUnit
+ENTStructureNomCourant: Recia
+ESCOStructureNomCourt: GIP RECIA
+ENTStructureSIREN: 73914568796321
+ENTStructureJointure: GIP-RECIA$01
+ESCOStructureLogo: truc-jpg
 ou: Recia
 ENTStructureTypeStruct: AUTRE
+

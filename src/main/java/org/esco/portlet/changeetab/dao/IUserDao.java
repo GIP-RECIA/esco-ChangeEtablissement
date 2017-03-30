@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.dao;
+
+import org.esco.portlet.changeetab.model.Structure;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -24,6 +26,6 @@ package org.esco.portlet.changeetab.dao;
  */
 public interface IUserDao {
 
-	void saveCurrentEtablissement(String userId, String etabId);
+	void saveCurrentStructure(String userId, Structure struct);
 
 }

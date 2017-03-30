@@ -14,50 +14,26 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.web;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-public class ChangeEtabCommand {
+@Data
+@NoArgsConstructor
+public class ChangeStructCommand {
 
-	public static final String DEFAULT_CODE = "currentEtab";
+	public static final String DEFAULT_CODE = "currentStruct";
 
-	private String selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
-
-	public ChangeEtabCommand() {
-		super();
-	}
+	private String selectedStructId = ChangeStructCommand.DEFAULT_CODE;
 
 	public void reset() {
-		this.selectedEtabCode = ChangeEtabCommand.DEFAULT_CODE;
-	}
-
-	/**
-	 * Getter of selectedEtabCode.
-	 *
-	 * @return the selectedEtabCode
-	 */
-	public String getSelectedEtabCode() {
-		return selectedEtabCode;
-	}
-
-	/**
-	 * Setter of selectedEtabCode.
-	 *
-	 * @param selectedEtabCode the selectedEtabCode to set
-	 */
-	public void setSelectedEtabCode(String selectedEtabCode) {
-		this.selectedEtabCode = selectedEtabCode;
-	}
-
-	@Override
-	public String toString() {
-		return "ChangeEtabCommand{" +
-				"selectedEtabCode='" + selectedEtabCode + '\'' +
-				'}';
+		this.selectedStructId = ChangeStructCommand.DEFAULT_CODE;
 	}
 }

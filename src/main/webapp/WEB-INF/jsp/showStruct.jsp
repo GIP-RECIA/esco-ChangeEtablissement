@@ -7,5 +7,5 @@
 
 
 <%------------ DISPLAY Current Etablissement only --------------%>
-<span class="${n}currentEtabOnly changeEtabPortlet">${currentEtab.displayName}</span>
+<span class="${n}currentEtabOnly changeEtabPortlet">${currentStruct.displayName}</span>
 

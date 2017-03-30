@@ -18,33 +18,48 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+
+import javax.portlet.PortletRequest;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+
 import org.esco.portlet.changeetab.service.IUserInfoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-
-import javax.portlet.PortletRequest;
-import java.util.*;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
+@Data
+@NoArgsConstructor
+@Slf4j
 public class BasicUserInfoService implements IUserInfoService, InitializingBean {
 
-	/** Logger. */
-	private static final Logger LOG = LoggerFactory.getLogger(BasicUserInfoService.class);
-
+	@NonNull
 	private String etabCodesInfoKey;
-
+	@NonNull
 	private String currentEtabCodeInfoKey;
+	@NonNull
+	private String structIdsInfoKey;
+	@NonNull
+	private String currentStructIdInfoKey;
 
 	private final Map<String, List<String>> basicUserInfoMap = new HashMap<String, List<String>>();
 
 	private final Map<String, List<String>> emptyUserInfoMap = new HashMap<String, List<String>>();
-	
+
 	@SuppressWarnings("unused")
 	private final Map<String, List<String>> nullUserInfoMap = null;
 
@@ -53,18 +68,29 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	@Override
 	public Collection<String> getChangeableEtabCodes(final PortletRequest request) {
 		final Collection<String> etabCodes = this.getUserInfo(request, this.etabCodesInfoKey);
-		final Collection<String> etabCodesLowerCase = new HashSet<String>(etabCodes.size());
+		final Collection<String> etabCodesCaseSensitive = new HashSet<String>(etabCodes.size());
 
 		if (etabCodes.isEmpty()) {
 			// Multivalued attribute which should not be empty
-			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.etabCodesInfoKey);
+			log.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.etabCodesInfoKey);
 		} else {
 			for (final String id : etabCodes) {
-				etabCodesLowerCase.add(id.toLowerCase());
+				etabCodesCaseSensitive.add(id.toUpperCase());
 			}
 		}
 
-		return etabCodesLowerCase;
+		return etabCodesCaseSensitive;
+	}
+
+	@Override
+	public Collection<String> getChangeableStructIds(final PortletRequest request) {
+		final Collection<String> structIds = this.getUserInfo(request, this.structIdsInfoKey);
+
+		if (structIds.isEmpty()) {
+			// Multivalued attribute which should not be empty
+			log.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.structIdsInfoKey);
+		}
+		return structIds;
 	}
 
 	@Override
@@ -75,15 +101,34 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 		if (uaiCourant.size() == 1) {
 			// Monovalued attribute
-			escoUaiCourant = uaiCourant.iterator().next().toLowerCase();
+			escoUaiCourant = uaiCourant.iterator().next().toUpperCase();
 		}
 
 		if (!StringUtils.hasText(escoUaiCourant)) {
 			escoUaiCourant = null;
-			BasicUserInfoService.LOG.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.currentEtabCodeInfoKey);
+			log.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.currentEtabCodeInfoKey);
 		}
 
 		return escoUaiCourant;
+	}
+
+	@Override
+	public String getCurrentStructId(final PortletRequest request) {
+		String escoSIRENCourant = null;
+
+		final List<String> sirenCourant = this.getUserInfo(request, this.currentStructIdInfoKey);
+
+		if (sirenCourant.size() == 1) {
+			// Monovalued attribute
+			escoSIRENCourant = sirenCourant.iterator().next();
+		}
+
+		if (!StringUtils.hasText(escoSIRENCourant)) {
+			escoSIRENCourant = null;
+			log.warn("Unable to retrieve {} attribute in Portal UserInfo !", this.currentStructIdInfoKey);
+		}
+
+		return escoSIRENCourant;
 	}
 
 	@Override
@@ -93,20 +138,28 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		Assert.hasText(this.etabCodesInfoKey, "No Etab Ids user info key configured !");
-		Assert.hasText(this.currentEtabCodeInfoKey, "No Current Etab Id user info key configured !");
+		Assert.hasText(this.etabCodesInfoKey, "No Etab Codes user info key configured !");
+		Assert.hasText(this.currentEtabCodeInfoKey, "No Current Etab Code user info key configured !");
+		Assert.hasText(this.structIdsInfoKey, "No Struct Ids user info key configured !");
+		Assert.hasText(this.currentStructIdInfoKey, "No Current Struct Id user info key configured !");
 
-		//this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"0450822x","0333333y","0377777U"}));
-		//this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"0450822X"}));
-
-		final String[] etabs = System.getProperty("etablissement-swapper.userEtabs","0450822x,0333333y,0377777U").split(",");
-		final String[] current = System.getProperty("etablissement-swapper.userCurrentEtab","0450822X").split(",");
+		final String[] etabs = System.getProperty("etablissement-swapper.userEtabs", "0450822x,0333333y,0377777U")
+				.split(",");
+		final String[] current = System.getProperty("etablissement-swapper.userCurrentEtab", "0450822X").split(",");
+		final String[] structs = System.getProperty("etablissement-swapper.userStructs",
+				"88888888888888,37373737373737,00000000000001").split(",");
+		final String[] currentStruct = System.getProperty("etablissement-swapper.userCurrentStruct", "88888888888888")
+				.split(",");
 		this.basicUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(etabs));
 		this.basicUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(current));
-		BasicUserInfoService.LOG.debug("basicUserInfoMap : {}", this.basicUserInfoMap);
+		this.basicUserInfoMap.put(this.structIdsInfoKey, Arrays.asList(structs));
+		this.basicUserInfoMap.put(this.currentStructIdInfoKey, Arrays.asList(currentStruct));
+		log.debug("basicUserInfoMap : {}", this.basicUserInfoMap);
 
-		this.emptyUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[]{"1234567b"}));
-		this.emptyUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[]{"1234567B"}));
+		this.emptyUserInfoMap.put(this.etabCodesInfoKey, Arrays.asList(new String[] { "1234567b" }));
+		this.emptyUserInfoMap.put(this.currentEtabCodeInfoKey, Arrays.asList(new String[] { "1234567B" }));
+		this.emptyUserInfoMap.put(this.structIdsInfoKey, Arrays.asList(new String[] { "88888888888888" }));
+		this.emptyUserInfoMap.put(this.currentStructIdInfoKey, Arrays.asList(new String[] { "88888888888888" }));
 	}
 
 	/**
@@ -119,8 +172,8 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 	 */
 	@SuppressWarnings("unchecked")
 	public List<String> getUserInfo(final PortletRequest request, final String attributeName) {
-		Map<String, List<String>> userInfo =
-				(Map<String, List<String>>) request.getAttribute("org.jasig.portlet.USER_INFO_MULTIVALUED");
+		Map<String, List<String>> userInfo = (Map<String, List<String>>) request
+				.getAttribute("org.jasig.portlet.USER_INFO_MULTIVALUED");
 
 		if ((userInfo == null) && "true".equals(System.getProperty("etablissement-swapper.testEnv"))) {
 			userInfo = this.testUserInfoMap;
@@ -131,7 +184,7 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 		if (userInfo != null) {
 			attributeValues = userInfo.get(attributeName);
 		} else {
-			BasicUserInfoService.LOG.error("Unable to retrieve Portal UserInfo !");
+			log.error("Unable to retrieve Portal UserInfo !");
 			//throw new IllegalStateException("Unable to retrieve Portal UserInfo !");
 		}
 
@@ -141,41 +194,4 @@ public class BasicUserInfoService implements IUserInfoService, InitializingBean 
 
 		return attributeValues;
 	}
-
-	/**
-	 * Getter of etabIdsInfoKey.
-	 *
-	 * @return the etabIdsInfoKey
-	 */
-	public String getEtabIdsInfoKey() {
-		return this.etabCodesInfoKey;
-	}
-
-	/**
-	 * Setter of etabIdsInfoKey.
-	 *
-	 * @param etabIdsInfoKey the etabIdsInfoKey to set
-	 */
-	public void setEtabIdsInfoKey(final String etabIdsInfoKey) {
-		this.etabCodesInfoKey = etabIdsInfoKey;
-	}
-
-	/**
-	 * Getter of currentEtabIdInfoKey.
-	 *
-	 * @return the currentEtabIdInfoKey
-	 */
-	public String getCurrentEtabIdInfoKey() {
-		return this.currentEtabCodeInfoKey;
-	}
-
-	/**
-	 * Setter of currentEtabIdInfoKey.
-	 *
-	 * @param currentEtabIdInfoKey the currentEtabIdInfoKey to set
-	 */
-	public void setCurrentEtabIdInfoKey(final String currentEtabIdInfoKey) {
-		this.currentEtabCodeInfoKey = currentEtabIdInfoKey;
-	}
-
 }

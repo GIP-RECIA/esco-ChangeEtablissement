@@ -14,35 +14,38 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.service;
 
 import java.util.Collection;
 import java.util.Map;
 
-import org.esco.portlet.changeetab.model.Etablissement;
+import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-public interface IEtablissementService {
+@Deprecated
+public interface IUniteAdministrativeImmatriculeService extends IStructureService {
 
 	/**
-	 * Return a Collection of Etablissement matching the supplied codes.
-	 * 
+	 * Return a Collection of UniteAdministrativeImmatriculee matching the supplied codes.
+	 *
 	 * @param codes List of ids of etablissements to retrive
 	 * @return a never null Map of Id, only Etab wich may be empty
 	 */
-	Map<String, Etablissement> retrieveEtablissementsByCodes(Collection<String> codes);
+	@Deprecated
+	Map<String, UniteAdministrativeImmatriculee> retrieveEtablissementsByCodes(Collection<String> codes);
 
 	/**
-	 * Return an Etablissement matching the supplied code.
-	 * 
-	 * @param code Id of an Etablissement to retrieve
+	 * Return an UniteAdministrativeImmatriculee matching the supplied code.
+	 *
+	 * @param code Id of an UniteAdministrativeImmatriculee to retrieve
 	 * @return Etab or null
 	 */
-	Etablissement retrieveEtablissementsByCode(String code);
-	
+	@Deprecated
+	UniteAdministrativeImmatriculee retrieveEtablissementByCode(String code);
+
 }

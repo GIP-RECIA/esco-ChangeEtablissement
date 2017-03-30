@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.service;
 
@@ -28,9 +28,15 @@ import javax.portlet.PortletRequest;
  */
 public interface IUserInfoService {
 
+	@Deprecated
 	Collection<String> getChangeableEtabCodes(PortletRequest request);
 
+	Collection<String> getChangeableStructIds(PortletRequest request);
+
+	@Deprecated
 	String getCurrentEtabCode(PortletRequest request);
+
+	String getCurrentStructId(PortletRequest request);
 
 	String getUserId(PortletRequest request);
 

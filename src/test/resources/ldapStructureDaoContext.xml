@@ -31,15 +31,34 @@
         <property name="contextSource" ref="contextSource" />
     </bean>
 
-    <bean id="ldapEtablissementDao" class="org.esco.portlet.changeetab.dao.impl.LdapEtablissementDao">
+    <bean id="ldapStructureDao" class="org.esco.portlet.changeetab.dao.impl.LdapStructureDao">
         <property name="ldapTemplate" ref="ldapTemplate" />
-        <property name="etablissementBase" value="ou=structures,dc=esco-centre,dc=fr" />
-        <property name="allEtabsFilter" value="(ObjectClass=ENTEtablissement)" />
-        <property name="etabIdLdapAttr" value="ENTStructureUAI" />
-        <property name="etabNameLdapAttr" value="ENTStructureNomCourant" />
-        <property name="etabDisplayNameLdapAttr" value="ESCOStructureNomCourt" />
-        <property name="etabDescriptionLdapAttr" value="ENTStructureTypeStruct" />
-        <property name="etablissementFormatters">
+        <property name="structureBase" value="ou=structures,dc=esco-centre,dc=fr" />
+        <property name="allStructFilter" value="(|(ObjectClass=ENTEtablissement)(ObjectClass=ENTServAc)(ObjectClass=ENTCollLoc))" />
+        <property name="structIdLdapAttr" value="ENTStructureSIREN" />
+        <property name="etabcodeLdapAttr" value="ENTStructureUAI" />
+        <property name="structNameLdapAttr" value="ENTStructureNomCourant" />
+        <property name="structDisplayNameLdapAttr" value="ESCOStructureNomCourt" />
+        <property name="structDescriptionLdapAttr" value="ENTStructureTypeStruct" />
+        <property name="classValueStructUAI">
+            <bean class="org.springframework.util.StringUtils" factory-method="commaDelimitedListToSet">
+                <constructor-arg type="java.lang.String">
+                    <bean class="org.springframework.util.StringUtils" factory-method="trimAllWhitespace">
+                        <constructor-arg type="java.lang.String" value="ENTEtablissement, ENTServAc" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="otherAttributes">
+        <bean class="org.springframework.util.StringUtils" factory-method="commaDelimitedListToSet">
+                <constructor-arg type="java.lang.String">
+                    <bean class="org.springframework.util.StringUtils" factory-method="trimAllWhitespace">
+                        <constructor-arg type="java.lang.String" value="ENTStructureJointure, ESCOStructureLogo" />
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="structureFormatters">
             <list>
                 <!-- Pour les lycées et CLG remplacement du premier - par un espace (afin d'avoir "CLG MONTRESOR") et supression de la chaîne -ac-ORL._TOURS -->
                 <!--<bean class="org.esco.portlet.changeetab.dao.bean.LdapEtablissementDisplayNameFormater">-->

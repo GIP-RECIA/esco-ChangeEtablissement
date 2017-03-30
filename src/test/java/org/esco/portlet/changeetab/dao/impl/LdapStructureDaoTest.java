@@ -18,8 +18,10 @@
  */
 package org.esco.portlet.changeetab.dao.impl;
 
-import org.esco.portlet.changeetab.dao.IEtablissementDao;
-import org.esco.portlet.changeetab.model.Etablissement;
+import java.util.Collection;
+
+import org.esco.portlet.changeetab.dao.IStructureDao;
+import org.esco.portlet.changeetab.model.Structure;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,8 +33,6 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Collection;
-
 /**
  * FIXME: Unable to load the Apache Directory for the test !
  *
@@ -40,10 +40,10 @@ import java.util.Collection;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:ldapEtablissementDaoContext.xml")
-public class LdapEtablissementDaoTest {
+@ContextConfiguration(locations = "classpath:ldapStructureDaoContext.xml")
+public class LdapStructureDaoTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(LdapEtablissementDaoTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LdapStructureDaoTest.class);
 
 	private static int port = 42539;
 	private static String defaultPartitionSuffix = "dc=esco-centre,dc=fr";
@@ -58,7 +58,7 @@ public class LdapEtablissementDaoTest {
 	private LdapTemplate ldapTemplate;
 
 	@Autowired
-	private IEtablissementDao dao;
+	private IStructureDao dao;
 
 	/*@Value(value = "classpath:esco-structure-schema.ldif")
 	private Resource escoStructuresSchemaLdif;
@@ -68,7 +68,7 @@ public class LdapEtablissementDaoTest {
 
 	@Rule
 	public final LdapServerRule LDAP_RULE = new LdapServerRule(defaultPartitionSuffix, ClassLoader.getSystemResource(
-			"init.ldif").getPath(), LdapEtablissementDaoTest.port, true, ClassLoader.getSystemResource(
+			"init.ldif").getPath(), LdapStructureDaoTest.port, true, ClassLoader.getSystemResource(
 			"esco-structure-schema.ldif").getPath());
 
 	/*@Before
@@ -82,15 +82,15 @@ public class LdapEtablissementDaoTest {
 	}*/
 
 	@Test
-	public void testFindAllEtablissements() throws Exception {
-		final Collection<Etablissement> etabs = this.dao.findAllEtablissements();
+	public void testFindAllStructures() throws Exception {
+		final Collection<? extends Structure> structs = this.dao.findAllStructures();
 
-		Assert.assertNotNull("Etabs list shoud be empty not null !", etabs);
+		Assert.assertNotNull("Structs list shoud be empty not null !", structs);
 
-		Assert.assertTrue("Etabs list shoud not be empty !", etabs.size() > 0);
+		Assert.assertTrue("Structs list shoud not be empty !", structs.size() > 0);
 
-		for (Etablissement etab : etabs) {
-			LOG.debug("returned étab : {}", etab);
+		for (Structure struct : structs) {
+			LOG.debug("returned struct : {}", struct);
 		}
 	}
 

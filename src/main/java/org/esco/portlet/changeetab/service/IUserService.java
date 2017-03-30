@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.service;
 
-import org.esco.portlet.changeetab.model.Etablissement;
+import org.esco.portlet.changeetab.model.Structure;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -27,11 +27,11 @@ import org.esco.portlet.changeetab.model.Etablissement;
 public interface IUserService {
 
 	/**
-	 * Change the current etablissement of the user.
-	 * 
+	 * Change the current structure of the user.
+	 *
 	 * @param userId id of user
-	 * @param etab etab
+	 * @param struct structure
 	 */
-	void changeCurrentEtablissement(String userId, Etablissement etab);
+	void changeCurrentStructure(String userId, Structure struct);
 
 }
