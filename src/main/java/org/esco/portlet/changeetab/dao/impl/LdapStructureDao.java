@@ -33,7 +33,11 @@ import org.esco.portlet.changeetab.dao.bean.IStructureFormatter;
 import org.esco.portlet.changeetab.model.Structure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
+import org.springframework.ldap.filter.AndFilter;
+import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.HardcodedFilter;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
@@ -92,6 +96,34 @@ public class LdapStructureDao implements IStructureDao/*, InitializingBean*/{
 		log.debug("{} structures found.", allStructs.size());
 
 		return allStructs;
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public Structure findOneStructureById(final String id) {
+		log.debug("Finding one structure with id {}", id);
+
+		AndFilter filter = new AndFilter();
+		filter.append(new HardcodedFilter(this.allStructFilter));
+		filter.append(new EqualsFilter(this.structIdLdapAttr, id));
+		Structure theStruct = null;
+		try {
+			List<Structure> result = this.ldapTemplate.search(this.structureBase, filter.encode(),
+					new StructureAttributesMapper(this.structIdLdapAttr, this.etabcodeLdapAttr,
+							this.structNameLdapAttr, this.structDisplayNameLdapAttr, this.structDescriptionLdapAttr,
+							this.otherAttributes, this.classValueStructUAI, this.structureFormatters));
+			Assert.isTrue(result.size() <= 1, "Looking for one structure and found " + result.size());
+			if (result.size() == 1) {
+				theStruct = result.get(0);
+			}
+		} catch (final Exception e) {
+			// We catch all exceptions, cause we don't want our portlet to block the portal.
+			log.error("Error while searching for structures in LDAP !", e);
+		}
+
+		log.debug("Found the structure {}.", theStruct);
+
+		return theStruct;
 	}
 
 }

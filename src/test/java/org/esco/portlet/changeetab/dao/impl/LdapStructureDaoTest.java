@@ -20,14 +20,14 @@ package org.esco.portlet.changeetab.dao.impl;
 
 import java.util.Collection;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,11 +39,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
+@Slf4j
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:ldapStructureDaoContext.xml")
 public class LdapStructureDaoTest {
-
-	private static final Logger LOG = LoggerFactory.getLogger(LdapStructureDaoTest.class);
 
 	private static int port = 42539;
 	private static String defaultPartitionSuffix = "dc=esco-centre,dc=fr";
@@ -90,8 +89,22 @@ public class LdapStructureDaoTest {
 		Assert.assertTrue("Structs list shoud not be empty !", structs.size() > 0);
 
 		for (Structure struct : structs) {
-			LOG.debug("returned struct : {}", struct);
+			log.debug("returned struct : {}", struct);
 		}
 	}
 
+	@Test
+	public void testFindOneStructures() throws Exception {
+		final Collection<? extends Structure> structs = this.dao.findAllStructures();
+
+		Assert.assertNotNull("Structs list shoud be empty not null !", structs);
+
+		Assert.assertTrue("Structs list shoud not be empty !", structs.size() > 0);
+
+		final Structure structComparison = structs.iterator().next();
+
+		final Structure structToCompare = this.dao.findOneStructureById(structComparison.getId());
+
+		Assert.assertTrue("Struct comparison should be equal", structToCompare.equals(structComparison));
+	}
 }

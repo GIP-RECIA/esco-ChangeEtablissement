@@ -10,17 +10,25 @@ public interface IStructureService {
 	/**
 	 * Return a Collection of Structure matching the supplied codes.
 	 *
-	 * @param codes List of ids of structures to retrive
+	 * @param ids List of ids of structures to retrive
 	 * @return a never null Map of Id, only Structure wich may be empty
 	 */
-	public Map<String, Structure> retrieveStructuresByIds(Collection<String> ids);
+	Map<String, Structure> retrieveStructuresByIds(final Collection<String> ids);
 
 	/**
-	 * Return an Structure matching the supplied code.
+	 * Return a Structure matching the supplied code.
 	 *
-	 * @param code Id of an Structure to retrieve
+	 * @param id Id of a Structure to retrieve
 	 * @return Struct or null
 	 */
-	public Structure retrieveStructureById(String id);
+	Structure retrieveStructureById(final String id);
+
+	/**
+	 * Reload a Structure to consider modifications.
+	 *
+	 * @param id Id of a Structure
+	 * @return a boolean indicating the states of the reload.
+	 */
+	void reloadStructureById(final String id);
 
 }

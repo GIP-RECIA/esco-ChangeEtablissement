@@ -68,6 +68,15 @@ public class MockStructureDao implements IStructureDao, InitializingBean {
 	}
 
 	@Override
+	public Structure findOneStructureById(final String id) {
+		log.debug("Finding one structure with id {}", id);
+
+		return new UniteAdministrativeImmatriculee("1234567C", "1234567c", "Etab C", "Etab C", "Desc C",
+				new HashedMap());
+
+	}
+
+	@Override
 	public void afterPropertiesSet() throws Exception {
 
 	}

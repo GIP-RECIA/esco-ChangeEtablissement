@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package org.esco.portlet.changeetab.dao;
 
@@ -23,16 +23,23 @@ import java.util.Collection;
 import org.esco.portlet.changeetab.model.Structure;
 
 /**
- * @author GIP RECIA 2013 - Maxime BOSSARD.
+ * @author GIP RECIA - Julien Gribonvald.
  *
  */
 public interface IStructureDao {
 
 	/**
-	 * Find all etablissements.
-	 * 
+	 * Find all structure.
+	 *
 	 * @return a never null Collection which may be empty
 	 */
 	Collection<? extends Structure> findAllStructures();
+
+	/**
+	 * Find a Structure.
+	 * @param id Id of the structure to find.
+	 * @return the Structure found.
+	 */
+	Structure findOneStructureById(final String id);
 
 }

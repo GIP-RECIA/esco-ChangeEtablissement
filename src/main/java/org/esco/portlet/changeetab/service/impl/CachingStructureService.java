@@ -185,11 +185,43 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 		return etab;
 	}
 
+	/**
+	 * @see org.esco.portlet.changeetab.service.IStructureService#reloadStructureById(java.lang.String)
+	 */
 	@Override
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(this.structureDao, "No IStructureDao configured !");
-		Assert.notNull(this.structureCache, "No Structure cache configured !");
-		Assert.notNull(this.etabsCodeIdCache, "No etabsCodeId cache configured !");
+	public void reloadStructureById(final String id) {
+		Assert.hasText(id, "No Structure id supplied !");
+
+		if (this.cacheLoadingNeeded()) {
+			this.forceLoadStructureCache();
+		} else {
+			this.loadingInProgress = true;
+
+			log.debug("Refreshing cached structure with id [{}] ...", id);
+
+			final Structure struct = this.structureDao.findOneStructureById(id);
+
+			final String cacheKey = this.genCacheKey(id);
+
+			if (struct != null) {
+				this.cacheWl.lock();
+				try {
+					this.structureCache.evict(cacheKey);
+					this.structureCache.put(cacheKey, struct);
+				} finally {
+					this.cacheWl.unlock();
+					this.loadingInProgress = false;
+				}
+			} else {
+				log.warn("Loading doesn't find the structure with id {} !", id);
+				this.loadingInProgress = false;
+			}
+		}
+
+		if (this.cacheLoadingNeeded()) {
+			this.forceLoadStructureCache();
+		}
+
 	}
 
 	/** Load the structure cache. */
@@ -228,7 +260,6 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 				log.warn("Loading doesn't find any structure !");
 				this.loadingInProgress = false;
 			}
-
 		}
 	}
 
@@ -287,4 +318,10 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 		this.cachingDuration = Duration.millis(cachingDuration);
 	}
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(this.structureDao, "No IStructureDao configured !");
+		Assert.notNull(this.structureCache, "No Structure cache configured !");
+		Assert.notNull(this.etabsCodeIdCache, "No etabsCodeId cache configured !");
+	}
 }

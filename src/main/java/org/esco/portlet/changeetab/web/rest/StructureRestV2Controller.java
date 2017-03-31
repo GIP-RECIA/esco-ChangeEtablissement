@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,4 +55,27 @@ public class StructureRestV2Controller {
 		}
 		return new ResponseEntity<Map<String, ? extends Structure>>(HttpStatus.BAD_REQUEST);
 	}
+
+	/*
+	 * Return always Json data (Accept Http Header value has no impact)
+	 * example of call : /CONTEXT-PATH/rest/v2/structures/refresh/SIREN
+	 */
+	@RequestMapping(value = "/refresh/{id}", method = RequestMethod.POST, produces = "application/json")
+	public ResponseEntity<Void> refresh(@PathVariable("id") final String id, HttpServletRequest request) {
+
+		HttpSession session = request.getSession(false);
+		log.debug("seesion id {}", session.getId());
+		final String userId = (String) session.getAttribute("uid");
+		log.debug("refresh: sesion uid={}", userId);
+
+		if (userId == null || userId.equalsIgnoreCase("guest")) {
+			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
+		}
+		if (id != null) {
+			structureService.reloadStructureById(id);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	}
+
 }
