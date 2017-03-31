@@ -19,6 +19,7 @@
 package org.esco.portlet.changeetab.web.controller;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -61,6 +62,10 @@ public class ChangeStructureController implements InitializingBean {
 
 	private static final String CURRENT_STRUCT_KEY = "currentStruct";
 
+	private static final String CURRENT_STRUCT_ATTRIBUTE_ALTERNATIVE_KEY = "currentAttrStructAlternative";
+
+	private static final String CURRENT_STRUCT_ATTRIBUTE_KEY = "currentAttrStruct";
+
 	private static final String DISPLAY_PORTLET_KEY = "displayPortlet";
 
 	private static final String DISPLAY_MODE_KEY = "displayMode";
@@ -68,6 +73,10 @@ public class ChangeStructureController implements InitializingBean {
 	private static final String FORCE_DISPLAY_CURRENT_STRUCT_KEY = "displayCurrentStruct";
 
 	private static final String DISPLAY_ONLY_CURRENT_STRUCT_KEY = "displayOnlyCurrentStruct";
+
+	private static final String DISPLAY_ONLY_CURRENT_STRUCT_LOGO_KEY = "displayOnlyCurrentStructLogo";
+
+	private static final String DEFAULT_STRUCT_LOGO_KEY = "defaultStructLogo";
 
 	@Value("${redirectAfterChange:false}")
 	@Getter
@@ -78,6 +87,11 @@ public class ChangeStructureController implements InitializingBean {
 	@Getter
 	@Setter
 	private String logoutUrlRedirect;
+
+	@Value("${ldap.read.attribute.structureLogo:null}")
+	@Getter
+	@Setter
+	private String ldapLogoInOtherAttributeName;
 
 	@Autowired
 	@Getter
@@ -199,6 +213,49 @@ public class ChangeStructureController implements InitializingBean {
 				log.debug("Show only current etablissement {}", currentEtab);
 
 				mv.addObject(ChangeStructureController.CURRENT_STRUCT_KEY, currentEtab);
+			}
+			return mv;
+		}
+
+		// Case of showing the Logo of the Structure Only
+		final boolean displayOnlyCurrentLogo = Boolean.parseBoolean(request.getPreferences().getValue(
+				ChangeStructureController.DISPLAY_ONLY_CURRENT_STRUCT_LOGO_KEY, "false"));
+		final String defaultLogo = request.getPreferences().getValue(ChangeStructureController.DEFAULT_STRUCT_LOGO_KEY,
+				"/images/logoPortal.png");
+
+		if (displayOnlyCurrentLogo) {
+			final ModelAndView mv = new ModelAndView("showLogo");
+			mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_ALTERNATIVE_KEY, defaultLogo);
+			if (this.ldapLogoInOtherAttributeName == null) {
+				mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_KEY, null);
+				return mv;
+			}
+			if (StringUtils.hasText(currentStructId)) {
+				final Structure currentStruct = this.structureService.retrieveStructureById(currentStructId);
+
+				log.debug("Show only current structure {}", currentStruct);
+
+				final List<String> logoValues = currentStruct.getOtherAttributes().get(
+						this.ldapLogoInOtherAttributeName);
+
+				if (logoValues != null && logoValues.size() == 1) {
+					mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_KEY, logoValues.get(0));
+				} else {
+					mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_KEY, null);
+				}
+			} else if (StringUtils.hasText(currentEtabCode)) {
+				// TODO remove this part when ids will be defined
+				final Structure currentEtab = this.structureService.retrieveEtablissementByCode(currentEtabCode);
+
+				log.debug("Show only current etablissement {}", currentEtab);
+
+				final List<String> logoValues = currentEtab.getOtherAttributes().get(this.ldapLogoInOtherAttributeName);
+
+				if (logoValues != null && logoValues.size() == 1) {
+					mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_KEY, logoValues.get(0));
+				} else {
+					mv.addObject(ChangeStructureController.CURRENT_STRUCT_ATTRIBUTE_KEY, null);
+				}
 			}
 			return mv;
 		}
