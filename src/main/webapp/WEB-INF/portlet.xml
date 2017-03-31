@@ -35,6 +35,60 @@
 
     </portlet>
 
+    <portlet>
+        <portlet-name>show-logo</portlet-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <init-param>
+            <name>contextConfigLocation</name>
+            <value>/WEB-INF/context/portlet/change-etab.xml</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Show Structure Logo</title>
+        </portlet-info>
+
+        <portlet-preferences>
+            <preference>
+                <!-- When user doesn't have several structure we can show the current, if false not -->
+                <name>displayOnlyCurrentStructLogo</name>
+                <value>true</value>
+            </preference>
+           <!-- <preference>
+                <name>defaultStructLogo</name>
+                <value>/images/logoPortal.png</value>
+            </preference>  -->
+        </portlet-preferences>
+
+    </portlet>
+
+    <portlet>
+        <portlet-name>show-displayName</portlet-name>
+        <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+        <init-param>
+            <name>contextConfigLocation</name>
+            <value>/WEB-INF/context/portlet/change-etab.xml</value>
+        </init-param>
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>view</portlet-mode>
+        </supports>
+        <portlet-info>
+            <title>Show Structure DisplayName</title>
+        </portlet-info>
+
+        <portlet-preferences>
+            <preference>
+                <!-- When user doesn't have several structure we can show the current, if false not -->
+                <name>displayOnlyCurrentStruct</name>
+                <value>true</value>
+            </preference>
+        </portlet-preferences>
+
+    </portlet>
+
     <user-attribute>
         <name>ESCOUAI</name>
     </user-attribute>
