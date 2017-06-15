@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.service.IStructureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,8 @@ public class StructureRestV2Controller {
 	@Autowired
 	private IStructureService structureService;
 
+	@Autowired
+	private SecurityChecker securityChecker;
 	/*
 	 * Return always Json data (Accept Http Header value has no impact)
 	 * example of call : /CONTEXT-PATH/rest/v2/structures/struct/SIREN
@@ -60,15 +60,10 @@ public class StructureRestV2Controller {
 	 * Return always Json data (Accept Http Header value has no impact)
 	 * example of call : /CONTEXT-PATH/rest/v2/structures/refresh/SIREN
 	 */
+
 	@RequestMapping(value = "/refresh/{id}", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<Void> refresh(@PathVariable("id") final String id, HttpServletRequest request) {
-
-		HttpSession session = request.getSession(false);
-		log.debug("seesion id {}", session.getId());
-		final String userId = (String) session.getAttribute("uid");
-		log.debug("refresh: sesion uid={}", userId);
-
-		if (userId == null || userId.equalsIgnoreCase("guest")) {
+		if (!securityChecker.isSecureAccess(request)) {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if (id != null) {

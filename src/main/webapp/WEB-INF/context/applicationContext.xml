@@ -96,6 +96,10 @@
         <property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
 
+    <bean id="authorizedIpRangeChecker" class="org.esco.portlet.changeetab.web.rest.SecurityChecker">
+        <property name="ips" value="${authorizedIpRange}" />
+    </bean>
+
     <!-- Mocked DAO -->
     <!--
     <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
