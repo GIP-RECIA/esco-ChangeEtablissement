@@ -411,6 +411,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.2</version>
                 <configuration>
                     <source>${project.build.source}</source>
                     <target>${project.build.target}</target>
@@ -444,6 +445,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>2.6</version>
                 <configuration>
                     <attachClasses>true</attachClasses>
                     <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
@@ -461,16 +463,33 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>3.0</version>
                 <configuration>
                     <aggregate>true</aggregate>
+                    <strictCheck>true</strictCheck>
                     <header>src/etc/header.txt</header>
                     <includes>
                         <include>src/main/java/org/esco/**</include>
                         <include>src/main/resources/**</include>
                         <include>src/test/**</include>
                     </includes>
+                    <excludes>
+                        <exclude>**/*.ldif</exclude>
+                        <exclude>**/mockito.xsd</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>maven-notice-plugin</artifactId>
+                <version>1.0.6.1</version>
+                <configuration>
+                    <noticeTemplate>etc/NOTICE.template</noticeTemplate>
+                    <licenseMapping>
+                        <param>/etc/license-mappings.xml</param>
+                    </licenseMapping>
                 </configuration>
             </plugin>
             <!-- Plug-in to add lifecycles to support db-init, data-import, and data-export -->
@@ -499,6 +518,7 @@
             <plugin>
                 <groupId>net.jlehtinen.portlet</groupId>
                 <artifactId>portlet-prototyping-maven-plugin</artifactId>
+                <version>0.9</version>
                 <configuration>
                     <portletNames />
 
