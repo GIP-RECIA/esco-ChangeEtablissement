@@ -261,6 +261,16 @@
         <license>Commons Development and Distribution License, Version 1.1</license>
     </artifact>
     <artifact>
+        <groupId>javax.xml</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <license>Commons Development and Distribution License, Version 1.0</license>
+    </artifact>
+    <artifact>
+        <groupId>javax.xml</groupId>
+        <artifactId>jsr173</artifactId>
+        <license>Commons Development and Distribution License, Version 1.0</license>
+    </artifact>
+    <artifact>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
         <license>Commons Development and Distribution License, Version 1.0</license>
@@ -274,6 +284,11 @@
         <groupId>jcifs</groupId>
         <artifactId>jcifs</artifactId>
         <license>GNU Lesser General Public License, version 2.1</license>
+    </artifact>
+    <artifact>
+        <groupId>jdbm</groupId>
+        <artifactId>jdbm</artifactId>
+        <license>Apache License, Version 2.0</license>
     </artifact>
     <artifact>
         <groupId>jdbm</groupId>
@@ -416,6 +431,11 @@
         <license>Apache License, Version 2.0</license>
     </artifact>
     <artifact>
+        <groupId>org.codehaus.jettison</groupId>
+        <artifactId>jettison</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </artifact>
+    <artifact>
         <groupId>org.codehaus.plexus</groupId>
         <artifactId>plexus-cli</artifactId>
         <license>Apache License, Version 2.0</license>
@@ -468,6 +488,11 @@
     <artifact>
         <groupId>org.cyberneko.html</groupId>
         <artifactId>nekohtml</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </artifact>
+    <artifact>
+        <groupId>org.esco.portlet</groupId>
+        <artifactId>change-etablissement-portlet</artifactId>
         <license>Apache License, Version 2.0</license>
     </artifact>
     <artifact>
@@ -648,6 +673,16 @@
     <artifact>
         <groupId>org.springframework</groupId>
         <artifactId>spring-webmvc-portlet</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </artifact>
+    <artifact>
+        <groupId>org.springframework.batch</groupId>
+        <artifactId>spring-batch-core</artifactId>
+        <license>Apache License, Version 2.0</license>
+    </artifact>
+    <artifact>
+        <groupId>org.springframework.batch</groupId>
+        <artifactId>spring-batch-infrastructure</artifactId>
         <license>Apache License, Version 2.0</license>
     </artifact>
     <artifact>
