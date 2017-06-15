@@ -43,7 +43,6 @@ public interface IStructureService {
 	 * Reload a Structure to consider modifications.
 	 *
 	 * @param id Id of a Structure
-	 * @return a boolean indicating the states of the reload.
 	 */
 	void reloadStructureById(final String id);
 

@@ -48,12 +48,12 @@ public class UniteAdministrativeImmatriculee extends Structure {
 	private String code;
 
 	/**
-	 * @param id
-	 * @param code
-	 * @param name
-	 * @param displayName
-	 * @param description
-	 * @param otherAttributes
+	 * @param id Identifier
+	 * @param code Code
+	 * @param name Complete Name
+	 * @param displayName Display Name
+	 * @param description Description
+	 * @param otherAttributes All other attributes
 	 */
 	public UniteAdministrativeImmatriculee(@NonNull String id, @NonNull String code, @NonNull String name, @NonNull String displayName,
 			String description, Map<String, List<String>> otherAttributes) {
