@@ -72,6 +72,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.2</logback.version>
         <lombok.version>1.16.16</lombok.version>
+        <uportal-libs.version>5.1.0</uportal-libs.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
         <mockito.version>1.10.19</mockito.version>
     </properties>
@@ -173,6 +174,39 @@
                     <exclusion>
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-beans</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- Provides the PortalPropertySourcesPlaceholderConfigurer
+             that supports global.properties and Jasypt encryption-->
+            <dependency>
+                <groupId>org.jasig.portal</groupId>
+                <artifactId>uPortal-spring</artifactId>
+                <version>${uportal-libs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-api-internal</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-security-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-security-mvc</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-tools</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>net.oauth.core</groupId>
+                        <artifactId>oauth</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-webmvc</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -289,6 +323,10 @@
         <dependency>
             <groupId>org.jasig.resourceserver</groupId>
             <artifactId>resource-server-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jasig.portal</groupId>
+            <artifactId>uPortal-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
