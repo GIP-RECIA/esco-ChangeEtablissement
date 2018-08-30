@@ -78,7 +78,7 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
     (function initContainer3($, namespace, refCount, undefined) {
         var container = '.' + refCount + ' .' + namespace + 'container3';
 
-        initDialog(container, namespace);
+        initDialog(container, namespace, false);
 
     }($, namespace, refCount));
 
@@ -86,11 +86,11 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
     (function initContainer4($, namespace, refCount, undefined) {
         var container = '.' + refCount + ' .' + namespace + 'container4';
 
-        initDialog(container, namespace);
+        initDialog(container, namespace, true);
 
     }($, namespace, refCount));
 
-    function initDialog(container, namespace) {
+    function initDialog(container, namespace, loadDialog) {
 
         $(window).bind('load', function() {
             // On load
@@ -105,39 +105,13 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
             var button = $(container + ' .changeEtab-button');
             var dialog = $(container + ' .changeEtab-dialog');
 
-            button.bind('click', function(){
-                // On select button click
-
-                form[0].reset();
-
-                dialog.dialog({
-                    dialogClass: namespace + '-dialog',
-                    modal: true,
-                    title: msgEtabChangeTitle,
-                    resizable: false,
-                    width: '700px',
-                    buttons: [{
-                        text: msgEtabChangeAction,
-                        click: function() {
-                            $( this ).dialog( "close" );
-
-                            var confirmed = confirm(msgEtabChangeConfirm);
-                            if (confirmed) {
-                                // submit form
-                                form.submit();
-                            }
-                        }
-                    }, {
-                        text: msgEtabChangeCancel,
-                        click: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }]
-                });
-
-                var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
-                actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+            button.bind('click', function() {
+                bindFom(container, namespace, form, dialog, msgEtabChangeTitle, msgEtabChangeAction, msgEtabChangeConfirm, msgEtabChangeCancel)
             });
+
+            if (loadDialog) {
+                bindFom(container, namespace, form, dialog, msgEtabChangeTitle, msgEtabChangeAction, msgEtabChangeConfirm, msgEtabChangeCancel);
+            }
 
             radios.bind('change', function(event) {
                 var radio = event.target;
@@ -154,4 +128,39 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
         });
 
     }
+
+  function bindFom(container, namespace, form, dialog, msgEtabChangeTitle, msgEtabChangeAction, msgEtabChangeConfirm, msgEtabChangeCancel){
+    // On select button click
+    if (form[0]) {
+      form[0].reset();
+    }
+
+    dialog.dialog({
+      dialogClass: namespace + '-dialog',
+      modal: true,
+      title: msgEtabChangeTitle,
+      resizable: false,
+      width: '700px',
+      buttons: [{
+        text: msgEtabChangeAction,
+        click: function() {
+          $( this ).dialog( "close" );
+
+          var confirmed = confirm(msgEtabChangeConfirm);
+          if (confirmed) {
+            // submit form
+            form.submit();
+          }
+        }
+      }, {
+        text: msgEtabChangeCancel,
+        click: function() {
+          $( this ).dialog( "close" );
+        }
+      }]
+    });
+
+    var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
+    actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+  }
 };
