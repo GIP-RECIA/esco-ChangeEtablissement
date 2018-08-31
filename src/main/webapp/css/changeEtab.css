@@ -27,10 +27,15 @@
 .changeEtabPortlet .iconified {
  	padding: 15px 15px;
 }
-
+/*
 .changeEtabPortlet .changeEtab-dialog {
 	display: none;
 	visibility: hidden;
+}
+*/
+
+.changeEtabPortlet input.changeEtab-submit {
+  padding: 5px;
 }
 
 .changeEtab-dialog .message {

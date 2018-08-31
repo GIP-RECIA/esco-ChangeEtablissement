@@ -86,11 +86,49 @@ changeEtabPortlet.init = function($, namespace, refCount, undefined) {
     (function initContainer4($, namespace, refCount, undefined) {
         var container = '.' + refCount + ' .' + namespace + 'container4';
 
-        initDialog(container, namespace, true);
+      confirmSubmit(container, namespace);
 
     }($, namespace, refCount));
 
-    function initDialog(container, namespace, loadDialog) {
+  function confirmSubmit(container, namespace) {
+
+    $(window).bind('load', function() {
+      // On load
+
+      var msgEtabChangeConfirm = $('.changeEtabPortletMessages .etabChangeConfirm').html();
+
+      var form = $(container + ' form');
+      var radios = $(container + ' form input[type=radio]');
+      var button = $(container + ' .changeEtab-submit');
+
+      button.bind('click', function() {
+        var confirmed = confirm(msgEtabChangeConfirm);
+        if (confirmed) {
+          // submit form
+          form.submit();
+        }
+      });
+
+      radios.bind('change', function(event) {
+        var radio = event.target;
+        // var actionButton = $('.' + namespace + '-dialog' + " :button:contains('" + msgEtabChangeAction + "')");
+
+        if(radio.value) {
+          //actionButton.removeAttr('disabled').removeClass('ui-state-disabled');
+          button.removeAttr('disabled').removeClass('ui-state-disabled');
+        } else {
+          //actionButton.attr('disabled', 'disabled').addClass('ui-state-disabled');
+          button.attr('disabled', 'disabled').addClass('ui-state-disabled');
+        }
+
+      });
+
+    });
+
+  }
+
+
+  function initDialog(container, namespace, loadDialog) {
 
         $(window).bind('load', function() {
             // On load

@@ -21,6 +21,9 @@
 </span>
 
 <portlet:actionURL var="changeStructAction" name="changeStruct" />
+<portlet:actionURL var="newChangeStructAction" escapeXml="false">
+    <portlet:param name="action" value="changeStruct"></portlet:param>
+</portlet:actionURL>
 
 <%------------ DISPLAY Current Etablissement only --------------%>
 
@@ -120,16 +123,16 @@
 <c:if test="${displayMode == 'All' || displayMode == '4'}">
 <span class="${n}container4 changeEtabPortlet">
     <c:if test="${displayPortlet}">
-    <span class="changeEtab-button">
-        <a href="#" onclick="return false;" title="${msgEtabChangeAction}">
+    <h1 class="changeEtab-button">
+        <%--<a href="#" onclick="return false;" title="${msgEtabChangeAction}">--%>
             <span>${msgEtabChangeAction}</span>
-        </a>
-    </span>
+        <%--</a>--%>
+    </h1>
     <div class="changeEtab-dialog">
         <div class="message">
             ${msgEtabChangeMessage}
         </div>
-        <form:form method="post" action="${changeStructAction}">
+        <form:form method="post" commandName="command" action="${newChangeStructAction}" role="form">
             <c:forEach items="${structs}" var="struct">
             <div class="fl-widget">
                 <div class="fl-widget-titlebar">
@@ -138,6 +141,7 @@
                 </div>
             </div>
             </c:forEach>
+            <input type="button" class="btn btn-primary changeEtab-submit" value="${msgEtabChangeAction}" />
         </form:form>
     </div>
     </c:if>

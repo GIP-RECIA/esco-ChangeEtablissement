@@ -109,8 +109,8 @@ public class ChangeStructureController implements InitializingBean {
 	@Setter
 	private IUserService userService;
 
-	@ActionMapping("changeStruct")
-	public void changeStruct(@ModelAttribute("command") final ChangeStructCommand changeStructCommand,
+	@ActionMapping(params = "action=changeStruct")
+	public void newChangeStruct(@ModelAttribute("command") final ChangeStructCommand changeStructCommand,
 			final ActionRequest request, final ActionResponse response) throws Exception {
 		final String selectedId = changeStructCommand.getSelectedStructId();
 		Assert.hasText(selectedId, "No Structure id selected !");
