@@ -123,24 +123,31 @@
 <c:if test="${displayMode == 'All' || displayMode == '4'}">
 <span class="${n}container4 changeEtabPortlet">
     <c:if test="${displayPortlet}">
-    <h1 class="changeEtab-button">
-        <%--<a href="#" onclick="return false;" title="${msgEtabChangeAction}">--%>
-            <span>${msgEtabChangeAction}</span>
-        <%--</a>--%>
-    </h1>
+    <h1 class="changeEtab-button">${msgEtabChangeAction}</h1>
     <div class="changeEtab-dialog">
-        <div class="message">
-            ${msgEtabChangeMessage}
+        <div class="current">
+            <label>${msgEtabCurrentMessage}</label>
+            <c:set var="code">
+                <c:catch var="exception">${currentStruct.code}</c:catch>
+            </c:set>
+            <span>${currentStruct.displayName} <span class="structId">(${empty code ? currentStruct.id : code})</span></span>
+
         </div>
         <form:form method="post" commandName="command" action="${newChangeStructAction}" role="form">
-            <c:forEach items="${structs}" var="struct">
-            <div class="fl-widget">
-                <div class="fl-widget-titlebar">
-                    <form:radiobutton id="${n}3radio${struct.id}" class="changeEtab-select" path="selectedStructId" value="${struct.id}" />
-                    <label for="${n}3radio${struct.id}">${struct.displayName}</label>
+            <fieldset>
+                <legend>${msgEtabChangeMessage}</legend>
+                <div>
+                    <c:forEach items="${structs}" var="struct">
+                    <c:set var="code">
+                        <c:catch var="exception">${struct.code}</c:catch>
+                    </c:set>
+                    <div>
+                        <form:radiobutton id="${n}3radio${struct.id}" class="changeEtab-select" path="selectedStructId" value="${struct.id}" />
+                        <label for="${n}3radio${struct.id}">${struct.displayName} <span class="structId">(${empty code ? struct.id : code})</span></label>
+                    </div>
+                    </c:forEach>
                 </div>
-            </div>
-            </c:forEach>
+            </fieldset>
             <input type="button" class="btn btn-primary changeEtab-submit" value="${msgEtabChangeAction}" />
         </form:form>
     </div>

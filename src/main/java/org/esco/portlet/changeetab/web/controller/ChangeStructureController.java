@@ -28,6 +28,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -185,7 +186,7 @@ public class ChangeStructureController implements InitializingBean {
 	}
 
 	@RequestMapping
-	public ModelAndView handleRenderRequest(final RenderRequest request, final RenderResponse response)
+	public ModelAndView handleRenderRequest(@ModelAttribute("command") final ChangeStructCommand changeStructCommand, final RenderRequest request, final RenderResponse response)
 			throws Exception {
 		log.debug("Rendering Change Structure portlet View...");
 		final boolean displayOnlyCurrent = Boolean.parseBoolean(request.getPreferences().getValue(
@@ -269,13 +270,15 @@ public class ChangeStructureController implements InitializingBean {
 					.retrieveStructuresByIds(changeableStructIds);
 
 			final Structure currentStruct = changeableStructs.remove(currentStructId);
+			final List<Structure> changeableList = Lists.newArrayList(changeableStructs.values());
 
 			log.debug("Found [{}] structure whose user can change to.", changeableStructs.size());
 
-			display = !changeableStructs.values().isEmpty();
+			display = !changeableList.isEmpty();
 
 			mv.addObject(ChangeStructureController.CURRENT_STRUCT_KEY, currentStruct);
-			mv.addObject(ChangeStructureController.STRUCT_LIST_KEY, changeableStructs.values());
+			mv.addObject(ChangeStructureController.STRUCT_LIST_KEY, changeableList);
+			changeStructCommand.setSelectedStructId(changeableList.get(0).getId());
 		} else if ((StringUtils.hasText(currentEtabCode)) && !changeableEtabCodes.isEmpty()) {
 			// TODO remove this part when ids will be defined
 			final Map<String, UniteAdministrativeImmatriculee> changeableEtabs = this.structureService

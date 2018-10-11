@@ -9,7 +9,7 @@
 	display: none;
 }
 
-/************ Conatainer 1 ************/
+/************ Container 1 ************/
 
 /*
 .changeEtabPortlet form span {
@@ -22,7 +22,7 @@
 }
 */
 
-/************ Conatainer 2 & 3 ************/
+/************ Container 2 & 3 ************/
 
 .changeEtabPortlet .iconified {
  	padding: 15px 15px;
@@ -38,6 +38,16 @@
   padding: 5px;
 }
 
-.changeEtab-dialog .message {
-	margin-bottom: 10px;
+ /************ Container 4 ************/
+.changeEtabPortlet .changeEtab-dialog .current {
+	margin-bottom: 15px;
+}
+.changeEtabPortlet .changeEtab-dialog form div, .changeEtabPortlet .changeEtab-dialog form input {
+	line-height: 40px;
+}
+.changeEtabPortlet .changeEtab-dialog form fieldset {
+	margin-bottom: 15px;
+}
+.changeEtabPortlet .changeEtab-dialog span.structId {
+	font-size: 75%;
 }
