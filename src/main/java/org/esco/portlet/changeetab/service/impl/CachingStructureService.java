@@ -226,7 +226,7 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 
 		if (this.cacheLoadingNeeded()) {
 			this.forceLoadStructureCache();
-		} else if (this.expiredIds.containsKey(id) && this.expiredIds.get(id).isAfterNow()) {
+		} else if (this.expiredIds.containsKey(id) && this.expiredIds.get(id).isBeforeNow()) {
 			this.loadingInProgress = true;
 
 			log.debug("Refreshing cached structure with id [{}] ...", id);
