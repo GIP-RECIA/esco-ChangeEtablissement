@@ -1,0 +1,17 @@
+language: java
+
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      dist: trusty
+      jdk: openjdk8
+
+# For maven projects, the default installation phase can be skipped
+install: true
+
+cache:
+  directories:
+    - $HOME/.m2/repository
+
+script: mvn clean test -B 
