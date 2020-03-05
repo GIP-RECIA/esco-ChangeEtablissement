@@ -20,7 +20,6 @@
 package org.esco.portlet.changeetab.service.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,11 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
-import org.joda.time.Instant;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -52,7 +49,7 @@ import fr.mby.utils.common.test.LoadRunner;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:cachingStructureServiceContext.xml")
+@ContextConfiguration(locations = {"classpath:cachingStructureServiceContext.xml", "classpath:restApiContext.xml"})
 @Slf4j
 public class CachingStructureServiceTest {
 
