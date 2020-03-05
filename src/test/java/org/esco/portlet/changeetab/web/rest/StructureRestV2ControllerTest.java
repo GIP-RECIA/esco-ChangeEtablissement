@@ -121,7 +121,7 @@ public class StructureRestV2ControllerTest {
                 get("/v2/structures/struct/" + SIREN_1).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
-                //.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.id").value(SIREN_1))
                 .andExpect(jsonPath("$.name").exists())
