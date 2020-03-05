@@ -96,7 +96,7 @@
         <property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
 
-    <bean id="authorizedIpRangeChecker" class="org.esco.portlet.changeetab.web.rest.SecurityChecker">
+    <bean id="authorizedIpRangeChecker" class="org.esco.portlet.changeetab.service.impl.SecurityChecker">
         <property name="ips" value="${authorizedIpRange}" />
     </bean>
 

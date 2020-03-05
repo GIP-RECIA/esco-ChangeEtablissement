@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.esco.portlet.changeetab.web.rest;
+package org.esco.portlet.changeetab.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +24,14 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.esco.portlet.changeetab.service.ISecurityChecker;
 import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
  * Created by jgribonvald on 14/06/17.
  */
-public class SecurityChecker {
+public class SecurityChecker implements ISecurityChecker {
 
     private Set<String> ips = new HashSet<>();
 
@@ -49,6 +50,7 @@ public class SecurityChecker {
         this.ips = new HashSet<>(Arrays.asList(tmp));
     }
 
+    @Override
     public boolean isSecureAccess(final HttpServletRequest request){
         if (matchers.isEmpty() || !initialized) {
             for (String ip: ips) {
