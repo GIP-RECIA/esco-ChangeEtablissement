@@ -8,14 +8,14 @@
 
     <name>Change etablissement Portlet</name>
     <description>Change etablissement Portlet.</description>
-    <version>2.1.9-SNAPSHOT</version>
+    <version>2.1.9</version>
     <inceptionYear>2012</inceptionYear>
 
     <scm>
         <connection>scm:git:ssh://git@github.com/GIP-RECIA/esco-ChangeEtablissement.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/GIP-RECIA/esco-ChangeEtablissement.git</developerConnection>
         <url>https://github.com/GIP-RECIA/esco-ChangeEtablissement.git</url>
-        <tag>HEAD</tag>
+        <tag>2.1.9</tag>
     </scm>
     <distributionManagement>
         <repository>
