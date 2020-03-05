@@ -19,8 +19,10 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -29,6 +31,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import net.sf.ehcache.Ehcache;
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
@@ -71,9 +74,13 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 	/** Configured caching duration (default 1 hour). */
 	private Duration cachingDuration = Duration.standardHours(1L);
 
+	/** Configured caching duration (default 3 second). */
+	private Duration refreshExpiredDuration = Duration.standardSeconds(3);
+
 	/** Instant when the cache will be expiring. */
 	@Getter
-	private volatile Instant expiringInstant;
+	@Setter
+	protected volatile Instant expiringInstant;
 
 	/** True if cache is loading. */
 	private volatile boolean loadingInProgress = false;
@@ -82,6 +89,9 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 	private final ReentrantReadWriteLock cacheRwl = new ReentrantReadWriteLock();
 	private final Lock cacheRl = cacheRwl.readLock();
 	private final Lock cacheWl = cacheRwl.writeLock();
+
+	@Getter
+	private volatile HashMap<String, Instant> expiredIds = new HashMap<>();
 
 	@Override
 	public Map<String, Structure> retrieveStructuresByIds(final Collection<String> ids) {
@@ -110,6 +120,10 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 		Structure struct = null;
 
 		this.forceLoadStructureCache();
+
+		if (this.expiredIds.containsKey(id)) {
+			this.reloadStructureById(id);
+		}
 
 		final String cacheKey = this.genCacheKey(id);
 		ValueWrapper cachedValue = null;
@@ -186,16 +200,33 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 		return etab;
 	}
 
-	/**
-	 * @see org.esco.portlet.changeetab.service.IStructureService#reloadStructureById(java.lang.String)
-	 */
 	@Override
-	public void reloadStructureById(final String id) {
+	public void invalidateStructureById(final String id) {
+		log.debug("Invalidating cached structure with id [{}] ...", id);
+		final String cacheKey = this.genCacheKey(id);
+		ValueWrapper cachedValue = null;
+
+		// Aquire read lock to avoid cache unconsistency
+		this.cacheRl.lock();
+		try {
+			cachedValue = this.structureCache.get(cacheKey);
+		} finally {
+			this.cacheRl.unlock();
+		}
+		if (cachedValue == null) {
+			log.warn("No structure found in cache for id: [{}] !", id);
+		} else {
+			expiredIds.put(id, new Instant().plus(this.refreshExpiredDuration));
+		}
+	}
+
+	/** Force reload of a structure. */
+	private synchronized void reloadStructureById(final String id) {
 		Assert.hasText(id, "No Structure id supplied !");
 
 		if (this.cacheLoadingNeeded()) {
 			this.forceLoadStructureCache();
-		} else {
+		} else if (this.expiredIds.containsKey(id) && this.expiredIds.get(id).isAfterNow()) {
 			this.loadingInProgress = true;
 
 			log.debug("Refreshing cached structure with id [{}] ...", id);
@@ -212,6 +243,7 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 				} finally {
 					this.cacheWl.unlock();
 					this.loadingInProgress = false;
+					this.expiredIds.remove(id);
 				}
 			} else {
 				log.warn("Loading doesn't find the structure with id {} !", id);
@@ -222,7 +254,6 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 		if (this.cacheLoadingNeeded()) {
 			this.forceLoadStructureCache();
 		}
-
 	}
 
 	/** Load the structure cache. */
@@ -251,6 +282,7 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 						}
 					}
 					this.expiringInstant = refreshedInstant;
+					this.expiredIds.clear();
 
 					log.debug("structure cache loaded with new expiration time: {}", refreshedInstant.toString());
 				} finally {
@@ -317,6 +349,24 @@ public class CachingStructureService implements IUniteAdministrativeImmatriculeS
 	*/
 	public void setCachingDuration(final long cachingDuration) {
 		this.cachingDuration = Duration.millis(cachingDuration);
+	}
+
+	/**
+	 * Getter of refreshExpiredDuration
+	 *
+	 * @return the refreshExpiredDuration
+	 */
+	public long getRefreshExpiredDuration() {
+		return refreshExpiredDuration.getMillis();
+	}
+
+	/**
+	 * Setter of refreshExpiredDuration
+	 *
+	 * @param refreshExpiredDuration the refreshExpiredDuration to set
+	 */
+	public void setRefreshExpiredDuration(final long refreshExpiredDuration) {
+		this.refreshExpiredDuration = Duration.millis(refreshExpiredDuration);
 	}
 
 	@Override

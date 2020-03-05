@@ -83,7 +83,7 @@ public class StructureRestV2Controller {
 			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 		}
 		if (id != null) {
-			structureService.reloadStructureById(id);
+			structureService.invalidateStructureById(id);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

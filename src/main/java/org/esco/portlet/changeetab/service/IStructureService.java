@@ -40,10 +40,10 @@ public interface IStructureService {
 	Structure retrieveStructureById(final String id);
 
 	/**
-	 * Reload a Structure to consider modifications.
+	 * Invalidate a Structure to consider modifications to force reload on.
 	 *
 	 * @param id Id of a Structure
 	 */
-	void reloadStructureById(final String id);
+	void invalidateStructureById(final String id);
 
 }
