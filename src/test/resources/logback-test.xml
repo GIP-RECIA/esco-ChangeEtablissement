@@ -25,9 +25,10 @@
     </layout>
   </appender>
 
-  <logger name="org.esco.portlet.changeetab" level="TRACE"/>
+  <logger name="org.esco.portlet.changeetab" level="DEBUG"/>
+  <logger name="org.esco.portlet.changeetab.service.impl.CachingStructureService" level="INFO"/>
 
-  <root level="debug">
+  <root level="INFO">
     <appender-ref ref="STDOUT" />
   </root>
 </configuration>
