@@ -65,7 +65,7 @@
 
         <!-- Dependency versions -->
         <jackson.version>2.9.10</jackson.version>
-        <joda-time.version>2.0</joda-time.version>
+        <joda-time.version>2.10.5</joda-time.version>
         <json-path.version>0.9.1</json-path.version>
         <resource-server.version>1.0.43</resource-server.version>
         <spring.version>3.2.17.RELEASE</spring.version>
