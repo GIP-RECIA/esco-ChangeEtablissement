@@ -64,7 +64,7 @@
         <project.build.target>1.7</project.build.target>
 
         <!-- Dependency versions -->
-        <jackson.version>2.9.10</jackson.version>
+        <jackson.version>2.10.3</jackson.version>
         <joda-time.version>2.10.5</joda-time.version>
         <json-path.version>0.9.1</json-path.version>
         <resource-server.version>1.0.43</resource-server.version>
