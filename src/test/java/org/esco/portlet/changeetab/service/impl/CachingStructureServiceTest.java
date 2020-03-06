@@ -33,6 +33,7 @@ import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -153,6 +154,7 @@ public class CachingStructureServiceTest {
 
 	@Test
 	public void testRetrieveOneExistingEtab() throws Exception {
+		log.debug("Running testRetrieveOneExistingEtab");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingStructureServiceTest.UAI_2);
 
@@ -161,10 +163,20 @@ public class CachingStructureServiceTest {
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return only one etab !", 1, etabs.size());
 		Assert.assertTrue("Bad struct returned !", etabs.containsValue(CachingStructureServiceTest.ETAB_2));
+		log.debug("End of testRetrieveOneExistingEtab");
 	}
 
 	@Test
 	public void testRetrieveOneExistingStruct() throws Exception {
+		log.debug("Running testRetrieveOneExistingStruct");
+
+		Mockito.when(mockedDao.findAllStructures()).then(new Answer<Collection<? extends Structure>>() {
+
+			@Override
+			public Collection<? extends Structure> answer(InvocationOnMock invocation) throws Throwable {
+				return CachingStructureServiceTest.this.mockedFindAllStructures();
+			}
+		});
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add(CachingStructureServiceTest.SIREN_2);
 
@@ -173,10 +185,12 @@ public class CachingStructureServiceTest {
 		Assert.assertNotNull("Should return an empty collection !", structs);
 		Assert.assertEquals("Should return only one etab !", 1, structs.size());
 		Assert.assertTrue("Bad struct returned !", structs.containsValue(CachingStructureServiceTest.ETAB_2));
+		log.debug("End of testRetrieveOneExistingStruct");
 	}
 
 	@Test
 	public void testRetrieveSeveralExistingEtabs() throws Exception {
+		log.debug("Running testRetrieveSeveralExistingEtabs");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingStructureServiceTest.UAI_3);
 		uais.add(CachingStructureServiceTest.UAI_1);
@@ -187,10 +201,12 @@ public class CachingStructureServiceTest {
 		Assert.assertEquals("Should return only one etab !", 2, etabs.size());
 		Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingStructureServiceTest.ETAB_1));
 		Assert.assertTrue("Bad etab in returned list !", etabs.containsValue(CachingStructureServiceTest.ETAB_3));
+		log.debug("End of testRetrieveSeveralExistingEtabs");
 	}
 
 	@Test
 	public void testRetrieveSeveralExistingStructs() throws Exception {
+		log.debug("Running testRetrieveSeveralExistingStructs");
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add(CachingStructureServiceTest.SIREN_3);
 		sirens.add(CachingStructureServiceTest.SIREN_5);
@@ -201,10 +217,12 @@ public class CachingStructureServiceTest {
 		Assert.assertEquals("Should return only one etab !", 2, structs.size());
 		Assert.assertTrue("Bad struct in returned list !", structs.containsValue(CachingStructureServiceTest.ETAB_3));
 		Assert.assertTrue("Bad struct in returned list !", structs.containsValue(CachingStructureServiceTest.STRUCT_5));
+		log.debug("End of testRetrieveSeveralExistingStructs");
 	}
 
 	@Test
 	public void testRetrieveNotExistingEtab() throws Exception {
+		log.debug("Running testRetrieveNotExistingEtab");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add("NotExistingUai");
 
@@ -212,10 +230,12 @@ public class CachingStructureServiceTest {
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return an empty collection !", 0, etabs.size());
+		log.debug("End of testRetrieveNotExistingEtab");
 	}
 
 	@Test
 	public void testRetrieveNotExistingStruct() throws Exception {
+		log.debug("Running testRetrieveNotExistingEtab");
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add("NotExistingUai");
 
@@ -223,32 +243,42 @@ public class CachingStructureServiceTest {
 
 		Assert.assertNotNull("Should return an empty collection !", structs);
 		Assert.assertEquals("Should return an empty collection !", 0, structs.size());
+		log.debug("End of testRetrieveNotExistingEtab");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithNullParam() throws Exception {
+		log.debug("Running testRetrieveEtablissementsByUaisWithNullParam");
 		this.service.retrieveEtablissementsByCodes(null);
+		log.debug("End of testRetrieveEtablissementsByUaisWithNullParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEtablissementsBySirensWithNullParam() throws Exception {
+		log.debug("Running testRetrieveEtablissementsBySirensWithNullParam");
 		this.service.retrieveStructuresByIds(null);
+		log.debug("End of testRetrieveEtablissementsBySirensWithNullParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEtablissementsByUaisWithEmptyParam() throws Exception {
+		log.debug("Running testRetrieveEtablissementsByUaisWithEmptyParam");
 		final List<String> s = Collections.emptyList();
 		this.service.retrieveEtablissementsByCodes(s);
+		log.debug("End of testRetrieveEtablissementsByUaisWithEmptyParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEtablissementsBySirensWithEmptyParam() throws Exception {
+		log.debug("Running testRetrieveEtablissementsBySirensWithEmptyParam");
 		final List<String> s = Collections.emptyList();
 		this.service.retrieveStructuresByIds(s);
+		log.debug("End of testRetrieveEtablissementsBySirensWithEmptyParam");
 	}
 
 	@Test
 	public void testRetrieveOneExistingEmptyEtab() throws Exception {
+		log.debug("Running testRetrieveOneExistingEmptyEtab");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingStructureServiceTest.UAI_2);
 
@@ -264,10 +294,12 @@ public class CachingStructureServiceTest {
 		final Map<String, UniteAdministrativeImmatriculee> etabs = this.service.retrieveEtablissementsByCodes(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
+		log.debug("End of testRetrieveOneExistingEmptyEtab");
 	}
 
 	@Test
 	public void testRetrieveOneExistingEmptyStruct() throws Exception {
+		log.debug("Running testRetrieveOneExistingEmptyStruct");
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add(CachingStructureServiceTest.SIREN_2);
 
@@ -283,10 +315,12 @@ public class CachingStructureServiceTest {
 		final Map<String, Structure> structs = this.service.retrieveStructuresByIds(sirens);
 
 		Assert.assertNotNull("Should return an empty collection !", structs);
+		log.debug("End of testRetrieveOneExistingEmptyStruct");
 	}
 
 	@Test
 	public void testRetrieveSeveralExistingEmptyEtabs() throws Exception {
+		log.debug("Running testRetrieveSeveralExistingEmptyEtabs");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add(CachingStructureServiceTest.UAI_3);
 		uais.add(CachingStructureServiceTest.UAI_1);
@@ -303,10 +337,12 @@ public class CachingStructureServiceTest {
 		final Map<String, UniteAdministrativeImmatriculee> etabs = this.service.retrieveEtablissementsByCodes(uais);
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
+		log.debug("End of testRetrieveSeveralExistingEmptyEtabs");
 	}
 
 	@Test
 	public void testRetrieveSeveralExistingEmptyStructs() throws Exception {
+		log.debug("Running testRetrieveSeveralExistingEmptyStructs");
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add(CachingStructureServiceTest.SIREN_3);
 		sirens.add(CachingStructureServiceTest.SIREN_5);
@@ -323,10 +359,12 @@ public class CachingStructureServiceTest {
 		final Map<String, Structure> structs = this.service.retrieveStructuresByIds(sirens);
 
 		Assert.assertNotNull("Should return an empty collection !", structs);
+		log.debug("End of testRetrieveSeveralExistingEmptyStructs");
 	}
 
 	@Test
 	public void testRetrieveNotExistingEmptyEtab() throws Exception {
+		log.debug("Running testRetrieveNotExistingEmptyEtab");
 		final Collection<String> uais = new ArrayList<String>();
 		uais.add("NotExistingUai");
 
@@ -343,10 +381,12 @@ public class CachingStructureServiceTest {
 
 		Assert.assertNotNull("Should return an empty collection !", etabs);
 		Assert.assertEquals("Should return an empty collection !", 0, etabs.size());
+		log.debug("End of testRetrieveNotExistingEmptyEtab");
 	}
 
 	@Test
 	public void testRetrieveNotExistingEmptyStruct() throws Exception {
+		log.debug("Running testRetrieveNotExistingEmptyStruct");
 		final Collection<String> sirens = new ArrayList<String>();
 		sirens.add("NotExistingUai");
 
@@ -363,10 +403,12 @@ public class CachingStructureServiceTest {
 
 		Assert.assertNotNull("Should return an empty collection !", structs);
 		Assert.assertEquals("Should return an empty collection !", 0, structs.size());
+		log.debug("End of testRetrieveNotExistingEmptyStruct");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEmptyEtablissementsByUaisWithNullParam() throws Exception {
+		log.debug("Running testRetrieveEmptyEtablissementsByUaisWithNullParam");
 		// Init DAO mock
 		Mockito.when(mockedDao.findAllStructures()).then(new Answer<Collection<UniteAdministrativeImmatriculee>>() {
 
@@ -377,10 +419,12 @@ public class CachingStructureServiceTest {
 		});
 
 		this.service.retrieveEtablissementsByCodes(null);
+		log.debug("End of testRetrieveEmptyEtablissementsByUaisWithNullParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEmptyStructuresBySirensWithNullParam() throws Exception {
+		log.debug("Running testRetrieveEmptyStructuresBySirensWithNullParam");
 		// Init DAO mock
 		Mockito.when(mockedDao.findAllStructures()).then(new Answer<Collection<? extends Structure>>() {
 
@@ -391,10 +435,12 @@ public class CachingStructureServiceTest {
 		});
 
 		this.service.retrieveStructuresByIds(null);
+		log.debug("End of testRetrieveEmptyStructuresBySirensWithNullParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEmptyEtablissementsByUaisWithEmptyParam() throws Exception {
+		log.debug("Running testRetrieveEmptyEtablissementsByUaisWithEmptyParam");
 		// Init DAO mock
 		Mockito.when(mockedDao.findAllStructures()).then(new Answer<Collection<UniteAdministrativeImmatriculee>>() {
 
@@ -406,10 +452,12 @@ public class CachingStructureServiceTest {
 
 		final List<String> s = Collections.emptyList();
 		this.service.retrieveEtablissementsByCodes(s);
+		log.debug("End of testRetrieveEmptyEtablissementsByUaisWithEmptyParam");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testRetrieveEmptyStructuresBySirensWithEmptyParam() throws Exception {
+		log.debug("Running testRetrieveEmptyStructuresBySirensWithEmptyParam");
 		// Init DAO mock
 		Mockito.when(mockedDao.findAllStructures()).then(new Answer<Collection<? extends Structure>>() {
 
@@ -421,10 +469,12 @@ public class CachingStructureServiceTest {
 
 		final List<String> s = Collections.emptyList();
 		this.service.retrieveStructuresByIds(s);
+		log.debug("End of testRetrieveEmptyStructuresBySirensWithEmptyParam");
 	}
 
 	@Test
 	public void loadTestRetrieveSeveralExistingEtabs() throws Exception {
+		log.debug("Running loadTestRetrieveSeveralExistingEtabs");
 		this.service.setCachingDuration(100);
 
 		// define a random on etabs retrived to test when the ldap dao returned errors
@@ -470,11 +520,13 @@ public class CachingStructureServiceTest {
 
 		long endTime = System.currentTimeMillis();
 
-		log.info("Test take {} ms.", (endTime - startTime));
+		log.info("Test took {} ms.", (endTime - startTime));
+		log.debug("End of loadTestRetrieveSeveralExistingEtabs");
 	}
 
 	@Test
 	public void loadTestRetrieveSeveralExistingStructs() throws Exception {
+		log.debug("Running loadTestRetrieveSeveralExistingStructs");
 		this.service.setCachingDuration(100);
 
 		// define a random on etabs retrived to test when the ldap dao returned errors
@@ -529,12 +581,14 @@ public class CachingStructureServiceTest {
 
 		long endTime = System.currentTimeMillis();
 
-		log.info("Test take {} ms.", (endTime - startTime));
+		log.info("Test took {} ms.", (endTime - startTime));
+		log.debug("End of loadTestRetrieveSeveralExistingStructs");
 	}
 
 	// On refreshed struct before global refresh but not before RefreshExpiredDuration
 	@Test
 	public void loadTestInvalidatingStruct() throws Exception {
+		log.debug("Running loadTestInvalidatingStruct");
 		this.service.setCachingDuration(700);
 		this.service.setRefreshExpiredDuration(400);
 
@@ -578,11 +632,13 @@ public class CachingStructureServiceTest {
 		long endTime = System.currentTimeMillis();
 
 		log.info("Test take {} ms.", (endTime - startTime));
+		log.debug("End of loadTestInvalidatingStruct");
 	}
 
 	// on global refresh only
 	@Test
 	public void loadTestInvalidatingStruct2() throws Exception {
+		log.debug("Running loadTestInvalidatingStruct2");
 		this.service.setCachingDuration(500);
 		this.service.setRefreshExpiredDuration(200);
 
@@ -623,6 +679,7 @@ public class CachingStructureServiceTest {
 		long endTime = System.currentTimeMillis();
 
 		log.info("Test take {} ms.", (endTime - startTime));
+		log.debug("End of loadTestInvalidatingStruct2");
 	}
 
 	/**
