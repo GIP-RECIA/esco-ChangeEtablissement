@@ -27,19 +27,17 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.collections.map.HashedMap;
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Service;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Slf4j
 public class MockStructureDao implements IStructureDao, InitializingBean {
 

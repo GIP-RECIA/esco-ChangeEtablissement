@@ -28,24 +28,21 @@ import javax.naming.directory.ModificationItem;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-
 import org.esco.portlet.changeetab.dao.IUserDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Data
 @NoArgsConstructor
 public class LdapUserDao implements IUserDao, InitializingBean {
@@ -56,7 +53,7 @@ public class LdapUserDao implements IUserDao, InitializingBean {
 	@NonNull
 	private String userIdTemplate = "%u";
 
-	@Autowired
+	//@Autowired
 	private LdapTemplate ldapTemplate;
 
 	/** User base Ldap dn. */

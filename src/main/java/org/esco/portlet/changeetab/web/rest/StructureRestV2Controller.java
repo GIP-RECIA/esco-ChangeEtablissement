@@ -23,30 +23,27 @@ import javax.servlet.http.HttpServletRequest;
 
 import lombok.extern.slf4j.Slf4j;
 import org.esco.portlet.changeetab.model.Structure;
-import org.esco.portlet.changeetab.service.ISecurityChecker;
 import org.esco.portlet.changeetab.service.IStructureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by jgribonvald on 27/03/17.
  */
 @Slf4j
-@Controller
-@RequestMapping(value = "/v2/structures")
+@RestController
+@RequestMapping(value = "/rest/v2/structures")
 public class StructureRestV2Controller {
 
 	@Autowired
 	private IStructureService structureService;
 
-	@Autowired
-	private ISecurityChecker securityChecker;
 	/*
 	 * Return always Json data (Accept Http Header value has no impact)
 	 * example of call : /CONTEXT-PATH/rest/v2/structures/struct/SIREN
@@ -80,9 +77,6 @@ public class StructureRestV2Controller {
 
 	@RequestMapping(value = "/refresh/{id}", method = RequestMethod.POST, produces = "application/json")
 	public ResponseEntity<Void> refresh(@PathVariable("id") final String id, HttpServletRequest request) {
-		if (!securityChecker.isSecureAccess(request)) {
-			return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
-		}
 		if (id != null) {
 			structureService.invalidateStructureById(id);
 			return new ResponseEntity<Void>(HttpStatus.OK);

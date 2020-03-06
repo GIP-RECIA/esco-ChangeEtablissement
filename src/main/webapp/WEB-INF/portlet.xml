@@ -10,7 +10,7 @@
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>/WEB-INF/context/portlet/change-etab.xml</value>
+            <value>classpath:/context/portlet/change-etab.xml</value>
         </init-param>
         <supports>
             <mime-type>text/html</mime-type>
@@ -40,7 +40,7 @@
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>/WEB-INF/context/portlet/change-etab.xml</value>
+            <value>classpath:/context/portlet/change-etab.xml</value>
         </init-param>
         <supports>
             <mime-type>text/html</mime-type>
@@ -69,7 +69,7 @@
         <portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
         <init-param>
             <name>contextConfigLocation</name>
-            <value>/WEB-INF/context/portlet/change-etab.xml</value>
+            <value>classpath:/context/portlet/change-etab.xml</value>
         </init-param>
         <supports>
             <mime-type>text/html</mime-type>

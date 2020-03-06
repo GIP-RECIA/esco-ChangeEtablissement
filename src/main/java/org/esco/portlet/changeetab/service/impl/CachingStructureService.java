@@ -19,10 +19,8 @@
  */
 package org.esco.portlet.changeetab.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -30,43 +28,39 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
-import net.sf.ehcache.Ehcache;
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
+import org.esco.portlet.changeetab.service.IStructureService;
 import org.esco.portlet.changeetab.service.IUniteAdministrativeImmatriculeService;
 import org.joda.time.Duration;
 import org.joda.time.Instant;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Slf4j
-public class CachingStructureService implements IUniteAdministrativeImmatriculeService, InitializingBean {
+public class CachingStructureService implements IStructureService, IUniteAdministrativeImmatriculeService, InitializingBean {
 
-	@Autowired
+	//@Autowired
 	@Getter
 	@Setter
 	private IStructureDao structureDao;
 
-	@Autowired
-	@Qualifier("structuresCache")
+	//@Autowired
+	//@Qualifier("structuresCache")
 	@Getter
 	@Setter
 	private Cache structureCache;
 
-	@Autowired
-	@Qualifier("etabsCodeIdCache")
+	//@Autowired
+	//@Qualifier("etabsCodeIdCache")
 	@Getter
 	@Setter
 	private Cache etabsCodeIdCache;

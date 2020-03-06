@@ -28,23 +28,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.dao.bean.IStructureFormatter;
 import org.esco.portlet.changeetab.model.Structure;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
 import org.springframework.ldap.filter.HardcodedFilter;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Data
 @Slf4j
 @NoArgsConstructor
@@ -67,10 +64,10 @@ public class LdapStructureDao implements IStructureDao/*, InitializingBean*/{
 	@NonNull
 	private Set<String> classValueStructUAI;
 
-	@Autowired
+	//@Autowired
 	private LdapTemplate ldapTemplate;
 
-	@Autowired(required = false)
+	//@Autowired(required = false)
 	private List<IStructureFormatter> structureFormatters;
 
 	/** Structure Ldap base. */

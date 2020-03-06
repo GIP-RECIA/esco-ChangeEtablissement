@@ -2,21 +2,26 @@ package org.esco.portlet.changeetab.web.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import lombok.extern.slf4j.Slf4j;
 import org.esco.portlet.changeetab.dao.IStructureDao;
 import org.esco.portlet.changeetab.model.Structure;
-import org.esco.portlet.changeetab.service.ISecurityChecker;
 import org.esco.portlet.changeetab.service.IStructureService;
 import org.esco.portlet.changeetab.service.impl.CachingStructureService;
-import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
@@ -30,13 +35,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:cachingStructureServiceContext.xml", "classpath:restApiContext.xml"})
@@ -51,9 +49,6 @@ public class StructureRestV2ControllerTest {
 
     @Autowired
     private IStructureService structureService;
-
-    @Autowired
-    private ISecurityChecker securityChecker;
 
     private MockMvc restContentMockMvc;
 
@@ -76,7 +71,6 @@ public class StructureRestV2ControllerTest {
         StructureRestV2Controller structureRestV2Controller = new StructureRestV2Controller();
 
         ReflectionTestUtils.setField(structureRestV2Controller, "structureService", structureService);
-        ReflectionTestUtils.setField(structureRestV2Controller, "securityChecker", securityChecker);
 
         this.restContentMockMvc = MockMvcBuilders.standaloneSetup(structureRestV2Controller).build();
 
@@ -112,13 +106,13 @@ public class StructureRestV2ControllerTest {
     @Test
     public void testRefresh() throws Exception {
         restContentMockMvc.perform(
-                post("/v2/structures/refresh/" + SIREN_1).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+                post("/rest/v2/structures/refresh/" + SIREN_1).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
     public void testretrieveStructFromId() throws Exception {
         restContentMockMvc.perform(
-                get("/v2/structures/struct/" + SIREN_1).contentType(MediaType.APPLICATION_JSON))
+                get("/rest/v2/structures/struct/" + SIREN_1).contentType(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))

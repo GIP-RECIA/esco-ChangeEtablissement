@@ -29,20 +29,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-
 import org.esco.portlet.changeetab.dao.IUserDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.ldap.core.DistinguishedName;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Data
 @Slf4j
 @NoArgsConstructor

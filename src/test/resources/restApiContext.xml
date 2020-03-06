@@ -30,11 +30,45 @@
             http://www.springframework.org/schema/util      http://www.springframework.org/schema/util/spring-util-3.2.xsd
             http://www.springframework.org/schema/mvc       http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd" >
 
-    <bean id="authorizedIpRangeChecker" class="org.esco.portlet.changeetab.service.impl.MockedSecurityChecker" />
-
     <context:component-scan base-package="org.esco.portlet.changeetab.web.rest" />
 
+    <context:annotation-config/>
     <mvc:annotation-driven />
+
+    <bean id="propertyConfigurer" class="org.springframework.context.support.PortalPropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:configuration.properties</value>
+                <!--
+                 | The following optional files allow deployers to set or override most
+                 | configuration settings in a manner that is outside the footprint of the
+                 | build/deploy cycle and SCM.
+                 |
+                 | Reasons for choosing that may include:
+                 |   - Desire to keep sensitive information out of your Git repository
+                 |   - Ability to change some common settings without a full build and deploy cycle
+                 |   - Building a WAR/EAR that is environment-independent
+                 |
+                 | Any property defined in the above files that is referenced in the Spring context
+                 | may be overridden in one (or both) of these files.  Later files override earlier
+                 | files.
+                 |
+                 | The conventional location of ${portal.home} is ${catalina.base}/portal;  but you
+                 | can (typically) override that location using a PORTAL_HOME environment variable.
+                 | (Ultimately it depends on your setenv.sh or setenv.bat file.)
+                 |
+                 | The first file (global.properties) may contain properties that are shared with
+                 | other modules (e.g. portlets) in Tomcat.  Several Apereo portlets source
+                 | global.properties automatically.  The second file (simple-cms.properties) is
+                 | (should be) sourced by this module exclusively.
+                 +-->
+                <value>file:${portal.home}/global.properties</value>
+                <value>file:${portal.home}/change-etablissement-portlet.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propertyResolver" factory-bean="propertyConfigurer" factory-method="getPropertyResolver"/>
 
     <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" >
         <property name="disableCaching" value="true" />

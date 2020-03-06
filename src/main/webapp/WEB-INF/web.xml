@@ -4,12 +4,8 @@
 	metadata-complete="true" version="2.5">
 
 	<display-name>Change Etablissement Portlet</display-name>
-	<description>Change Etablissement Portlet</description>
+	<description>Change Etablissement Portlet - JSR-286 (Portlet 2.0) portlet</description>
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/context/applicationContext.xml,/WEB-INF/context/jmxContext.xml</param-value>
-	</context-param>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>change-etab.root</param-value>
@@ -18,33 +14,20 @@
 	<listener>
 		<listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
 	</listener>
+
 	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+		<listener-class>ch.qos.logback.classic.selector.servlet.ContextDetachingSCL</listener-class>
 	</listener>
-	
+
 	<servlet>
 		<servlet-name>ViewRendererServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.ViewRendererServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet>
-		<servlet-name>spring</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/context/spring-servlet.xml</param-value>
-		</init-param>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>ViewRendererServlet</servlet-name>
 		<url-pattern>/WEB-INF/servlet/view</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>spring</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>

@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -32,7 +33,6 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.model.UniteAdministrativeImmatriculee;
@@ -42,7 +42,7 @@ import org.esco.portlet.changeetab.service.IUserService;
 import org.esco.portlet.changeetab.web.ChangeStructCommand;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.PropertyResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -80,17 +80,20 @@ public class ChangeStructureController implements InitializingBean {
 
 	private static final String DEFAULT_STRUCT_LOGO_KEY = "defaultStructLogo";
 
-	@Value("${redirectAfterChange:false}")
+	@Autowired
+	private PropertyResolver propertyResolver;
+
+	//@Value("${redirectAfterChange:false}")
 	@Getter
 	@Setter
 	private boolean redirectAfterChange = false;
 
-	@Value("${logoutUrlRedirect:null}")
+	//@Value("${logoutUrlRedirect:null}")
 	@Getter
 	@Setter
 	private String logoutUrlRedirect;
 
-	@Value("${ldap.read.attribute.structureLogo:null}")
+	//@Value("${ldap.read.attribute.structureLogo:null}")
 	@Getter
 	@Setter
 	private String ldapLogoInOtherAttributeName;
@@ -109,6 +112,13 @@ public class ChangeStructureController implements InitializingBean {
 	@Getter
 	@Setter
 	private IUserService userService;
+
+	@PostConstruct
+	public void init() {
+		this.redirectAfterChange = Boolean.parseBoolean(propertyResolver.getRequiredProperty("redirectAfterChange"));
+		this.logoutUrlRedirect = propertyResolver.getProperty("logoutUrlRedirect", String.class, null);
+		this.ldapLogoInOtherAttributeName = propertyResolver.getProperty("ldap.read.attribute.structureLogo", String.class, null);
+	}
 
 	@ActionMapping(params = "action=changeStruct")
 	public void newChangeStruct(@ModelAttribute("command") final ChangeStructCommand changeStructCommand,

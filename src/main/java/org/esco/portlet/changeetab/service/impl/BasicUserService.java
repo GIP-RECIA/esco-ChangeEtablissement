@@ -21,24 +21,21 @@ package org.esco.portlet.changeetab.service.impl;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import org.esco.portlet.changeetab.dao.IUserDao;
 import org.esco.portlet.changeetab.model.Structure;
 import org.esco.portlet.changeetab.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 /**
  * @author GIP RECIA 2013 - Maxime BOSSARD.
  *
  */
-@Service
+//@Service
 @Data
 @NoArgsConstructor
 public class BasicUserService implements IUserService {
 
-	@Autowired
+	//@Autowired
 	private IUserDao userDao;
 
 	@Override

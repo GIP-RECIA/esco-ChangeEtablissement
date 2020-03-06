@@ -1,8 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <context:annotation-config />
 
     <!-- | APP CONFIGURATION + -->
 
@@ -13,7 +16,7 @@
         <property name="structIdsInfoKey" value="${userInfo.key.structIds}" />
     </bean>
 
-    <bean id="entrepriseService" class="org.esco.portlet.changeetab.service.impl.CachingStructureService">
+    <bean id="structureService" class="org.esco.portlet.changeetab.service.impl.CachingStructureService">
         <property name="cachingDuration" value="3600000" /> <!-- in millis -->
         <property name="structureCache" ref="structuresCache" />
         <property name="etabsCodeIdCache" ref="etabsCodeIdCache" />
@@ -96,10 +99,6 @@
         <property name="userIdTemplate" value="${peopleDn.templateId}" />
     </bean>
 
-    <bean id="authorizedIpRangeChecker" class="org.esco.portlet.changeetab.service.impl.SecurityChecker">
-        <property name="ips" value="${authorizedIpRange}" />
-    </bean>
-
     <!-- Mocked DAO -->
     <!--
     <bean id="etablissementDao" class="org.esco.portlet.changeetab.dao.impl.MockEtablissementDao" />
@@ -173,6 +172,8 @@
             </list>
         </property>
     </bean>
+
+    <bean id="propertyResolver" factory-bean="propertyConfigurer" factory-method="getPropertyResolver"/>
 
     <!-- Message source for this context, loaded from localized "messages_xx"
         files -->
