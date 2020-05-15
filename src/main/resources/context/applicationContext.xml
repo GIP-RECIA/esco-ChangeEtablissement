@@ -87,6 +87,15 @@
                         </util:map>
                     </property>
                 </bean>
+                <bean class="org.esco.portlet.changeetab.dao.bean.LdapStructureDisplayNameFormater">
+                    <property name="groupsRegex" value="^CLG(\$).*(\$.*)" />
+                    <property name="indexListReplacement">
+                        <util:map>
+                            <entry key="1" value=" " />
+                            <entry key="2" value="" />
+                        </util:map>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
