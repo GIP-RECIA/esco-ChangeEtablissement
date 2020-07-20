@@ -76,7 +76,7 @@
         <lombok.version>1.18.12</lombok.version>
         <uportal-libs.version>5.8.1</uportal-libs.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
-        <mockito.version>3.4.3</mockito.version>
+        <mockito.version>3.4.4</mockito.version>
     </properties>
 
     <dependencyManagement>
