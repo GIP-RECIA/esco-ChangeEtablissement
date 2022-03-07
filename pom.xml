@@ -72,7 +72,7 @@
         <spring-boot.version>1.5.22.RELEASE</spring-boot.version>
         <spring-ldap.version>2.3.3.RELEASE</spring-ldap.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <logback.version>1.2.3</logback.version>
+        <logback.version>1.2.11</logback.version>
         <lombok.version>1.18.16</lombok.version>
         <uportal-libs.version>5.8.2</uportal-libs.version>
         <uportal-maven-plugin.version>1.0.1</uportal-maven-plugin.version>
