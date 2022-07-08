@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2017 GIP RECIA http://www.recia.fr
  * @Author (C) 2013 Maxime Bossard <mxbossard@gmail.com>
  * @Author (C) 2016 Julien Gribonvald <julien.gribonvald@recia.fr>
