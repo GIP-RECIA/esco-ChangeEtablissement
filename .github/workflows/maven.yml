@@ -21,11 +21,10 @@ jobs:
           - ubuntu-latest
         java:
           - 8
-          - 11
 
     steps:
     - uses: actions/checkout@v3
-    - name: Set up JDK 11
+    - name: Set up JDK ${{ matrix.java }} version
       uses: actions/setup-java@v3
       with:
         java-version: '${{matrix.java}}'
@@ -33,5 +32,5 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-    - name: Run test
-      run: mvn --version && mvn clean test -B
+    #- name: Run test
+    #  run: mvn --version && mvn clean test -B
