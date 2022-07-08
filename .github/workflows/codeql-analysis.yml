@@ -32,13 +32,21 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'java', 'javascript' ]
+        language: [ 'java' ]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
+        java:
+          - 8
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+    - name: Set up JDK ${{ matrix.java }} version
+      uses: actions/setup-java@v3
+      with:
+        java-version: '${{matrix.java}}'
+        distribution: 'temurin'
+        cache: maven
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
