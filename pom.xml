@@ -213,6 +213,21 @@
                 <version>${uportal-libs.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.jasig.portal</groupId>
+                <artifactId>uPortal-security-mvc</artifactId>
+                <version>${uportal-libs.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.jasig.portal</groupId>
+                        <artifactId>uPortal-events</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
                 <groupId>org.jasypt</groupId>
                 <artifactId>jasypt-spring31</artifactId>
                 <version>1.9.3</version>
@@ -364,6 +379,10 @@
         <dependency>
             <groupId>org.jasig.portal</groupId>
             <artifactId>uPortal-soffit-renderer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jasig.portal</groupId>
+            <artifactId>uPortal-security-mvc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>

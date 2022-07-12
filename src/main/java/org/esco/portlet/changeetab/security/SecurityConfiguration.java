@@ -19,8 +19,10 @@ package org.esco.portlet.changeetab.security;
 import static org.apereo.portal.soffit.service.AbstractJwtService.DEFAULT_SIGNATURE_KEY;
 import static org.apereo.portal.soffit.service.AbstractJwtService.SIGNATURE_KEY_PROPERTY;
 
+import javax.servlet.ServletException;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apereo.portal.security.filter.CorsFilter;
 import org.apereo.portal.soffit.security.SoffitApiAuthenticationManager;
 import org.apereo.portal.soffit.security.SoffitApiPreAuthenticatedProcessingFilter;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,6 +53,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Value("${" + SIGNATURE_KEY_PROPERTY + ":" + DEFAULT_SIGNATURE_KEY + "}")
     private String signatureKey;
+
+    @Value("${" + CorsFilter.PARAM_CORS_ALLOWED_ORIGINS + ":}")
+    private String allowedOrigins;
+
+    @Value("${" + CorsFilter.PARAM_CORS_ALLOWED_METHODS + ":GET,HEAD}")
+    private String allowedHttpMethods;
+
+    @Value("${" + CorsFilter.PARAM_CORS_ALLOWED_HEADERS + ":Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers}")
+    private String allowedHttpHeaders;
+
+    @Value("${" + CorsFilter.PARAM_CORS_EXPOSED_HEADERS + ":}")
+    private String exposedHeaders;
+
+    @Value("${" + CorsFilter.PARAM_CORS_SUPPORT_CREDENTIALS + ":true}")
+    private String supportsCredentials;
+
+    @Value("${" + CorsFilter.PARAM_CORS_PREFLIGHT_MAXAGE + ":1800}")
+    private String preflightMaxAge;
+
+    @Value("${" + CorsFilter.PARAM_CORS_REQUEST_DECORATE + ":true}")
+    private String decorateRequest;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -113,6 +137,27 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public FilterRegistrationBean corsFilterRegistration() throws ServletException {
+        /*
+         * Replacing the default CorsFilter by the custom one for OIDC configuration with uPortal.
+         */
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(new CorsFilter());
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_ALLOWED_ORIGINS, this.allowedOrigins);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_ALLOWED_METHODS, this.allowedHttpMethods);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_ALLOWED_HEADERS, this.allowedHttpHeaders);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_EXPOSED_HEADERS, this.exposedHeaders);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_SUPPORT_CREDENTIALS, this.supportsCredentials);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_PREFLIGHT_MAXAGE, this.preflightMaxAge);
+        filterRegistrationBean.addInitParameter(CorsFilter.PARAM_CORS_REQUEST_DECORATE, this.decorateRequest);
+        filterRegistrationBean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        filterRegistrationBean.setEnabled(true);
+        log.debug("Initializing corsFilter with {}", filterRegistrationBean.getInitParameters());
+
+        return filterRegistrationBean;
+    }
+
+    @Bean
     public ErrorPageFilter errorPageFilter() {
         return new ErrorPageFilter();
     }
@@ -129,5 +174,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         return filterRegistrationBean;
     }
-}
 
+}
