@@ -19,8 +19,6 @@ package org.esco.portlet.changeetab.security;
 import static org.apereo.portal.soffit.service.AbstractJwtService.DEFAULT_SIGNATURE_KEY;
 import static org.apereo.portal.soffit.service.AbstractJwtService.SIGNATURE_KEY_PROPERTY;
 
-import java.util.Arrays;
-import java.util.List;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apereo.portal.soffit.security.SoffitApiAuthenticationManager;
@@ -68,10 +66,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         Assert.notNull(authorizedIpRange, "Property authorizedIpRange should be defined with an IP range");
-        final List<String> ips = Arrays.asList(authorizedIpRange.split(","));
-        String hasIpRangeAccessExpresion = "";
+        final String[] ips = authorizedIpRange.split(",");
+        StringBuilder hasIpRangeAccessExpresion = new StringBuilder();
         for (String ip: ips) {
-            hasIpRangeAccessExpresion += " or hasIpAddress('" + ip + "')";
+            hasIpRangeAccessExpresion.append(" or hasIpAddress('").append(ip).append("')");
         }
 
         log.debug("Constructing security with authorized ips : {}", authorizedIpRange);
