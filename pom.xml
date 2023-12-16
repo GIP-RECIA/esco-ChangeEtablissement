@@ -32,7 +32,7 @@
         <repository>
             <id>jasig-3rd-party</id>
             <name>Jasig 3rd Party Repository</name>
-            <url>http://developer.jasig.org/repo/content/repositories/3rd-party</url>
+            <url>https://developer.jasig.org/repo/content/repositories/3rd-party</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -43,7 +43,7 @@
         <repository>
             <id>spring-repo</id>
             <name>Spring Repository</name>
-            <url>http://repo.spring.io/release</url>
+            <url>https://repo.spring.io/release</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -54,7 +54,7 @@
         <repository>
             <id>caldav4j.repo</id>
             <name>CalDav4J Repository</name>
-            <url>http://caldav4j.googlecode.com/svn/maven/</url>
+            <url>https://caldav4j.googlecode.com/svn/maven/</url>
         </repository>
     </repositories>
 
